@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
 
 export const HeaderLayout: React.FC = (): React.ReactElement => {
@@ -25,9 +26,20 @@ export const HeaderLayout: React.FC = (): React.ReactElement => {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Learning Plattform
+                            <Link to="/">
+                                Learning Plattform
+                            </Link>
                         </Typography>
-                        <Button color="inherit">Login</Button>
+                        <Button color="inherit">
+                            <Link to="/upload">
+                                Upload
+                            </Link>
+                        </Button>
+                        <Button color="inherit">
+                            <Link to="/learning">
+                                Learning
+                            </Link>
+                        </Button>
                     </Toolbar>
                 </AppBar>
             </Box>
