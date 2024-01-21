@@ -25,7 +25,7 @@ export class AnalysisController {
     },
   })
   @UseInterceptors(FileInterceptor('file'))
-  async getTest(@UploadedFile() file: Express.Multer.File): Promise<string> {
+  async getTest(@UploadedFile() file: Express.Multer.File): Promise<string[]> {
     return this.analysisService.analyzeImage(file);
   }
 
