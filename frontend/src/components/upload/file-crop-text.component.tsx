@@ -1,45 +1,29 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 
 import Cropper from "react-cropper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import TextField from "@mui/material/TextField";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 import { Box, LinearProgress, Tab, Tabs, Typography } from "@mui/material";
 
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import { ProgressAndDataModel } from "./home.component";
 
 
-function FileCropComponent() {
-/*   const { serviceInstance } = useContext(StateContext); */
-  const [raw, setRaw] = useState<string>();
+interface Props {
+  progressAndData: ProgressAndDataModel;
+  setProgressAndData: React.Dispatch<React.SetStateAction<ProgressAndDataModel>>;
+}
+
+
+export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setProgressAndData }) => {
+  const [raw, setRaw] = useState<string | undefined>();
   const [cropper, setCropper] = useState<Cropper>();
   const [croppedImages, setCroppedImages] = useState<CroppedImageModel[]>([])
-  const [isSharpening, setIsSharpening] = useState<boolean>(false);
   const [editingExisting, setEditingExisting] = useState<number>(-1);
   const [cropperEdit, setCropperEdit] = useState<boolean>(true);
   const [oldBlobs, setOldBlobs] = useState<Blob[]>([]);
   const [geneOrganisms, setGeneOrganisms] = useState<string[]>(['all']);
   const [tabValue, setTabValue] = React.useState(0);
   const reference = useRef<boolean>();
-  reference.current = isSharpening;
 
-  const setRawImage = (image: string) => {
-    setRaw(image);
-  };
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -99,8 +83,8 @@ function FileCropComponent() {
   };
 
   const startAnalysis = () => {
-/*     serviceInstance.setCroppedImages(croppedImages);
-    serviceInstance.setAreaSetting('analyzing'); */
+    /*     serviceInstance.setCroppedImages(croppedImages);
+        serviceInstance.setAreaSetting('analyzing'); */
   }
 
   const setCropperEditMode = (value: boolean) => {
@@ -124,37 +108,6 @@ function FileCropComponent() {
     setCroppedImages(copyCroppedImages);
   }
 
-  const startSharpening = async () => {
-    if (cropper) {
-      cropper.reset();
-      cropper.setCropBoxData({
-        height: cropper.getCanvasData().height,
-        left: cropper.getCanvasData().left,
-        top: cropper.getCanvasData().top,
-        width: cropper.getCanvasData().width
-      });
-      cropper.getCroppedCanvas().toBlob(async (blob: Blob | null) => {
-        if (blob) {
-          setIsSharpening(true);
-          var file = new File([blob], "image.png", {
-            lastModified: new Date().getTime(),
-            type: blob.type,
-          });
-          /* const imageBlob = await sharpenFastImageRequest(file, 'cv2kernel');
-          if (reference.current) {
-            const imageObjectURL = URL.createObjectURL(imageBlob);
-            const copyOldBlobs = [...oldBlobs];
-            copyOldBlobs.push(blob);
-            setOldBlobs(copyOldBlobs);
-            setRaw(imageObjectURL);
-            setIsSharpening(false);
-            await new Promise(resolve => setTimeout(resolve, 100));
-            await recropImages();
-          } */
-        }
-      });
-    }
-  };
 
   const recropImages = async () => {
     if (cropper) {
@@ -193,9 +146,6 @@ function FileCropComponent() {
     }
   }
 
-  const cancelSharpening = () => {
-    setIsSharpening(false);
-  }
 
   const handleSetCrop = (data: CroppedImageModel, index: number) => {
     if (cropper) {
@@ -217,20 +167,47 @@ function FileCropComponent() {
       setEditingExisting(-1);
     }
   }
-/* 
+
+
+  console.log(progressAndData.text.previewString, progressAndData)
+  /* 
+    useEffect(() => {
+      const subscription = serviceInstance.getRawImage.subscribe(setRawImage);
+      getGeneOrganismsRequest().then((value: string[]) => {
+        setGeneOrganisms(value);
+      })
+      return () => subscription.unsubscribe();
+    }, [serviceInstance]); */
+
   useEffect(() => {
-    const subscription = serviceInstance.getRawImage.subscribe(setRawImage);
-    getGeneOrganismsRequest().then((value: string[]) => {
-      setGeneOrganisms(value);
-    })
-    return () => subscription.unsubscribe();
-  }, [serviceInstance]); */
+    if (progressAndData.text.previewString) {
+      setRaw(String(progressAndData.text?.previewString));
+      console.log('setting value')
+    }
+
+  }, [progressAndData.text.previewString]);
 
   return (
-    <div className="mt-5">
+    <div>
       {raw && (
         <div>
-          <div style={{ display: "flex", flexDirection: "column" }} >
+          <Cropper style={{ width: "800px", height: "800px" }} zoomTo={0.5} initialAspectRatio={1}
+            src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
+            background={false} responsive={true} autoCropArea={1} checkOrientation={false}
+            onInitialized={(instance) => setCropper(instance)} guides={true} />
+          <div>
+
+          </div>
+          {/* <Cropper
+            src="https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg"
+            style={{ height: 400, width: "100%" }}
+            // Cropper.js options
+            initialAspectRatio={16 / 9}
+            guides={false}
+            crop={onCrop}
+            ref={cropperRef}
+          /> */}
+          {/* <div style={{ display: "flex", flexDirection: "column" }} >
             <div className="flex flex-row">
               <div>
                 <div className="flex flex-row">
@@ -247,32 +224,14 @@ function FileCropComponent() {
                     </div>
                   )}
 
-                  {!isSharpening && (
-                    <div>
-                      <button onClick={startSharpening} disabled={isSharpening} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">sharpening</button>
-                    </div>)
-
-                  }
-                  {isSharpening && (
-                    <button onClick={cancelSharpening} type="button" className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
-                  )}
                 </div>
-                {isSharpening && (
-                  <div className="mb-2">
-                    <Box className="mt-2" sx={{ width: '100%' }}>
-                      <LinearProgress />
-                    </Box>
-                    <p className="text-xs text-neutral-400">sharpening image... (You can cancel sharpening with the <strong>cancel</strong> button)</p>
-                  </div>
-                )}
-                {!isSharpening && (
-                  <Cropper style={{ width: "100%", height: "auto", maxHeight: "100%", maxWidth: "100%" }} zoomTo={0.5} initialAspectRatio={1}
-                    src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
-                    background={false} responsive={true} autoCropArea={1} checkOrientation={false}
-                    onInitialized={(instance) => setCropper(instance)} guides={true} />
-                )}
+                <Cropper style={{ width: "1000px", height: "1000px", maxHeight: "100%", maxWidth: "100%" }} zoomTo={0.5} initialAspectRatio={1}
+                  src={String(progressAndData[fileType].previewString)} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
+                  background={false} responsive={true} autoCropArea={1} checkOrientation={false}
+                  onInitialized={(instance) => setCropper(instance)} guides={true} />
+
                 <div className="mt-3 flex flex-row-reverse">
-                  <button onClick={handleImageCrop} className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Crop image</button>
+                  <button onClick={handleImageCrop}>Crop image</button>
                 </div>
               </div>
               <div className="ml-3 w-full">
@@ -376,62 +335,60 @@ function FileCropComponent() {
                 {true ? 'Start analysis' : 'Start analysis again'}
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
   );
 }
 
-export default FileCropComponent;
-
 
 export interface CroppedImageModel {
-    blob: Blob;
-    title: string;
-    type: string;
-    geneType: string;
-    dataUrl: string;
-    status: 'cropped' | 'analyzing' | 'wordspelling' | 'analyzed';
-    cropBoxData: {
-        left: number;
-        top: number;
-        width: number;
-        height: number;
-        imageHeight: number;
-        imageWidth: number;
-    };
+  blob: Blob;
+  title: string;
+  type: string;
+  geneType: string;
+  dataUrl: string;
+  status: 'cropped' | 'analyzing' | 'wordspelling' | 'analyzed';
+  cropBoxData: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    imageHeight: number;
+    imageWidth: number;
+  };
 }
 
 export interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
+  children?: React.ReactNode;
+  index: number;
+  value: number;
 }
 
 export function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props;
 
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 1 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 1 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 }
 
 export function a11yProps(index: number) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
 }
