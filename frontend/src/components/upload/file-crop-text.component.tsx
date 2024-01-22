@@ -1,7 +1,15 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 
 import Cropper from "react-cropper";
-import { Box, LinearProgress, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+
+import Paper from "@mui/material/Paper";
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ProgressAndDataModel } from "./home.component";
 
@@ -21,7 +29,6 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
   const [oldBlobs, setOldBlobs] = useState<Blob[]>([]);
   const [geneOrganisms, setGeneOrganisms] = useState<string[]>(['all']);
   const [tabValue, setTabValue] = React.useState(0);
-  const reference = useRef<boolean>();
 
 
 
@@ -190,41 +197,113 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
   return (
     <div>
       {raw && (
-        <div>
-          <Cropper style={{ width: "800px", height: "800px" }} zoomTo={0.5} initialAspectRatio={1}
-            src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
-            background={false} responsive={true} autoCropArea={1} checkOrientation={false}
-            onInitialized={(instance) => setCropper(instance)} guides={true} />
-          <div>
+        <div style={{marginTop: '30px'}}>
+          <div style={{marginBottom: '10px'}}>
+            {cropperEdit && (
+              <div>
+                <CheckIcon />
+                Edit is enabled
+              </div>
+            )}
+            {!cropperEdit && (
+              <div>
+                <CloseIcon />
+                Edit is disabled
+              </div>
+            )}
 
           </div>
-          {/* <Cropper
-            src="https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg"
-            style={{ height: 400, width: "100%" }}
-            // Cropper.js options
-            initialAspectRatio={16 / 9}
-            guides={false}
-            crop={onCrop}
-            ref={cropperRef}
-          /> */}
+          <div>
+            <Cropper style={{ width: "800px", height: "500px" }} zoomTo={0.5} initialAspectRatio={1}
+              src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
+              background={false} responsive={true} autoCropArea={1} checkOrientation={false}
+              onInitialized={(instance) => setCropper(instance)} guides={true} />
+          </div>
+          <div>
+            <Button onClick={handleImageCrop}>Crop image</Button>
+            <div>
+              {croppedImages.length !== 0 && (
+                <div>
+                  <Box sx={{ width: '100%' }}>
+                    <TableContainer component={Paper} className="overflow-y-auto" style={{ maxHeight: '500px' }}>
+                      <Table sx={{ width: '100%' }} aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Image</TableCell>
+                            <TableCell>Type</TableCell>
+                            <TableCell></TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {croppedImages.map((imageItem, i) => (
+                            <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}
+                              className={i === editingExisting ? 'border border-4 border-solid border-sky-600 rounded-md' : ''} >
+                              <TableCell component="th" scope="row">
+                                <TextField id="outlined-size-small" value={imageItem.title} size="small"
+                                  onChange={(e) => changeCroppedImageAttribute('title', e.target.value, i)}
+                                  fullWidth style={{ minWidth: 100, }} />
+                              </TableCell>
+                              <TableCell align="right">
+                                <img src={imageItem.dataUrl} style={{ maxHeight: "200px", maxWidth: "200px" }} />
+                              </TableCell>
+                              <TableCell align="right">
+                                <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small">
+                                  <InputLabel id="select-word-type">Type</InputLabel>
+                                  <Select value={imageItem.type} onChange={(e) => changeCroppedImageAttribute('type', e.target.value, i)}
+                                    labelId="select-word-type" label="Type">
+                                    <MenuItem value="gene">Gene</MenuItem>
+                                    <MenuItem value="text">Free text</MenuItem>
+                                  </Select>
+                                </FormControl>
+                                {imageItem.type === 'gene' && (
+                                  <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small">
+                                    <InputLabel id="select-gene-type">Gene organism</InputLabel>
+                                    <Select value={imageItem?.geneType} onChange={(e) => changeCroppedImageAttribute('geneType', e.target.value, i)}
+                                      labelId="select-gene-type" label="Type">
+                                      {geneOrganisms.map((geneOrganism, geneOrganismIndex) => (
+                                        <MenuItem key={`${geneOrganism}-${geneOrganismIndex}`} value={geneOrganism}>{geneOrganism}</MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                )}
+                              </TableCell>
+                              <TableCell align="right">
+                                <IconButton onClick={() => { handleSetCrop(imageItem, i) }} aria-label="delete" size="large">
+                                  <EditIcon />
+                                </IconButton>
+                                <IconButton onClick={() => { deleteCroppedImage(i) }} aria-label="delete" size="large">
+                                  <DeleteIcon />
+                                </IconButton>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+
+                  <div className={-1 === editingExisting && cropperEdit ? 'mt-3 border border-4 border-solid border-sky-600 rounded-md' : ''}>
+                    <div className="flex flex-row items-center">
+                      <IconButton onClick={createNewCrop} aria-label="delete" size="large">
+                        <AddIcon />
+                      </IconButton>
+                      <p>Create new crop image</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {croppedImages.length === 0 && (
+                <div className="w-full flex flex-col items-center mt-6">
+                  <p>No image cropped yet, crop your first image!</p>
+                </div>
+              )}
+            </div>
+          </div>
           {/* <div style={{ display: "flex", flexDirection: "column" }} >
             <div className="flex flex-row">
               <div>
-                <div className="flex flex-row">
-                  {cropperEdit && (
-                    <div className="border rounded-lg border-lime-600 flex flex-row items-center mb-2 px-2.5 mr-2 border-2">
-                      <CheckIcon className="text-lime-600" />
-                      Edit is enabled
-                    </div>
-                  )}
-                  {!cropperEdit && (
-                    <div className="border rounded-lg border-red-600 flex flex-row items-center mb-2 px-2.5 mr-2 border-2">
-                      <CloseIcon className="text-red-600" />
-                      Edit is disabled
-                    </div>
-                  )}
-
-                </div>
+                
                 <Cropper style={{ width: "1000px", height: "1000px", maxHeight: "100%", maxWidth: "100%" }} zoomTo={0.5} initialAspectRatio={1}
                   src={String(progressAndData[fileType].previewString)} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
                   background={false} responsive={true} autoCropArea={1} checkOrientation={false}
@@ -235,99 +314,7 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
                 </div>
               </div>
               <div className="ml-3 w-full">
-                <div>
-                  {croppedImages.length !== 0 && (
-                    <div>
-                      <Box sx={{ width: '100%' }}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                          <Tabs value={tabValue} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="Cropping table" {...a11yProps(0)} />
-                            <Tab label="Image history" {...a11yProps(1)} />
-                          </Tabs>
-                        </Box>
-                        <TabPanel value={tabValue} index={0}>
-                          <TableContainer component={Paper} className="overflow-y-auto" style={{ maxHeight: '500px' }}>
-                            <Table sx={{ width: '100%' }} aria-label="simple table">
-                              <TableHead>
-                                <TableRow>
-                                  <TableCell>Title</TableCell>
-                                  <TableCell>Image</TableCell>
-                                  <TableCell>Type</TableCell>
-                                  <TableCell></TableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                {croppedImages.map((imageItem, i) => (
-                                  <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}
-                                    className={i === editingExisting ? 'border border-4 border-solid border-sky-600 rounded-md' : ''} >
-                                    <TableCell component="th" scope="row">
-                                      <TextField id="outlined-size-small" value={imageItem.title} size="small"
-                                        onChange={(e) => changeCroppedImageAttribute('title', e.target.value, i)}
-                                        fullWidth style={{ minWidth: 100, }} />
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      <img src={imageItem.dataUrl} style={{ maxHeight: "200px", maxWidth: "200px" }} />
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small">
-                                        <InputLabel id="select-word-type">Type</InputLabel>
-                                        <Select value={imageItem.type} onChange={(e) => changeCroppedImageAttribute('type', e.target.value, i)}
-                                          labelId="select-word-type" label="Type">
-                                          <MenuItem value="gene">Gene</MenuItem>
-                                          <MenuItem value="text">Free text</MenuItem>
-                                        </Select>
-                                      </FormControl>
-                                      {imageItem.type === 'gene' && (
-                                        <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small">
-                                          <InputLabel id="select-gene-type">Gene organism</InputLabel>
-                                          <Select value={imageItem?.geneType} onChange={(e) => changeCroppedImageAttribute('geneType', e.target.value, i)}
-                                            labelId="select-gene-type" label="Type">
-                                            {geneOrganisms.map((geneOrganism, geneOrganismIndex) => (
-                                              <MenuItem key={`${geneOrganism}-${geneOrganismIndex}`} value={geneOrganism}>{geneOrganism}</MenuItem>
-                                            ))}
-                                          </Select>
-                                        </FormControl>
-                                      )}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      <IconButton onClick={() => { handleSetCrop(imageItem, i) }} aria-label="delete" size="large">
-                                        <EditIcon />
-                                      </IconButton>
-                                      <IconButton onClick={() => { deleteCroppedImage(i) }} aria-label="delete" size="large">
-                                        <DeleteIcon />
-                                      </IconButton>
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </TabPanel>
-                        <TabPanel value={tabValue} index={1}>
-                          History of image versions
-                        </TabPanel>
-                      </Box>
-
-
-
-
-
-                      <div className={-1 === editingExisting && cropperEdit ? 'mt-3 border border-4 border-solid border-sky-600 rounded-md' : ''}>
-                        <div className="flex flex-row items-center">
-                          <IconButton onClick={createNewCrop} aria-label="delete" size="large">
-                            <AddIcon />
-                          </IconButton>
-                          <p>Create new crop image</p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {croppedImages.length === 0 && (
-                    <div className="w-full flex flex-col items-center mt-6">
-                      <p>No image cropped yet, crop your first image!</p>
-                    </div>
-                  )}
-                </div>
+                
               </div>
             </div>
             <div className="mt-5 w-full flex justify-end">
