@@ -12,7 +12,6 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ProgressAndDataModel } from "./home.component";
-import axios from "axios";
 
 
 interface Props {
@@ -50,7 +49,8 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
                 height: cropper.getCropBoxData().height,
                 imageHeight: cropper.getCanvasData().naturalHeight,
                 imageWidth: cropper.getCanvasData().naturalWidth
-              }
+              },
+              analyzedData: null
             });
           } else {
             copyCroppedImages[editingExisting].blob = blobValue;
@@ -125,27 +125,7 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
   }
 
   const startAnalysis = () => {
-    croppedImages.forEach(x => {
-      analyzeBlobItem(x.blob).then(x => {
-        console.log(x);
-      })
-    })
-  }
-
-  const analyzeBlobItem = (item: Blob): Promise<any> => {
-    const formData = new FormData();
-    var file = new File([item], "image.png", {
-      lastModified: new Date().getTime(),
-      type: item.type,
-    });
-    formData.append('file', file)
-    const requestOptions = {
-        method: 'POST',
-        body: formData
-    };
-    return fetch(`http://localhost:3001/analysis/image`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
+    setProgressAndData({ ...progressAndData, text: { ...progressAndData.text, progress: 2, croppedImages: croppedImages } })
   }
 
   useEffect(() => {
@@ -174,7 +154,7 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
 
           </div>
           <div>
-            <Cropper style={{ width: "auto", height: "500px" }} zoomTo={0.5} initialAspectRatio={1}
+            <Cropper style={{ width: "auto", height: "auto" }} zoomTo={0.5} initialAspectRatio={1}
               src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
               background={false} responsive={true} autoCropArea={1} checkOrientation={false}
               onInitialized={(instance) => setCropper(instance)} guides={true} />
@@ -251,7 +231,7 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
               )}
             </div>
           </div>
-          <Button variant="contained" onClick={startAnalysis}>
+          <Button variant="contained" disabled={croppedImages.length === 0} onClick={startAnalysis}>
             Continue
           </Button>
         </div>
@@ -276,37 +256,5 @@ export interface CroppedImageModel {
     imageHeight: number;
     imageWidth: number;
   };
-}
-
-export interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 1 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-export function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
+  analyzedData: any;
 }

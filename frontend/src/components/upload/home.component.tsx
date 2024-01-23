@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { FileCropTextComponent } from './file-crop-text.component';
+import { CroppedImageModel, FileCropTextComponent } from './file-crop-text.component';
 import { FileUploadComponent } from './file-upload.component';
 import { Box, Breadcrumbs, Button, Link, Step, StepButton, Stepper, Typography } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { TextAnalysisComponent } from './text-analysis-review.component';
 
 const steps = ['Text', 'Images', 'Audio', 'Review'];
 
@@ -12,7 +13,8 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
         progress: 1,
         text: {
             progress: 0,
-            previewString: null
+            previewString: null,
+            croppedImages: []
         },
         image: {
             progress: 0,
@@ -94,9 +96,12 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
                     {progressAndData.text.progress === 1 && (
                         <FileCropTextComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
                     )}
+                    {progressAndData.text.progress === 2 && (
+                        <TextAnalysisComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
+                    )}
                 </React.Fragment>)}
                 <React.Fragment>
-                    
+
                     {/* 
                     <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
                         Step {activeStep + 1}
@@ -148,6 +153,7 @@ export interface ProgressAndDataModel {
     text: {
         progress: number;
         previewString: string | null;
+        croppedImages: CroppedImageModel[];
     }
     image: {
         progress: number;
