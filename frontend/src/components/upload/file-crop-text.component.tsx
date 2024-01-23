@@ -12,6 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ProgressAndDataModel } from "./home.component";
+import axios from "axios";
 
 
 interface Props {
@@ -26,18 +27,10 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
   const [croppedImages, setCroppedImages] = useState<CroppedImageModel[]>([])
   const [editingExisting, setEditingExisting] = useState<number>(-1);
   const [cropperEdit, setCropperEdit] = useState<boolean>(true);
-  const [oldBlobs, setOldBlobs] = useState<Blob[]>([]);
-  const [geneOrganisms, setGeneOrganisms] = useState<string[]>(['all']);
-  const [tabValue, setTabValue] = React.useState(0);
 
-
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
 
   const handleImageCrop = () => {
-    if (cropper) {
+    if (cropper && cropperEdit) {
       cropper.getCroppedCanvas().toBlob((blobValue: Blob | null) => {
         if (blobValue) {
           const img = cropper.getCroppedCanvas().toDataURL();
@@ -89,11 +82,6 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
     }
   };
 
-  const startAnalysis = () => {
-    /*     serviceInstance.setCroppedImages(croppedImages);
-        serviceInstance.setAreaSetting('analyzing'); */
-  }
-
   const setCropperEditMode = (value: boolean) => {
     setCropperEdit(value);
     if (value) {
@@ -114,45 +102,6 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
     copyCroppedImages.splice(index, 1);
     setCroppedImages(copyCroppedImages);
   }
-
-
-  const recropImages = async () => {
-    if (cropper) {
-      const copyCroppedImages = [...croppedImages];
-      for await (const croppedImage of copyCroppedImages) {
-        const widthFactor = cropper.getCanvasData().naturalWidth / croppedImage.cropBoxData.imageWidth;
-        const heightFactor = cropper.getCanvasData().naturalHeight / croppedImage.cropBoxData.imageHeight;
-        cropper.enable();
-        cropper.setCropBoxData({
-          height: croppedImage.cropBoxData.height * heightFactor,
-          width: croppedImage.cropBoxData.width * widthFactor,
-          top: croppedImage.cropBoxData.top * heightFactor,
-          left: croppedImage.cropBoxData.left * widthFactor
-        });
-        const img = cropper.getCroppedCanvas().toDataURL();
-        const blob = await new Promise<Blob>((resolve, reject) => {
-          cropper.getCroppedCanvas().toBlob((blobValue: Blob | null) => {
-            if (blobValue) {
-              resolve(blobValue);
-            } else {
-              reject(null);
-            }
-          });
-        });
-        croppedImage.dataUrl = img;
-        croppedImage.blob = blob;
-      }
-      cropper.setCropBoxData({
-        height: cropper.getCanvasData().height,
-        left: cropper.getCanvasData().left,
-        top: cropper.getCanvasData().top,
-        width: cropper.getCanvasData().width
-      });
-      cropper.disable();
-      setCroppedImages(copyCroppedImages);
-    }
-  }
-
 
   const handleSetCrop = (data: CroppedImageModel, index: number) => {
     if (cropper) {
@@ -175,30 +124,41 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
     }
   }
 
-
-  console.log(progressAndData.text.previewString, progressAndData)
-  /* 
-    useEffect(() => {
-      const subscription = serviceInstance.getRawImage.subscribe(setRawImage);
-      getGeneOrganismsRequest().then((value: string[]) => {
-        setGeneOrganisms(value);
+  const startAnalysis = () => {
+    croppedImages.forEach(x => {
+      analyzeBlobItem(x.blob).then(x => {
+        console.log(x);
       })
-      return () => subscription.unsubscribe();
-    }, [serviceInstance]); */
+    })
+  }
+
+  const analyzeBlobItem = (item: Blob): Promise<any> => {
+    const formData = new FormData();
+    var file = new File([item], "image.png", {
+      lastModified: new Date().getTime(),
+      type: item.type,
+    });
+    formData.append('file', file)
+    const requestOptions = {
+        method: 'POST',
+        body: formData
+    };
+    return fetch(`http://localhost:3001/analysis/image`, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.warn(error));
+  }
 
   useEffect(() => {
     if (progressAndData.text.previewString) {
       setRaw(String(progressAndData.text?.previewString));
-      console.log('setting value')
     }
-
   }, [progressAndData.text.previewString]);
 
   return (
     <div>
       {raw && (
-        <div style={{marginTop: '30px'}}>
-          <div style={{marginBottom: '10px'}}>
+        <div style={{ marginTop: '30px' }}>
+          <div style={{ marginBottom: '10px' }}>
             {cropperEdit && (
               <div>
                 <CheckIcon />
@@ -214,13 +174,13 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
 
           </div>
           <div>
-            <Cropper style={{ width: "800px", height: "500px" }} zoomTo={0.5} initialAspectRatio={1}
+            <Cropper style={{ width: "auto", height: "500px" }} zoomTo={0.5} initialAspectRatio={1}
               src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
               background={false} responsive={true} autoCropArea={1} checkOrientation={false}
               onInitialized={(instance) => setCropper(instance)} guides={true} />
           </div>
           <div>
-            <Button onClick={handleImageCrop}>Crop image</Button>
+            <Button onClick={handleImageCrop} disabled={!cropperEdit} variant="outlined">Crop image</Button>
             <div>
               {croppedImages.length !== 0 && (
                 <div>
@@ -248,25 +208,15 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
                                 <img src={imageItem.dataUrl} style={{ maxHeight: "200px", maxWidth: "200px" }} />
                               </TableCell>
                               <TableCell align="right">
-                                <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small">
+                                <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small" style={{ width: "100%" }}>
                                   <InputLabel id="select-word-type">Type</InputLabel>
                                   <Select value={imageItem.type} onChange={(e) => changeCroppedImageAttribute('type', e.target.value, i)}
                                     labelId="select-word-type" label="Type">
-                                    <MenuItem value="gene">Gene</MenuItem>
-                                    <MenuItem value="text">Free text</MenuItem>
+                                    <MenuItem value="noun">noun</MenuItem>
+                                    <MenuItem value="verb">verb</MenuItem>
+                                    <MenuItem value="verb">adjectives</MenuItem>
                                   </Select>
                                 </FormControl>
-                                {imageItem.type === 'gene' && (
-                                  <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small">
-                                    <InputLabel id="select-gene-type">Gene organism</InputLabel>
-                                    <Select value={imageItem?.geneType} onChange={(e) => changeCroppedImageAttribute('geneType', e.target.value, i)}
-                                      labelId="select-gene-type" label="Type">
-                                      {geneOrganisms.map((geneOrganism, geneOrganismIndex) => (
-                                        <MenuItem key={`${geneOrganism}-${geneOrganismIndex}`} value={geneOrganism}>{geneOrganism}</MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                )}
                               </TableCell>
                               <TableCell align="right">
                                 <IconButton onClick={() => { handleSetCrop(imageItem, i) }} aria-label="delete" size="large">
@@ -283,12 +233,13 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
                     </TableContainer>
                   </Box>
 
-                  <div className={-1 === editingExisting && cropperEdit ? 'mt-3 border border-4 border-solid border-sky-600 rounded-md' : ''}>
-                    <div className="flex flex-row items-center">
+                  <div>
+                    <div>
                       <IconButton onClick={createNewCrop} aria-label="delete" size="large">
+                        <p>Add new crop</p>
                         <AddIcon />
                       </IconButton>
-                      <p>Create new crop image</p>
+
                     </div>
                   </div>
                 </div>
@@ -300,29 +251,9 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
               )}
             </div>
           </div>
-          {/* <div style={{ display: "flex", flexDirection: "column" }} >
-            <div className="flex flex-row">
-              <div>
-                
-                <Cropper style={{ width: "1000px", height: "1000px", maxHeight: "100%", maxWidth: "100%" }} zoomTo={0.5} initialAspectRatio={1}
-                  src={String(progressAndData[fileType].previewString)} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
-                  background={false} responsive={true} autoCropArea={1} checkOrientation={false}
-                  onInitialized={(instance) => setCropper(instance)} guides={true} />
-
-                <div className="mt-3 flex flex-row-reverse">
-                  <button onClick={handleImageCrop}>Crop image</button>
-                </div>
-              </div>
-              <div className="ml-3 w-full">
-                
-              </div>
-            </div>
-            <div className="mt-5 w-full flex justify-end">
-              <button type="button" onClick={startAnalysis} disabled={croppedImages.length === 0} className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-                {true ? 'Start analysis' : 'Start analysis again'}
-              </button>
-            </div>
-          </div> */}
+          <Button variant="contained" onClick={startAnalysis}>
+            Continue
+          </Button>
         </div>
       )}
     </div>

@@ -34,6 +34,7 @@ export const FileUploadComponent: React.FC<Props> = ({ progressAndData, setProgr
       </label>
       <Button
         component="label"
+        variant="outlined"
       >
         Upload File
         <input
@@ -49,7 +50,7 @@ export const FileUploadComponent: React.FC<Props> = ({ progressAndData, setProgr
             <img src={preview} style={{ maxHeight: "80%", maxWidth: "80%" }}
               className="my-5 border border-gray-400 rounded-lg" alt="preview of uploaded file" />
             <div className="flex flex-row-reverse">
-              <Button type="button" onClick={handleSubmission}>
+              <Button type="button" onClick={handleSubmission} variant="outlined">
                 Use image
               </Button>
             </div>

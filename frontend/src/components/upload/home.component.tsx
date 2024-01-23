@@ -96,6 +96,8 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
                     )}
                 </React.Fragment>)}
                 <React.Fragment>
+                    
+                    {/* 
                     <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
                         Step {activeStep + 1}
                     </Typography>
@@ -124,7 +126,7 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
                                         : 'Complete Step'}
                                 </Button>
                             ))}
-                    </Box>
+                    </Box> */}
                 </React.Fragment>
                 {/* {progressAndData.progress === 1 && (<div>
                     This is home
