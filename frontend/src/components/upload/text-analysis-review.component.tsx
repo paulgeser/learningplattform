@@ -9,6 +9,11 @@ interface Props {
     setProgressAndData: React.Dispatch<React.SetStateAction<ProgressAndDataModel>>;
 }
 
+var url = '';
+if (process.env.NODE_ENV !== 'production') {
+    url = String(process.env.REACT_APP_SERVICE_URL);
+}
+
 export const TextAnalysisComponent: React.FC<Props> = ({ progressAndData, setProgressAndData }): React.ReactElement => {
 
     const [croppedImages, setCroppedImages] = useState<CroppedImageModel[]>([])
@@ -43,7 +48,7 @@ export const TextAnalysisComponent: React.FC<Props> = ({ progressAndData, setPro
             method: 'POST',
             body: formData
         };
-        return fetch(`http://localhost:3001/analysis/image`, requestOptions)
+        return fetch(`${url}/analysis/image`, requestOptions)
             .then(response => response.json())
             .catch(error => console.warn(error));
     }

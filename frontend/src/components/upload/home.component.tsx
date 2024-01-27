@@ -8,7 +8,7 @@ import { TextAnalysisComponent } from './text-analysis-review.component';
 const steps = ['Text', 'Images', 'Audio', 'Review'];
 
 export const UploadHomeComponent: React.FC = (): React.ReactElement => {
-
+    console.log(process.env.REACT_APP_SERVICE_URL)
     const [progressAndData, setProgressAndData] = useState<ProgressAndDataModel>({
         progress: 1,
         text: {
@@ -100,49 +100,6 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
                         <TextAnalysisComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
                     )}
                 </React.Fragment>)}
-                <React.Fragment>
-
-                    {/* 
-                    <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                        Step {activeStep + 1}
-                    </Typography>
-                    <Box>
-                        <Button
-                            color="inherit"
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                            Back
-                        </Button>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleNext} sx={{ mr: 1 }}>
-                            Next
-                        </Button>
-                        {activeStep !== steps.length &&
-                            (completed[activeStep] ? (
-                                <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                                    Step {activeStep + 1} already completed
-                                </Typography>
-                            ) : (
-                                <Button onClick={handleComplete}>
-                                    {completedSteps() === totalSteps() - 1
-                                        ? 'Finish'
-                                        : 'Complete Step'}
-                                </Button>
-                            ))}
-                    </Box> */}
-                </React.Fragment>
-                {/* {progressAndData.progress === 1 && (<div>
-                    This is home
-                    <Button onClick={startProcess}>Here go to start the process</Button>
-                </div>)}
-                {progressAndData.progress === 2 && (<div>
-                    <FileUploadComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
-                </div>)}
-                {progressAndData.progress === 3 && (<div>
-                    <FileCropComponent />
-                </div>)} */}
             </div>
         </div>
     );
