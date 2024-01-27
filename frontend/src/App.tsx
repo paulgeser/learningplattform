@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={<HomeComponent />} />
-          <Route path="upload" element={<UploadHomeComponent />} />
+          <Route path="upload/:id" element={<UploadHomeComponent />} />
           <Route path="learning" element={<LearningHomeComponent />} />
           <Route path="*" element={<div></div>} />
         </Route>

@@ -6,13 +6,14 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BasicDataDialogComponent } from '../components/upload/basic-data-dialog.component';
 
 
 export const HeaderLayout: React.FC = (): React.ReactElement => {
 
     const [uploadDialog, setUploadDialog] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const openDialog = () => {
         setUploadDialog(true);
@@ -22,7 +23,8 @@ export const HeaderLayout: React.FC = (): React.ReactElement => {
         if (value === null) {
             setUploadDialog(false);
         } else {
-            console.log(value);
+            setUploadDialog(false);
+            navigate(`/upload/${value}`);
         }
     }
 

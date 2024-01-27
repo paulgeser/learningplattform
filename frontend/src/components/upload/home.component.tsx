@@ -4,11 +4,11 @@ import { FileUploadComponent } from './file-upload.component';
 import { Box, Breadcrumbs, Button, Link, Step, StepButton, Stepper, Typography } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { TextAnalysisComponent } from './text-analysis-review.component';
+import { useParams } from 'react-router-dom';
 
 const steps = ['Text', 'Images', 'Audio', 'Review'];
 
 export const UploadHomeComponent: React.FC = (): React.ReactElement => {
-    console.log(process.env.REACT_APP_SERVICE_URL)
     const [progressAndData, setProgressAndData] = useState<ProgressAndDataModel>({
         progress: 1,
         text: {
@@ -21,6 +21,10 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
             previewString: null
         }
     });
+
+    let { id } = useParams();
+
+    console.log(id);
 
     const startProcess = () => {
         setProgressAndData({ ...progressAndData, progress: 2 })

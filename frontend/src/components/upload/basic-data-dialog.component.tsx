@@ -27,7 +27,7 @@ export const BasicDataDialogComponent: React.FC<Props> = ({ onClose, open }): Re
 
     const createLearnSet = () => {
         createLearnSetRequest({ name: name, week: week, status: selectedLearnSetStatus, type: selectedLearnSetType }).then(value => {
-            console.log(value._id);
+            onClose(value._id);
         })
     }
 
