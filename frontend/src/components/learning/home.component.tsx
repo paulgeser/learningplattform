@@ -5,7 +5,7 @@ export const LearningHomeComponent: React.FC = (): React.ReactElement => {
 
     return (
         <div>
-            Test
+            TODO!!!
 
         </div>
     );

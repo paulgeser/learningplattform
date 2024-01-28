@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { ProgressAndDataModel } from "./home.component";
+import { ProgressAndDataModel } from "./text-home.component";
 
 
 interface Props {

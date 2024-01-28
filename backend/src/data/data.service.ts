@@ -9,8 +9,12 @@ export class DataService {
 
   constructor(@InjectModel(LearnSet.name) private learnSetModel: Model<LearnSet>) { }
 
-  public createLearnSet(learnSet: LearnSet) {
+  public createLearnSet(learnSet: LearnSet): Promise<LearnSet> {
     const createdLearnSet = new this.learnSetModel(learnSet);
     return createdLearnSet.save();
+  }
+
+  public getAllLearnSets(): Promise<LearnSet[]> {
+    return this.learnSetModel.find();
   }
 }

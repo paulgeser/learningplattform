@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { CroppedImageModel, FileCropTextComponent } from './file-crop-text.component';
-import { FileUploadComponent } from './file-upload.component';
-import { Box, Breadcrumbs, Button, Link, Step, StepButton, Stepper, Typography } from '@mui/material';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Step, StepButton, Stepper } from '@mui/material';
 import { TextAnalysisComponent } from './text-analysis-review.component';
 import { useParams } from 'react-router-dom';
+import { TextFileUploadComponent } from './text-file-upload.component';
 
 const steps = ['Text', 'Images', 'Audio', 'Review'];
 
-export const UploadHomeComponent: React.FC = (): React.ReactElement => {
+export const TextHomeComponent: React.FC = (): React.ReactElement => {
     const [progressAndData, setProgressAndData] = useState<ProgressAndDataModel>({
         progress: 1,
         text: {
@@ -95,7 +94,7 @@ export const UploadHomeComponent: React.FC = (): React.ReactElement => {
                 </Stepper>
                 {activeStep === 0 && (<React.Fragment>
                     {progressAndData.text.progress === 0 && (
-                        <FileUploadComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} fileType='text' />
+                        <TextFileUploadComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} fileType='text' />
                     )}
                     {progressAndData.text.progress === 1 && (
                         <FileCropTextComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />

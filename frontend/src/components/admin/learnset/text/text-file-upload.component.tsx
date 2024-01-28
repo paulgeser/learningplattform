@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ProgressAndDataModel } from "./home.component";
+import { ProgressAndDataModel } from "./text-home.component";
 import { Button } from "@mui/material";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 
-export const FileUploadComponent: React.FC<Props> = ({ progressAndData, setProgressAndData, fileType }): React.ReactElement => {
+export const TextFileUploadComponent: React.FC<Props> = ({ progressAndData, setProgressAndData, fileType }): React.ReactElement => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
 

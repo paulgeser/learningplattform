@@ -1,17 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
-import { ProgressAndDataModel } from "./home.component";
+import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { createLearnSetRequest, getAllLearnSetStates, getAllLearnSetTypes } from "../services/learnset.service";
-import { LearnSetType } from "../model/type.enum";
-import { LearnSetStatus } from "../model/status.enum";
+import { createLearnSetRequest, getAllLearnSetStates, getAllLearnSetTypes } from "../../../services/learnset.service";
+import { LearnSetType } from "../../model/type.enum";
+import { LearnSetStatus } from "../../model/status.enum";
 
 
 interface Props {
     open: boolean
-    onClose: (value: any) => void;
+    onClose: () => void;
 }
 
-export const BasicDataDialogComponent: React.FC<Props> = ({ onClose, open }): React.ReactElement => {
+export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }): React.ReactElement => {
 
     const [learnSetTypes, setLearnSetTypes] = useState<LearnSetType[]>([]);
     const [learnSetStates, setLearnSetStates] = useState<LearnSetStatus[]>([]);
@@ -22,12 +21,12 @@ export const BasicDataDialogComponent: React.FC<Props> = ({ onClose, open }): Re
     const [week, setWeek] = useState<number>(0);
 
     const handleClose = () => {
-        onClose(null);
+        onClose();
     };
 
     const createLearnSet = () => {
         createLearnSetRequest({ name: name, week: week, status: selectedLearnSetStatus, type: selectedLearnSetType }).then(value => {
-            onClose(value._id);
+            onClose();
         })
     }
 
@@ -43,9 +42,8 @@ export const BasicDataDialogComponent: React.FC<Props> = ({ onClose, open }): Re
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Set backup account</DialogTitle>
+            <DialogTitle>Create new learnset</DialogTitle>
             <DialogContent>
-                <p>Test asdfasdf</p>
                 <TextField id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
                 <br />
                 <br />
@@ -81,11 +79,10 @@ export const BasicDataDialogComponent: React.FC<Props> = ({ onClose, open }): Re
                 <br />
                 <br />
                 <div>
-                    <Button variant="outlined" onClick={() => onClose(null)}>Cancel</Button>
+                    <Button variant="outlined" onClick={() => onClose()}>Cancel</Button>
                     <Button variant="contained" onClick={createLearnSet}>Create</Button>
                 </div>
             </DialogContent>
         </Dialog>
-        /* setSelectedLearnSetStatus(event.target.value as LearnSetStatus) */
     );
 }

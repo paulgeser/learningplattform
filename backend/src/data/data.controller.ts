@@ -29,4 +29,9 @@ export class DataController {
     return this.dataService.createLearnSet(learnSet);
   }
 
+  @Get("/get-all-learnsets")
+  getAllLearnSets(): Promise<LearnSet[]> {
+    return this.dataService.getAllLearnSets();
+  }
+
 }

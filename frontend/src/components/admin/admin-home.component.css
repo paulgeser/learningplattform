@@ -1,0 +1,16 @@
+#admin-home-outside-box {
+    display: flex;
+    justify-content: center;
+}
+
+#admin-home-content-box {
+    max-width: 1400px;
+    width: 100%;
+    margin-top: 30px;
+
+}
+
+#admin-home-title {
+    font-size: 30px;
+    text-align: left;
+}

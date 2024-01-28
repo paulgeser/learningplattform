@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ProgressAndDataModel } from './home.component';
+import { ProgressAndDataModel } from './text-home.component';
 import { CroppedImageModel } from './file-crop-text.component';
 import { Button, CircularProgress, LinearProgress, TextField } from '@mui/material';
 

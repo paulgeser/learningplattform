@@ -3,8 +3,9 @@ import './App.css';
 import { HeaderLayout } from './layout/header.layout';
 import { Route, Routes } from 'react-router-dom';
 import { HomeComponent } from './components/home.component';
-import { UploadHomeComponent } from './components/upload/home.component';
 import { LearningHomeComponent } from './components/learning/home.component';
+import { AdminHomeComponent } from './components/admin/admin-home.component';
+import { TextHomeComponent } from './components/admin/learnset/text/text-home.component';
 
 function App() {
   return (
@@ -13,8 +14,11 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={<HomeComponent />} />
-          <Route path="upload/:id" element={<UploadHomeComponent />} />
-          <Route path="learning" element={<LearningHomeComponent />} />
+          <Route path="/admin" >
+            <Route path='' element={<AdminHomeComponent />} />
+            <Route path='text/:id' element={<TextHomeComponent />} />
+          </Route>
+          <Route path="/learning" element={<LearningHomeComponent />} />
           <Route path="*" element={<div></div>} />
         </Route>
       </Routes>
