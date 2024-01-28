@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AnalyzedWordsModel } from 'src/schemas/analyzed-words.model';
+import { ImageWordInputModel } from 'src/schemas/image-word-input.model';
 import { LearnSet } from 'src/schemas/learnset.schema';
 import { LearnSetStatus } from 'src/schemas/status.enum';
 import { Word } from 'src/schemas/word.schema';
@@ -42,5 +43,24 @@ export class DataService {
       status: LearnSetStatus.TEXT
     });
     return createdWords;
+  }
+
+  public getWordsByLearnSetId(id: string): Promise<Word[]> {
+    return this.wordModel.find({ learnSetId: id });
+  }
+
+  public async addPictureToWord(word: ImageWordInputModel): Promise<boolean> {
+    console.log(word.wordId)
+    const updatedWord = await this.wordModel.updateOne({ _id: word.wordId }, {
+      picture: word.picture
+    });
+    return updatedWord.acknowledged;
+  }
+
+  public async updateStatusOfLearnSet(id: string, status: LearnSetStatus): Promise<boolean> {
+    await this.learnSetModel.updateOne({ _id: id }, {
+      status: status
+    });
+    return true;
   }
 }

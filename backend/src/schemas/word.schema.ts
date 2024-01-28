@@ -19,6 +19,10 @@ export class Word {
     @ApiProperty()
     @Prop()
     malagasy: string;
+
+    @ApiProperty()
+    @Prop()
+    picture: string;
 }
 
 export const WordSchema = SchemaFactory.createForClass(Word);

@@ -7,6 +7,8 @@ import { LearnSetType } from 'src/schemas/type.enum';
 import { LearnSetStatus } from 'src/schemas/status.enum';
 import { AnalyzedWordsModel } from 'src/schemas/analyzed-words.model';
 import { Word } from 'src/schemas/word.schema';
+import { ImageWordInputModel } from 'src/schemas/image-word-input.model';
+import { StatusInputModel } from 'src/schemas/status-input.model';
 
 
 @Controller('/data')
@@ -44,6 +46,21 @@ export class DataController {
   @Post('/learnset/:id/text')
   async addTextToLearnSet(@Param('id') id: string, @Body() analyzedWords: AnalyzedWordsModel[]): Promise<Word[]> {
     return await this.dataService.addWordsToLearnSet(id, analyzedWords);
+  }
+
+  @Get('/learnset/:id/words')
+  getWordsByLearnSetId(@Param('id') id: string): Promise<Word[]> {
+    return this.dataService.getWordsByLearnSetId(id);
+  }
+
+  @Post('/learnset/picture')
+  async addPictureToWord(@Body() inputPicture: ImageWordInputModel): Promise<boolean> {
+    return await this.dataService.addPictureToWord(inputPicture);
+  }
+
+  @Post('/learnset/:id/status')
+  async updateStatusOfLearnSet(@Param('id') id: string, @Body() inputStatus: StatusInputModel): Promise<boolean> {
+    return await this.dataService.updateStatusOfLearnSet(id, LearnSetStatus[inputStatus.status]);
   }
 
 }
