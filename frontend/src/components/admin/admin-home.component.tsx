@@ -35,7 +35,7 @@ export const AdminHomeComponent: React.FC = (): React.ReactElement => {
         if (value === 'text') {
             navigate(`/admin/text/${learnSetId}`);
         } else if (value === 'pictures') {
-
+            navigate(`/admin/pictures/${learnSetId}`);
         } else if (value === 'audio') {
 
         }
