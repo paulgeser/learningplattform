@@ -7,6 +7,7 @@ import { LearningHomeComponent } from './components/learning/home.component';
 import { AdminHomeComponent } from './components/admin/admin-home.component';
 import { TextHomeComponent } from './components/admin/learnset/text/text-home.component';
 import { PictureHomeComponent } from './components/admin/learnset/picture/picture-home.component';
+import { AudioHomeComponent } from './components/admin/learnset/audio/audio-home.component';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='' element={<AdminHomeComponent />} />
             <Route path='text/:id' element={<TextHomeComponent />} />
             <Route path='pictures/:id' element={<PictureHomeComponent />} />
+            <Route path='audio/:id' element={<AudioHomeComponent />} />
           </Route>
           <Route path="/learning" element={<LearningHomeComponent />} />
           <Route path="*" element={<div></div>} />

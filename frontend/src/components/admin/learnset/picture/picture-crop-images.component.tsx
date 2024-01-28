@@ -45,7 +45,6 @@ export const PictureCropImagesComponent: React.FC<Props> = ({ progressAndData, s
                         copyCroppedImages.push({
                             blob: blobValue,
                             dataUrl: img,
-                            status: 'cropped',
                             cropBoxData: {
                                 left: cropper.getCropBoxData().left,
                                 top: cropper.getCropBoxData().top,
@@ -264,7 +263,6 @@ export const PictureCropImagesComponent: React.FC<Props> = ({ progressAndData, s
 export interface CroppedImageModel {
     blob: Blob;
     dataUrl: string;
-    status: 'cropped' | 'analyzing' | 'wordspelling' | 'analyzed';
     cropBoxData: {
         left: number;
         top: number;
