@@ -1,3 +1,4 @@
+import { AnalyzedWordsModel } from "../components/model/analyzed-words.model";
 import { CreateLearnSet } from "../components/model/create-learnset.model";
 import { LearnSet } from "../components/model/learnset.model";
 import { LearnSetStatus } from "../components/model/status.enum";
@@ -9,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
     url = String(process.env.REACT_APP_SERVICE_URL);
 }
 
-export const getAllLearnSetTypes = () : Promise<LearnSetType[]> => {
+export const getAllLearnSetTypes = (): Promise<LearnSetType[]> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -19,7 +20,7 @@ export const getAllLearnSetTypes = () : Promise<LearnSetType[]> => {
         .catch(error => console.warn(error));
 }
 
-export const getAllLearnSetStates = () : Promise<LearnSetStatus[]> => {
+export const getAllLearnSetStates = (): Promise<LearnSetStatus[]> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -29,7 +30,7 @@ export const getAllLearnSetStates = () : Promise<LearnSetStatus[]> => {
         .catch(error => console.warn(error));
 }
 
-export const createLearnSetRequest = (inputValue: CreateLearnSet) : Promise<LearnSet> => {
+export const createLearnSetRequest = (inputValue: CreateLearnSet): Promise<LearnSet> => {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,7 +41,7 @@ export const createLearnSetRequest = (inputValue: CreateLearnSet) : Promise<Lear
         .catch(error => console.warn(error));
 }
 
-export const getAllLearnSets = () : Promise<LearnSet[]> => {
+export const getAllLearnSets = (): Promise<LearnSet[]> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -50,3 +51,24 @@ export const getAllLearnSets = () : Promise<LearnSet[]> => {
         .catch(error => console.warn(error));
 }
 
+
+export const getLearnSetById = (id: string): Promise<LearnSet> => {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    return fetch(`${url}/data/learnset/${id}`, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.warn(error));
+}
+
+export const saveAnalyzedWords = (learnSetId: string, words: AnalyzedWordsModel[]): Promise<AnalyzedWordsModel[]> => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(words)
+    };
+    return fetch(`${url}/data/learnset/${learnSetId}/text`, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.warn(error));
+}

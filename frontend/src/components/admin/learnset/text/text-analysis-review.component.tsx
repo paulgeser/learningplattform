@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ProgressAndDataModel } from './text-home.component';
-import { CroppedImageModel } from './file-crop-text.component';
-import { Button, CircularProgress, LinearProgress, TextField } from '@mui/material';
+import { Button, LinearProgress, TextField } from '@mui/material';
+import { AnalyzedWordsModel } from '../../../model/analyzed-words.model';
+import { saveAnalyzedWords } from '../../../../services/learnset.service';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Props {
+    learnSetId: string
     progressAndData: ProgressAndDataModel;
     setProgressAndData: React.Dispatch<React.SetStateAction<ProgressAndDataModel>>;
 }
@@ -14,26 +17,26 @@ if (process.env.NODE_ENV !== 'production') {
     url = String(process.env.REACT_APP_SERVICE_URL);
 }
 
-export const TextAnalysisComponent: React.FC<Props> = ({ progressAndData, setProgressAndData }): React.ReactElement => {
+export const TextAnalysisComponent: React.FC<Props> = ({ learnSetId, progressAndData, setProgressAndData }): React.ReactElement => {
 
-    const [croppedImages, setCroppedImages] = useState<CroppedImageModel[]>([])
+    const [imageUrl, setImageUrl] = useState<string>();
+    const [analyzedContent, setAnalyzedContent] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (progressAndData.text.croppedImages.length > 0) {
-            setCroppedImages(progressAndData.text.croppedImages);
-            startAnalysis(progressAndData.text.croppedImages).then(x => {
+        if (progressAndData.blob && progressAndData.croppedImg) {
+            setImageUrl(progressAndData.croppedImg);
+            startAnalysis(progressAndData.blob).then(x => {
                 console.log(x)
             });
         }
-    }, [progressAndData.text.croppedImages]);
+    }, [progressAndData.blob]);
 
-    const startAnalysis = async (croppedImagesInput: CroppedImageModel[]) => {
-        for (const croppedImage of croppedImagesInput) {
-            const text: string[] = await analyzeBlobItem(croppedImage.blob);
-            croppedImage.analyzedData = text.join('\n');
-        }
-        setCroppedImages(croppedImagesInput);
+    const startAnalysis = async (croppedImageBlob: Blob) => {
+        const text: string[] = await analyzeBlobItem(croppedImageBlob);
+
+        setAnalyzedContent(text.join('\n'));
         setLoading(false);
     }
 
@@ -53,33 +56,26 @@ export const TextAnalysisComponent: React.FC<Props> = ({ progressAndData, setPro
             .catch(error => console.warn(error));
     }
 
-    const changeAnalyzedText = (index: number, text: string) => {
-        const copyOfCroppedImages = [...croppedImages];
-        copyOfCroppedImages[index].analyzedData = text;
-        setCroppedImages(copyOfCroppedImages)
+    const changeAnalyzedText = (text: string) => {
+        setAnalyzedContent(text);
     }
 
     const nextStep = () => {
-        const finalMappedData: any[] = [];
-        croppedImages.forEach(x => {
-            const data: any[] = []
+        const data: AnalyzedWordsModel[] = [];
 
-            x.analyzedData.split('\n').forEach((xy: string) => {
-                const lineSplit= xy.split(';');
-                data.push({
-                    malagasy: lineSplit[0].trim(),
-                    english: lineSplit[1].trim()
-                })
+        analyzedContent.split('\n').forEach((splitString: string) => {
+            const lineSplit = splitString.split(';');
+            data.push({
+                malagasy: lineSplit[0].trim(),
+                english: lineSplit[1].trim()
             })
+        });
 
-            console.log(data);
-            finalMappedData.push({
-                text: data,
-                name: x.title
-            })
+        saveAnalyzedWords(learnSetId, data).then(value => {
+            console.log(value);
+            navigate('/admin');
         })
-        console.log(finalMappedData);
-        localStorage.setItem('analyzedText', JSON.stringify(finalMappedData));
+
     }
 
     return (
@@ -93,22 +89,20 @@ export const TextAnalysisComponent: React.FC<Props> = ({ progressAndData, setPro
                 </div>
             )}
             {!loading && (
-                <div>
-                    {croppedImages.map((imageItem, i) => (
-                        <div key={imageItem.dataUrl} style={{ display: 'flex', flexDirection: 'row', marginTop: "50px" }}>
-                            <img src={imageItem.dataUrl} style={{ maxHeight: "800px", maxWidth: "600px" }} />
-                            <TextField
-                                id="outlined-multiline-flexible"
-                                label="Analyzed text"
-                                multiline
-                                value={imageItem.analyzedData}
-                                style={{ width: '100%' }}
-                                onChange={(e) => changeAnalyzedText(i, e.target.value)}
-                            />
-                        </div>
-                    ))}
+                <div >
+                    <div style={{ display: 'flex', flexDirection: 'row', marginTop: "50px" }}>
+                        <img src={imageUrl} style={{ maxHeight: "800px", maxWidth: "600px" }} alt="cropped-preview" />
+                        <TextField
+                            id="outlined-multiline-flexible"
+                            label="Analyzed text"
+                            multiline
+                            value={analyzedContent}
+                            style={{ width: '100%' }}
+                            onChange={(e) => changeAnalyzedText(e.target.value)}
+                        />
+                    </div>
                     <div>
-                        <Button onClick={nextStep}>Next step</Button>
+                        <Button onClick={nextStep} variant='outlined'>Next step</Button>
                     </div>
                 </div>
             )}

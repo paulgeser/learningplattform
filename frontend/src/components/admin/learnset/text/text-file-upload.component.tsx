@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { ProgressAndDataModel } from "./text-home.component";
 import { Button } from "@mui/material";
 
@@ -23,14 +23,14 @@ export const TextFileUploadComponent: React.FC<Props> = ({ progressAndData, setP
 
   const handleSubmission = () => {
     if (preview) {
-      setProgressAndData({ ...progressAndData, [fileType]: { ...progressAndData[fileType], previewString: preview, progress: 1 } });
+      setProgressAndData({ ...progressAndData, previewString: preview, progress: 1 });
     }
   };
 
   return (
     <div className="mt-5">
       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-        Upload new image
+        Upload image of text...
       </label>
       <Button
         component="label"

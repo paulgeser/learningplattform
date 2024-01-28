@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CreateLearnSetDialogComponent } from './learnset/create-learnset.component';
 import { useNavigate } from 'react-router-dom';
+import { LearnSetStatus } from '../model/status.enum';
 
 export const AdminHomeComponent: React.FC = (): React.ReactElement => {
 
@@ -89,7 +90,7 @@ export const AdminHomeComponent: React.FC = (): React.ReactElement => {
                                                     aria-haspopup="true"
                                                     aria-expanded={open ? 'true' : undefined}
                                                     onClick={handleClick}>
-                                                    <AddIcon />
+                                                    <EditIcon />
                                                 </IconButton>
                                                 <Menu
                                                     id="add-menu"
@@ -100,16 +101,10 @@ export const AdminHomeComponent: React.FC = (): React.ReactElement => {
                                                         'aria-labelledby': 'add-button',
                                                     }}
                                                 >
-                                                    <MenuItem onClick={() => handleClose('text', learnItem._id)}>Text</MenuItem>
-                                                    <MenuItem onClick={() => handleClose('pictures', learnItem._id)}>Pictures</MenuItem>
-                                                    <MenuItem onClick={() => handleClose('audio', learnItem._id)}>Audio</MenuItem>
+                                                    <MenuItem disabled={learnItem.status === LearnSetStatus.TEXT || learnItem.status === LearnSetStatus.PICTURE || learnItem.status === LearnSetStatus.READY} onClick={() => handleClose('text', learnItem._id)}>Text</MenuItem>
+                                                    <MenuItem disabled={learnItem.status === LearnSetStatus.CREATED || learnItem.status === LearnSetStatus.PICTURE || learnItem.status === LearnSetStatus.READY} onClick={() => handleClose('pictures', learnItem._id)}>Pictures</MenuItem>
+                                                    <MenuItem disabled={learnItem.status === LearnSetStatus.TEXT || learnItem.status === LearnSetStatus.CREATED || learnItem.status === LearnSetStatus.READY} onClick={() => handleClose('audio', learnItem._id)}>Audio</MenuItem>
                                                 </Menu>
-                                                <IconButton aria-label="edit" size="large">
-                                                    <EditIcon />
-                                                </IconButton>
-                                                <IconButton aria-label="delete" size="large">
-                                                    <DeleteIcon />
-                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
                                     ))}

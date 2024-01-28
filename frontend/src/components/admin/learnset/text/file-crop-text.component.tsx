@@ -1,15 +1,8 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import Cropper from "react-cropper";
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-
-import Paper from "@mui/material/Paper";
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ProgressAndDataModel } from "./text-home.component";
 
@@ -23,238 +16,43 @@ interface Props {
 export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setProgressAndData }) => {
   const [raw, setRaw] = useState<string | undefined>();
   const [cropper, setCropper] = useState<Cropper>();
-  const [croppedImages, setCroppedImages] = useState<CroppedImageModel[]>([])
-  const [editingExisting, setEditingExisting] = useState<number>(-1);
-  const [cropperEdit, setCropperEdit] = useState<boolean>(true);
 
 
   const handleImageCrop = () => {
-    if (cropper && cropperEdit) {
+    if (cropper) {
       cropper.getCroppedCanvas().toBlob((blobValue: Blob | null) => {
-        if (blobValue) {
-          const img = cropper.getCroppedCanvas().toDataURL();
-          const copyCroppedImages = [...croppedImages];
-          if (editingExisting === -1) {
-            copyCroppedImages.push({
-              blob: blobValue,
-              title: `crop ${copyCroppedImages.length + 1}`,
-              type: 'gene',
-              geneType: 'all',
-              dataUrl: img,
-              status: 'cropped',
-              cropBoxData: {
-                left: cropper.getCropBoxData().left,
-                top: cropper.getCropBoxData().top,
-                width: cropper.getCropBoxData().width,
-                height: cropper.getCropBoxData().height,
-                imageHeight: cropper.getCanvasData().naturalHeight,
-                imageWidth: cropper.getCanvasData().naturalWidth
-              },
-              analyzedData: null
-            });
-          } else {
-            copyCroppedImages[editingExisting].blob = blobValue;
-            copyCroppedImages[editingExisting].dataUrl = img;
-            copyCroppedImages[editingExisting].cropBoxData = {
-              left: cropper.getCropBoxData().left,
-              top: cropper.getCropBoxData().top,
-              width: cropper.getCropBoxData().width,
-              height: cropper.getCropBoxData().height,
-              imageHeight: cropper.getCanvasData().naturalHeight,
-              imageWidth: cropper.getCanvasData().naturalWidth
-            }
-            setEditingExisting(-1);
-          }
-
-          setCroppedImages(copyCroppedImages);
-
-          cropper.setCropBoxData({
-            height: cropper.getCanvasData().height,
-            left: cropper.getCanvasData().left,
-            top: cropper.getCanvasData().top,
-            width: cropper.getCanvasData().width
-          });
-        }
-        setCropperEditMode(false);
+        const img = cropper.getCroppedCanvas().toDataURL();
+        console.log(blobValue);
+        setProgressAndData({ ...progressAndData, progress: 2, blob: blobValue, croppedImg: img });
       });
     } else {
       console.error("Cropper is not defined!");
     }
   };
 
-  const setCropperEditMode = (value: boolean) => {
-    setCropperEdit(value);
-    if (value) {
-      cropper?.enable();
-    } else {
-      cropper?.disable();
-    }
-  }
-
-  const changeCroppedImageAttribute = (attribute: 'title' | 'type' | 'geneType', value: string, index: number) => {
-    const copyCroppedImages = [...croppedImages];
-    copyCroppedImages[index][attribute] = value;
-    setCroppedImages(copyCroppedImages);
-  }
-
-  const deleteCroppedImage = (index: number) => {
-    const copyCroppedImages = [...croppedImages];
-    copyCroppedImages.splice(index, 1);
-    setCroppedImages(copyCroppedImages);
-  }
-
-  const handleSetCrop = (data: CroppedImageModel, index: number) => {
-    if (cropper) {
-      setCropperEditMode(true);
-      cropper.setCropBoxData(data.cropBoxData);
-      setEditingExisting(index);
-    }
-  }
-
-  const createNewCrop = () => {
-    if (cropper) {
-      setCropperEditMode(true);
-      cropper.setCropBoxData({
-        height: cropper.getCanvasData().height,
-        left: cropper.getCanvasData().left,
-        top: cropper.getCanvasData().top,
-        width: cropper.getCanvasData().width
-      });
-      setEditingExisting(-1);
-    }
-  }
-
-  const startAnalysis = () => {
-    setProgressAndData({ ...progressAndData, text: { ...progressAndData.text, progress: 2, croppedImages: croppedImages } })
-  }
-
   useEffect(() => {
-    if (progressAndData.text.previewString) {
-      setRaw(String(progressAndData.text?.previewString));
+    if (progressAndData.previewString) {
+      setRaw(String(progressAndData?.previewString));
     }
-  }, [progressAndData.text.previewString]);
+  }, [progressAndData.previewString]);
 
   return (
     <div>
       {raw && (
         <div style={{ marginTop: '30px' }}>
           <div style={{ marginBottom: '10px' }}>
-            {cropperEdit && (
-              <div>
-                <CheckIcon />
-                Edit is enabled
-              </div>
-            )}
-            {!cropperEdit && (
-              <div>
-                <CloseIcon />
-                Edit is disabled
-              </div>
-            )}
-
-          </div>
-          <div>
-            <Cropper style={{ width: "auto", height: "auto" }} zoomTo={0.5} initialAspectRatio={1}
-              src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
-              background={false} responsive={true} autoCropArea={1} checkOrientation={false}
-              onInitialized={(instance) => setCropper(instance)} guides={true} />
-          </div>
-          <div>
-            <Button onClick={handleImageCrop} disabled={!cropperEdit} variant="outlined">Crop image</Button>
             <div>
-              {croppedImages.length !== 0 && (
-                <div>
-                  <Box sx={{ width: '100%' }}>
-                    <TableContainer component={Paper} className="overflow-y-auto" style={{ maxHeight: '500px' }}>
-                      <Table sx={{ width: '100%' }} aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Image</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell></TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {croppedImages.map((imageItem, i) => (
-                            <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }}
-                              className={i === editingExisting ? 'border border-4 border-solid border-sky-600 rounded-md' : ''} >
-                              <TableCell component="th" scope="row">
-                                <TextField id="outlined-size-small" value={imageItem.title} size="small"
-                                  onChange={(e) => changeCroppedImageAttribute('title', e.target.value, i)}
-                                  fullWidth style={{ minWidth: 100, }} />
-                              </TableCell>
-                              <TableCell align="right">
-                                <img src={imageItem.dataUrl} style={{ maxHeight: "200px", maxWidth: "200px" }} />
-                              </TableCell>
-                              <TableCell align="right">
-                                <FormControl sx={{ m: 1, whiteSpace: "nowrap" }} size="small" style={{ width: "100%" }}>
-                                  <InputLabel id="select-word-type">Type</InputLabel>
-                                  <Select value={imageItem.type} onChange={(e) => changeCroppedImageAttribute('type', e.target.value, i)}
-                                    labelId="select-word-type" label="Type">
-                                    <MenuItem value="noun">noun</MenuItem>
-                                    <MenuItem value="verb">verb</MenuItem>
-                                    <MenuItem value="verb">adjectives</MenuItem>
-                                  </Select>
-                                </FormControl>
-                              </TableCell>
-                              <TableCell align="right">
-                                <IconButton onClick={() => { handleSetCrop(imageItem, i) }} aria-label="delete" size="large">
-                                  <EditIcon />
-                                </IconButton>
-                                <IconButton onClick={() => { deleteCroppedImage(i) }} aria-label="delete" size="large">
-                                  <DeleteIcon />
-                                </IconButton>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Box>
-
-                  <div>
-                    <div>
-                      <IconButton onClick={createNewCrop} aria-label="delete" size="large">
-                        <p>Add new crop</p>
-                        <AddIcon />
-                      </IconButton>
-
-                    </div>
-                  </div>
-                </div>
-              )}
-              {croppedImages.length === 0 && (
-                <div className="w-full flex flex-col items-center mt-6">
-                  <p>No image cropped yet, crop your first image!</p>
-                </div>
-              )}
+              <Cropper style={{ width: "auto", height: "auto" }} zoomTo={0.5} initialAspectRatio={1}
+                src={raw} viewMode={1} minCropBoxHeight={10} minCropBoxWidth={10}
+                background={false} responsive={true} autoCropArea={1} checkOrientation={false}
+                onInitialized={(instance) => setCropper(instance)} guides={true} />
+            </div>
+            <div>
+              <Button onClick={handleImageCrop} variant="outlined">Crop image</Button>
             </div>
           </div>
-          <Button variant="contained" disabled={croppedImages.length === 0} onClick={startAnalysis}>
-            Continue
-          </Button>
         </div>
       )}
     </div>
   );
-}
-
-
-export interface CroppedImageModel {
-  blob: Blob;
-  title: string;
-  type: string;
-  geneType: string;
-  dataUrl: string;
-  status: 'cropped' | 'analyzing' | 'wordspelling' | 'analyzed';
-  cropBoxData: {
-    left: number;
-    top: number;
-    width: number;
-    height: number;
-    imageHeight: number;
-    imageWidth: number;
-  };
-  analyzedData: any;
 }
