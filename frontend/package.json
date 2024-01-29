@@ -14,6 +14,7 @@
     "@types/node": "^16.18.73",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@wavesurfer/react": "^1.0.4",
     "axios": "^1.6.5",
     "react": "^18.2.0",
     "react-cropper": "^2.3.3",
@@ -22,6 +23,7 @@
     "react-scripts": "5.0.1",
     "rxjs": "^7.8.1",
     "typescript": "^4.9.5",
+    "wavesurfer.js": "^7.7.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
