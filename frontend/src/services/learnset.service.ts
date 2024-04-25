@@ -1,9 +1,5 @@
-import { AnalyzedWordsModel } from "../components/model/analyzed-words.model";
 import { CreateLearnSet } from "../components/model/create-learnset.model";
-import { ImageWordInputModel } from "../components/model/image-word-input.model";
 import { LearnSet } from "../components/model/learnset.model";
-import { LearnSetStatus } from "../components/model/status.enum";
-import { Word } from "../components/model/word.model";
 
 var url = '';
 if (process.env.NODE_ENV !== 'production') {
@@ -61,7 +57,7 @@ export const deleteLearnSetRequest = (id: string): Promise<LearnSet> => {
 
 
 
-export const getLearnSetById = (id: string): Promise<LearnSet> => {
+/* export const getLearnSetById = (id: string): Promise<LearnSet> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
@@ -69,8 +65,8 @@ export const getLearnSetById = (id: string): Promise<LearnSet> => {
     return fetch(`${url}/data/learnset/${id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
-}
-
+} */
+/* 
 export const saveAnalyzedWords = (learnSetId: string, words: AnalyzedWordsModel[]): Promise<Word[]> => {
     const requestOptions = {
         method: 'POST',
@@ -116,4 +112,4 @@ export const updateStatusOfLearnSet = (id: string, status: LearnSetStatus): Prom
     return fetch(`${url}/data/learnset/${id}/status`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
-}
+} */

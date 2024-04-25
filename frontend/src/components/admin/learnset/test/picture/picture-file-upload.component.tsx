@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import { ProgressAndDataModel } from "./picture-home.component";
 import { Button } from "@mui/material";
 
@@ -59,3 +59,6 @@ export const PicturesFileUploadComponent: React.FC<Props> = ({ progressAndData, 
     </div>
   );
 }
+ */
+const test = {}
+export default test;

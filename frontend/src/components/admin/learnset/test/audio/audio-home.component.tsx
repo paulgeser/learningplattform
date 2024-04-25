@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getLearnSetById, getWordsByLearnSetId } from '../../../../../services/learnset.service';
 import { LearnSet } from '../../../../model/learnset.model';
-import { Word } from '../../../../model/word.model';
+import { Word } from '../../../../model/learnset-word.model';
 import WaveSurfer from 'wavesurfer.js';
 import { useWavesurfer } from '@wavesurfer/react';
 
@@ -58,7 +58,7 @@ export const AudioHomeComponent: React.FC = (): React.ReactElement => {
         } else {
             alert('Please select an MP3 file.');
         }
-    }; */
+    }; 
 
 
 
@@ -84,18 +84,18 @@ export const AudioHomeComponent: React.FC = (): React.ReactElement => {
             console.log(wavesurfer);
         }
 
-        /* wavesurfer = WaveSurfer.create({
+         wavesurfer = WaveSurfer.create({
             container: waveformRef.current,
             waveColor: 'violet',
             progressColor: 'purple',
             cursorWidth: 1,
             barWidth: 2,
             height: 200
-        }); */
+        }); 
 
 
-/*         wavesurfer.load(audioFile);
- */    };
+         wavesurfer.load(audioFile);
+ };
 
     const handleCut = () => {
         console.log("test");
@@ -114,12 +114,12 @@ export const AudioHomeComponent: React.FC = (): React.ReactElement => {
                             accept="audio/*"
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileInputChange(e)} />
                     </div>
-                    {/* {progressAndData.progress === 0 && (
+                    {progressAndData.progress === 0 && (
                         <PicturesFileUploadComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
                     )}
                     {progressAndData.progress === 1 && (
                         <PictureCropImagesComponent learnSetId={String(id)}  progressAndData={progressAndData} setProgressAndData={setProgressAndData} words={words} />
-                    )} */}
+                    )} *
                     <div>
                         <div ref={waveformRef} style={{ width: '100%', height: '200px' }} />
                         <button onClick={initializeWaveform}>Load Audio</button>
@@ -136,4 +136,6 @@ export interface ProgressAndDataModel {
     previewString: null | string;
     croppedImg: null | string;
     blob: null | Blob;
-}
+} */
+const test = {}
+export default test;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 
 import Cropper from "react-cropper";
 import { Button } from "@mui/material";
@@ -56,3 +56,6 @@ export const FileCropTextComponent: React.FC<Props> = ({ progressAndData, setPro
     </div>
   );
 }
+ */
+const test = {}
+export default test;

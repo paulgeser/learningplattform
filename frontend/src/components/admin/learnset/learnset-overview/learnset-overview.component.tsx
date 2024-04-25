@@ -12,6 +12,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import { LearnSetStatus } from "../../../model/status.enum";
 import { EditLearnSetDialogComponent } from "../edit-learnset/edit-learnset.component";
 import { DeleteLearnSetDialogComponent } from "../delete-learnset/delete-learnset.component";
+import { useNavigate } from "react-router-dom";
 
 
 export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
@@ -27,6 +28,8 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
     const [editLearnsetType, setEditLearnsetType] = useState<string>("");
     const [editWeek, setEditWeek] = useState<number>(0);
     const [deleteId, setDeleteId] = useState<string>("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllLearnSets().then(values => {
@@ -71,7 +74,7 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
     }
 
     const handleViewWordsClick = (learnset: LearnSet): void => {
-        console.log(learnset);
+        navigate(`/admin/learnset-words/${learnset._id}`);
     }
 
     return (

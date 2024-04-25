@@ -18,11 +18,19 @@ export class Word {
 
     @ApiProperty()
     @Prop()
+    french: string;
+
+    @ApiProperty()
+    @Prop()
     malagasy: string;
 
     @ApiProperty()
     @Prop()
     picture: string;
+
+    @ApiProperty()
+    @Prop()
+    audio: string;
 }
 
 export const WordSchema = SchemaFactory.createForClass(Word);

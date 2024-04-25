@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 
 import Cropper from "react-cropper";
 import { Box, Button, FormControl, IconButton, InputLabel, List, ListItemText, MenuItem, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ProgressAndDataModel } from "./picture-home.component";
-import { Word } from "../../../../model/word.model";
+import { Word } from "../../../../model/learnset-word.model";
 import { ImageWordInputModel } from "../../../../model/image-word-input.model";
 import { addPictureToWord, updateStatusOfLearnSet } from "../../../../../services/learnset.service";
 import { LearnSetStatus } from "../../../../model/status.enum";
@@ -272,4 +272,6 @@ export interface CroppedImageModel {
         imageWidth: number;
     };
     wordId: string | undefined;
-}
+} */
+const test = {}
+export default test;

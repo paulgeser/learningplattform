@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import { FileCropTextComponent } from './file-crop-text.component';
 import { TextAnalysisComponent } from './text-analysis-review.component';
 import { useParams } from 'react-router-dom';
@@ -52,4 +52,6 @@ export interface ProgressAndDataModel {
     previewString: null | string;
     croppedImg: null | string;
     blob: null | Blob;
-}
+} */
+const test = {}
+export default test;

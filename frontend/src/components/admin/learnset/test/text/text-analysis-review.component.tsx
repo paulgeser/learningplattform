@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import { ProgressAndDataModel } from './text-home.component';
 import { Button, LinearProgress, TextField } from '@mui/material';
 import { AnalyzedWordsModel } from '../../../../model/analyzed-words.model';
@@ -109,3 +109,6 @@ export const TextAnalysisComponent: React.FC<Props> = ({ learnSetId, progressAnd
         </div>
     );
 }
+ */
+const test = {}
+export default test;

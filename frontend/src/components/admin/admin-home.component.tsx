@@ -1,54 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import './admin-home.component.css';
-import { getAllLearnSets } from '../../services/learnset.service';
-import { LearnSet } from '../model/learnset.model';
-import { Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
+import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Toolbar } from '@mui/material';
 
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { CreateLearnSetDialogComponent } from './learnset/create-learnset/create-learnset.component';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { LearnSetStatus } from '../model/status.enum';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { Link, Outlet } from 'react-router-dom';
 
 export const AdminHomeComponent: React.FC = (): React.ReactElement => {
-
-    const [learnSets, setLearnSets] = useState<LearnSet[]>([]);
-    const [createLearnsetDialog, setCreateLearnsetDialog] = useState<boolean>(false);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        })
-    }, []);
-
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = (value: string, learnSetId: string) => {
-        setAnchorEl(null);
-        if (value === 'text') {
-            navigate(`/admin/text/${learnSetId}`);
-        } else if (value === 'pictures') {
-            navigate(`/admin/pictures/${learnSetId}`);
-        } else if (value === 'audio') {
-            navigate(`/admin/audio/${learnSetId}`);
-        }
-    };
-
-    const onCloseDialog = () => {
-        setCreateLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        })
-    }
 
     return (
         <div>

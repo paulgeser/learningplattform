@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import { ProgressAndDataModel } from "./text-home.component";
 import { Button } from "@mui/material";
 
@@ -60,3 +60,6 @@ export const TextFileUploadComponent: React.FC<Props> = ({ progressAndData, setP
     </div>
   );
 }
+ */
+const test = {}
+export default test;

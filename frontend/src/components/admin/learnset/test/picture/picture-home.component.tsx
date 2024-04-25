@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+/* import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getLearnSetById, getWordsByLearnSetId } from '../../../../../services/learnset.service';
 import { LearnSet } from '../../../../model/learnset.model';
 import { PicturesFileUploadComponent } from './picture-file-upload.component';
 import { PictureCropImagesComponent } from './picture-crop-images.component';
-import { Word } from '../../../../model/word.model';
+import { Word } from '../../../../model/learnset-word.model';
 
 export const PictureHomeComponent: React.FC = (): React.ReactElement => {
     const [progressAndData, setProgressAndData] = useState<ProgressAndDataModel>({
@@ -52,4 +52,6 @@ export interface ProgressAndDataModel {
     previewString: null | string;
     croppedImg: null | string;
     blob: null | Blob;
-}
+} */
+const test = {}
+export default test;
