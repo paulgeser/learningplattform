@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { createLearnSetRequest, getAllLearnSetStates, getAllLearnSetTypes } from "../../../services/learnset.service";
-import { LearnSetType } from "../../model/type.enum";
+import { createLearnSetRequest, getAllLearnSetStates } from "../../../services/learnset.service";
 import { LearnSetStatus } from "../../model/status.enum";
+import { LearnSetType } from "../../model/learnset-type.model";
+import { getAllLearnSetTypes } from "../../../services/learnset-type.service";
 
 
 interface Props {
@@ -15,8 +16,7 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     const [learnSetTypes, setLearnSetTypes] = useState<LearnSetType[]>([]);
     const [learnSetStates, setLearnSetStates] = useState<LearnSetStatus[]>([]);
 
-    const [selectedLearnSetStatus, setSelectedLearnSetStatus] = useState<LearnSetStatus>(LearnSetStatus.CREATED);
-    const [selectedLearnSetType, setSelectedLearnSetType] = useState<LearnSetType>(LearnSetType.PRONOUNS);
+    const [selectedLearnSetType, setSelectedLearnSetType] = useState<LearnSetType | null>(null);
     const [name, setName] = useState<string>("");
     const [week, setWeek] = useState<number>(0);
 
@@ -25,9 +25,11 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     };
 
     const createLearnSet = () => {
-        createLearnSetRequest({ name: name, week: week, status: selectedLearnSetStatus, type: selectedLearnSetType }).then(value => {
-            onClose();
-        })
+        if (selectedLearnSetType) {
+            createLearnSetRequest({ name: name, week: week, status: LearnSetStatus.DRAFT, type: selectedLearnSetType }).then(value => {
+                onClose();
+            });
+        }
     }
 
     useEffect(() => {
@@ -44,21 +46,7 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>Create new learnset</DialogTitle>
             <DialogContent>
-                <TextField id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
-                <br />
-                <br />
-                <FormControl fullWidth>
-                    <InputLabel id="learnset-states-select-label">Status</InputLabel>
-                    <Select
-                        labelId="learnset-states-select-label"
-                        id="learnset-states-select"
-                        value={selectedLearnSetStatus}
-                        label="Status"
-                        onChange={((event: SelectChangeEvent) => setSelectedLearnSetStatus(event.target.value as LearnSetStatus))}
-                    >
-                        {learnSetStates.map(learnStatus => (<MenuItem key={learnStatus} value={learnStatus}>{learnStatus}</MenuItem>))}
-                    </Select>
-                </FormControl>
+                <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
                 <br />
                 <br />
                 <FormControl fullWidth>
@@ -66,11 +54,11 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
                     <Select
                         labelId="learnset-types-select-label"
                         id="learnset-types-select"
-                        value={selectedLearnSetType}
+                        value={selectedLearnSetType?.name}
                         label="Type"
-                        onChange={((event: SelectChangeEvent) => setSelectedLearnSetType(event.target.value as LearnSetType))}
+                        onChange={((event: SelectChangeEvent) => setSelectedLearnSetType(event.target.value as any))}
                     >
-                        {learnSetTypes.map(learnType => (<MenuItem key={learnType} value={learnType}>{learnType}</MenuItem>))}
+                        {learnSetTypes.map(learnType => (<MenuItem key={learnType.name} value={learnType.name}>{learnType.name}</MenuItem>))}
                     </Select>
                 </FormControl>
                 <br />

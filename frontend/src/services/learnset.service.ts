@@ -1,25 +1,15 @@
 import { AnalyzedWordsModel } from "../components/model/analyzed-words.model";
+import { CreateLearnSetType } from "../components/model/create-learnset-type.model";
 import { CreateLearnSet } from "../components/model/create-learnset.model";
 import { ImageWordInputModel } from "../components/model/image-word-input.model";
+import { LearnSetType } from "../components/model/learnset-type.model";
 import { LearnSet } from "../components/model/learnset.model";
 import { LearnSetStatus } from "../components/model/status.enum";
-import { LearnSetType } from "../components/model/type.enum";
 import { Word } from "../components/model/word.model";
-
 
 var url = '';
 if (process.env.NODE_ENV !== 'production') {
     url = String(process.env.REACT_APP_SERVICE_URL);
-}
-
-export const getAllLearnSetTypes = (): Promise<LearnSetType[]> => {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    };
-    return fetch(`${url}/data/learnset-types`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
 }
 
 export const getAllLearnSetStates = (): Promise<LearnSetStatus[]> => {

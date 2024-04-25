@@ -2,8 +2,7 @@
 
 
 export enum LearnSetStatus {
-    CREATED = "CREATED",
-    TEXT = "TEXT",
-    PICTURE = "PICTURE",
-    READY = "READY"
+    DRAFT = "DRAFT",
+    READY = "READY",
+    ARCHIVED = "ARCHIVED"
 }

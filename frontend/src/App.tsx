@@ -8,6 +8,8 @@ import { AdminHomeComponent } from './components/admin/admin-home.component';
 import { TextHomeComponent } from './components/admin/learnset/text/text-home.component';
 import { PictureHomeComponent } from './components/admin/learnset/picture/picture-home.component';
 import { AudioHomeComponent } from './components/admin/learnset/audio/audio-home.component';
+import { LearnsetOverviewComponent } from './components/admin/learnset-overview/learnset-overview.component';
+import { LearnsetTypeOverviewComponent } from './components/admin/learnset-type/learnsettype-overview/learnsettype-overview.component';
 
 function App() {
   return (
@@ -16,11 +18,13 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={<HomeComponent />} />
-          <Route path="/admin" >
-            <Route path='' element={<AdminHomeComponent />} />
+          <Route path="/admin" element={<AdminHomeComponent />} >
+            <Route path='learnset-overview' element={<LearnsetOverviewComponent />} />
+            <Route path='learnsettype-overview' element={<LearnsetTypeOverviewComponent />} />
+            {/* 
             <Route path='text/:id' element={<TextHomeComponent />} />
             <Route path='pictures/:id' element={<PictureHomeComponent />} />
-            <Route path='audio/:id' element={<AudioHomeComponent />} />
+            <Route path='audio/:id' element={<AudioHomeComponent />} /> */}
           </Route>
           <Route path="/learning" element={<LearningHomeComponent />} />
           <Route path="*" element={<div></div>} />

@@ -3,12 +3,12 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DataService } from './data.service';
 import { LearnSet } from 'src/schemas/learnset.schema';
-import { LearnSetType } from 'src/schemas/type.enum';
 import { LearnSetStatus } from 'src/schemas/status.enum';
 import { AnalyzedWordsModel } from 'src/schemas/analyzed-words.model';
 import { Word } from 'src/schemas/word.schema';
 import { ImageWordInputModel } from 'src/schemas/image-word-input.model';
 import { StatusInputModel } from 'src/schemas/status-input.model';
+import { LearnSetType } from 'src/schemas/learnset-type.schema';
 
 
 @Controller('/data')
@@ -18,14 +18,18 @@ export class DataController {
   constructor(private readonly dataService: DataService) { }
 
   @Get("/learnset-types")
-  getLearnSetTypes(): LearnSetType[] {
-    return Object.values(LearnSetType);
+  getLearnSetTypes(): Promise<LearnSetType[]> {
+    return this.dataService.getAllLearnSetTypes();
   }
 
   @Get("/learnset-states")
   getLearnSetStates(): LearnSetStatus[] {
     return Object.values(LearnSetStatus);
   }
+
+
+
+
 
 
   @Post("/create-learnset")

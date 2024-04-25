@@ -142,7 +142,7 @@ export const PictureCropImagesComponent: React.FC<Props> = ({ progressAndData, s
             console.log(response);
         }
 
-        await updateStatusOfLearnSet(learnSetId, LearnSetStatus.PICTURE);
+        await updateStatusOfLearnSet(learnSetId, LearnSetStatus.DRAFT);
 
         navigate('/admin');
     }

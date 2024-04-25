@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AnalyzedWordsModel } from 'src/schemas/analyzed-words.model';
 import { ImageWordInputModel } from 'src/schemas/image-word-input.model';
+import { LearnSetType } from 'src/schemas/learnset-type.schema';
 import { LearnSet } from 'src/schemas/learnset.schema';
 import { LearnSetStatus } from 'src/schemas/status.enum';
 import { Word } from 'src/schemas/word.schema';
@@ -13,6 +14,7 @@ export class DataService {
 
   constructor(
     @InjectModel(LearnSet.name) private learnSetModel: Model<LearnSet>,
+    @InjectModel(LearnSetType.name) private learnSetTypeModel: Model<LearnSetType>,
     @InjectModel(Word.name) private wordModel: Model<Word>) { }
 
   public createLearnSet(learnSet: LearnSet): Promise<LearnSet> {
@@ -22,6 +24,10 @@ export class DataService {
 
   public getAllLearnSets(): Promise<LearnSet[]> {
     return this.learnSetModel.find();
+  }
+
+  public getAllLearnSetTypes(): Promise<LearnSetType[]> {
+    return this.learnSetTypeModel.find();
   }
 
   public getLearnSetById(id: string): Promise<LearnSet> {
@@ -39,9 +45,9 @@ export class DataService {
       const savedWord = await newWord.save();
       createdWords.push(savedWord);
     }
-    await this.learnSetModel.updateOne({ _id: id }, {
+    /* await this.learnSetModel.updateOne({ _id: id }, {
       status: LearnSetStatus.TEXT
-    });
+    }); */
     return createdWords;
   }
 

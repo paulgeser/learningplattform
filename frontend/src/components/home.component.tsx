@@ -15,7 +15,6 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
             <div className='home-link-box-round' onClick={() => navigate('/admin')}>
                 Admin Home
             </div>
-
         </div>
     );
 }
