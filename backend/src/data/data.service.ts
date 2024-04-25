@@ -16,7 +16,7 @@ export class DataService {
     @InjectModel(LearnSet.name) private learnSetModel: Model<LearnSet>,
     @InjectModel(LearnSetType.name) private learnSetTypeModel: Model<LearnSetType>,
     @InjectModel(Word.name) private wordModel: Model<Word>) { }
-
+/* 
   public createLearnSet(learnSet: LearnSet): Promise<LearnSet> {
     const createdLearnSet = new this.learnSetModel(learnSet);
     return createdLearnSet.save();
@@ -45,9 +45,9 @@ export class DataService {
       const savedWord = await newWord.save();
       createdWords.push(savedWord);
     }
-    /* await this.learnSetModel.updateOne({ _id: id }, {
+    await this.learnSetModel.updateOne({ _id: id }, {
       status: LearnSetStatus.TEXT
-    }); */
+    }); 
     return createdWords;
   }
 
@@ -68,5 +68,5 @@ export class DataService {
       status: status
     });
     return true;
-  }
+  } */
 }

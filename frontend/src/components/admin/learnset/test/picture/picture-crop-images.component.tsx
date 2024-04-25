@@ -12,10 +12,10 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { ProgressAndDataModel } from "./picture-home.component";
-import { Word } from "../../../model/word.model";
-import { ImageWordInputModel } from "../../../model/image-word-input.model";
-import { addPictureToWord, updateStatusOfLearnSet } from "../../../../services/learnset.service";
-import { LearnSetStatus } from "../../../model/status.enum";
+import { Word } from "../../../../model/word.model";
+import { ImageWordInputModel } from "../../../../model/image-word-input.model";
+import { addPictureToWord, updateStatusOfLearnSet } from "../../../../../services/learnset.service";
+import { LearnSetStatus } from "../../../../model/status.enum";
 import { useNavigate } from "react-router-dom";
 
 interface Props {

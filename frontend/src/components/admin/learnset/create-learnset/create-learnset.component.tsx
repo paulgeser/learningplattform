@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { createLearnSetRequest, getAllLearnSetStates } from "../../../services/learnset.service";
-import { LearnSetStatus } from "../../model/status.enum";
-import { LearnSetType } from "../../model/learnset-type.model";
-import { getAllLearnSetTypes } from "../../../services/learnset-type.service";
-
+import { createLearnSetRequest } from "../../../../services/learnset.service";
+import { LearnSetStatus } from "../../../model/status.enum";
+import { LearnSetType } from "../../../model/learnset-type.model";
+import { getAllLearnSetTypes } from "../../../../services/learnset-type.service";
 
 interface Props {
     open: boolean
@@ -14,33 +13,35 @@ interface Props {
 export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }): React.ReactElement => {
 
     const [learnSetTypes, setLearnSetTypes] = useState<LearnSetType[]>([]);
-    const [learnSetStates, setLearnSetStates] = useState<LearnSetStatus[]>([]);
 
-    const [selectedLearnSetType, setSelectedLearnSetType] = useState<LearnSetType | null>(null);
+    const [selectedLearnSetType, setSelectedLearnSetType] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [week, setWeek] = useState<number>(0);
+
+    useEffect(() => {
+        getAllLearnSetTypes().then(values => {
+            setLearnSetTypes(values);
+        });
+    }, []);
+
 
     const handleClose = () => {
         onClose();
     };
 
     const createLearnSet = () => {
-        if (selectedLearnSetType) {
-            createLearnSetRequest({ name: name, week: week, status: LearnSetStatus.DRAFT, type: selectedLearnSetType }).then(value => {
+        const foundLearnsetType = learnSetTypes.find(x => x._id === selectedLearnSetType);
+        if (foundLearnsetType) {
+            const data = { name: name, week: week, status: LearnSetStatus.DRAFT, type: foundLearnsetType }
+            createLearnSetRequest(data).then(_ => {
                 onClose();
             });
         }
     }
 
-    useEffect(() => {
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
-        });
-
-        getAllLearnSetStates().then(values => {
-            setLearnSetStates(values);
-        });
-    }, []);
+    const handleLearnsetTypeChange = (id: string): void => {
+        setSelectedLearnSetType(id);
+    }
 
     return (
         <Dialog onClose={handleClose} open={open}>
@@ -50,15 +51,15 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
                 <br />
                 <br />
                 <FormControl fullWidth>
-                    <InputLabel id="learnset-types-select-label">Status</InputLabel>
+                    <InputLabel id="learnset-types-select-label">Learnset type</InputLabel>
                     <Select
                         labelId="learnset-types-select-label"
                         id="learnset-types-select"
-                        value={selectedLearnSetType?.name}
+                        value={selectedLearnSetType}
                         label="Type"
-                        onChange={((event: SelectChangeEvent) => setSelectedLearnSetType(event.target.value as any))}
+                        onChange={((event: SelectChangeEvent) => handleLearnsetTypeChange(event.target.value))}
                     >
-                        {learnSetTypes.map(learnType => (<MenuItem key={learnType.name} value={learnType.name}>{learnType.name}</MenuItem>))}
+                        {learnSetTypes.map(learnType => (<MenuItem key={learnType._id} value={learnType._id}>{learnType.name}</MenuItem>))}
                     </Select>
                 </FormControl>
                 <br />

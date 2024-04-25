@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, ObjectId } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { LearnSetType } from 'src/schemas/learnset-type.schema';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class LearnsetTypeService {
     }
 
     public update(id: string, learnsetType: LearnSetType): Promise<any> {
-        return this.learnSetTypeModel.updateOne({ _id:  new mongoose.Types.ObjectId(id), }, {
+        return this.learnSetTypeModel.updateOne({ _id: new mongoose.Types.ObjectId(id), }, {
             name: learnsetType.name,
             description: learnsetType.description,
         });

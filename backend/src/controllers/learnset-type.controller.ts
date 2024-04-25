@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
-import {  Body, Controller, Delete, Get, Param, Post, Put, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { DataService } from './data.service';
 import { LearnSetType } from 'src/schemas/learnset-type.schema';
-import { LearnsetTypeService } from './learnset-type.service';
+import { LearnsetTypeService } from 'src/services/learnset-type.service';
 
 
 @Controller('/data/learnset-type')

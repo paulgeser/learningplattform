@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ProgressAndDataModel } from './text-home.component';
 import { Button, LinearProgress, TextField } from '@mui/material';
-import { AnalyzedWordsModel } from '../../../model/analyzed-words.model';
-import { saveAnalyzedWords } from '../../../../services/learnset.service';
+import { AnalyzedWordsModel } from '../../../../model/analyzed-words.model';
+import { saveAnalyzedWords } from '../../../../../services/learnset.service';
 import { useNavigate } from 'react-router-dom';
 
 

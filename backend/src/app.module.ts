@@ -10,15 +10,18 @@ import { Word, WordSchema } from './schemas/word.schema';
 import { DataService } from './data/data.service';
 import { DataController } from './data/data.controller';
 import { LearnSetType, LearnSetTypeSchema } from './schemas/learnset-type.schema';
-import { LearnsetTypeDataController } from './data/learnset-type.controller';
-import { LearnsetTypeService } from './data/learnset-type.service';
+import { LearnsetTypeDataController } from './controllers/learnset-type.controller';
+import { LearnsetTypeService } from './services/learnset-type.service';
+import { LearnsetStateDataController } from './controllers/learnset-state.controller';
+import { LearnsetDataController } from './controllers/learnset.controller';
+import { LearnsetService } from './services/learnset.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: LearnSet.name, schema: LearnSetSchema }, { name: LearnSetType.name, schema: LearnSetTypeSchema }, , { name: Word.name, schema: WordSchema }]),
     MongooseModule.forRoot('mongodb://localhost/learningplattform')
   ],
-  controllers: [AppController, AnalysisController, DataController, LearnsetTypeDataController],
-  providers: [AppService, AnalysisService, DataService, LearnsetTypeService],
+  controllers: [AppController, AnalysisController, DataController, LearnsetTypeDataController, LearnsetStateDataController, LearnsetDataController],
+  providers: [AppService, AnalysisService, DataService, LearnsetTypeService, LearnsetService],
 })
 export class AppModule { }

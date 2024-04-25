@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { LearnSetStatus } from './status.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { LearnSetType } from './learnset-type.schema';
 
 export type LearnSetDocument = HydratedDocument<LearnSet>;
 
@@ -13,9 +14,9 @@ export class LearnSet {
   @Prop()
   name: string;
 
-/*   @ApiProperty()
-  @Prop({ type: String, enum: LearnSetType })
-  type: LearnSetType; */
+  @ApiProperty()
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'LearnSetType'})
+  type: LearnSetType;
 
   @ApiProperty()
   @Prop()

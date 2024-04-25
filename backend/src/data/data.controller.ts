@@ -8,7 +8,6 @@ import { AnalyzedWordsModel } from 'src/schemas/analyzed-words.model';
 import { Word } from 'src/schemas/word.schema';
 import { ImageWordInputModel } from 'src/schemas/image-word-input.model';
 import { StatusInputModel } from 'src/schemas/status-input.model';
-import { LearnSetType } from 'src/schemas/learnset-type.schema';
 
 
 @Controller('/data')
@@ -16,22 +15,7 @@ import { LearnSetType } from 'src/schemas/learnset-type.schema';
 export class DataController {
 
   constructor(private readonly dataService: DataService) { }
-
-  @Get("/learnset-types")
-  getLearnSetTypes(): Promise<LearnSetType[]> {
-    return this.dataService.getAllLearnSetTypes();
-  }
-
-  @Get("/learnset-states")
-  getLearnSetStates(): LearnSetStatus[] {
-    return Object.values(LearnSetStatus);
-  }
-
-
-
-
-
-
+/* 
   @Post("/create-learnset")
   createLearnSet(@Body() learnSet: LearnSet): Promise<LearnSet> {
     return this.dataService.createLearnSet(learnSet);
@@ -66,5 +50,5 @@ export class DataController {
   async updateStatusOfLearnSet(@Param('id') id: string, @Body() inputStatus: StatusInputModel): Promise<boolean> {
     return await this.dataService.updateStatusOfLearnSet(id, LearnSetStatus[inputStatus.status]);
   }
-
+ */
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getLearnSetById, getWordsByLearnSetId } from '../../../../services/learnset.service';
-import { LearnSet } from '../../../model/learnset.model';
-import { Word } from '../../../model/word.model';
+import { getLearnSetById, getWordsByLearnSetId } from '../../../../../services/learnset.service';
+import { LearnSet } from '../../../../model/learnset.model';
+import { Word } from '../../../../model/word.model';
 import WaveSurfer from 'wavesurfer.js';
 import { useWavesurfer } from '@wavesurfer/react';
 

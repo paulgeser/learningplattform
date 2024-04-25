@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-
 import './learnsettype-overview.component.css';
-import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Menu, MenuItem } from "@mui/material";
-import { LearnSetStatus } from "../../../model/status.enum";
-import { CreateLearnSetDialogComponent } from "../../create-learnset/create-learnset.component";
-import { LearnSet } from "../../../model/learnset.model";
+import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { LearnSetType } from "../../../model/learnset-type.model";
 import { CreateLearnSetTypeDialogComponent } from "../create-learnset-type/create-learnset-type.component";
@@ -102,16 +97,20 @@ export const LearnsetTypeOverviewComponent: React.FC = (): React.ReactElement =>
                                                     {learnSetTypeItem.description}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    <IconButton aria-label="edit" size="large"
-                                                        id="edit-button"
-                                                        onClick={() => handleEditClick(learnSetTypeItem)}>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                    <IconButton aria-label="delete" size="large"
-                                                        id="delete-button"
-                                                        onClick={() => { setDeleteId(learnSetTypeItem._id); setDeleteLearnsetTypeDialog(true) }}>
-                                                        <DeleteIcon />
-                                                    </IconButton>
+                                                    <Tooltip title="Edit learnset type">
+                                                        <IconButton aria-label="edit" size="large"
+                                                            id="edit-button"
+                                                            onClick={() => handleEditClick(learnSetTypeItem)}>
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip title="Delete learnset">
+                                                        <IconButton aria-label="delete" size="large"
+                                                            id="delete-button"
+                                                            onClick={() => { setDeleteId(learnSetTypeItem._id); setDeleteLearnsetTypeDialog(true) }}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
                                                 </TableCell>
                                             </TableRow>
                                         ))}

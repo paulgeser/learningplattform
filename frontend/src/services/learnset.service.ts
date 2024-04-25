@@ -1,8 +1,6 @@
 import { AnalyzedWordsModel } from "../components/model/analyzed-words.model";
-import { CreateLearnSetType } from "../components/model/create-learnset-type.model";
 import { CreateLearnSet } from "../components/model/create-learnset.model";
 import { ImageWordInputModel } from "../components/model/image-word-input.model";
-import { LearnSetType } from "../components/model/learnset-type.model";
 import { LearnSet } from "../components/model/learnset.model";
 import { LearnSetStatus } from "../components/model/status.enum";
 import { Word } from "../components/model/word.model";
@@ -12,12 +10,12 @@ if (process.env.NODE_ENV !== 'production') {
     url = String(process.env.REACT_APP_SERVICE_URL);
 }
 
-export const getAllLearnSetStates = (): Promise<LearnSetStatus[]> => {
+export const getAllLearnSets = (): Promise<LearnSet[]> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset-states`, requestOptions)
+    return fetch(`${url}/data/learnset`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -28,20 +26,39 @@ export const createLearnSetRequest = (inputValue: CreateLearnSet): Promise<Learn
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/create-learnset`, requestOptions)
+    return fetch(`${url}/data/learnset`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
 
-export const getAllLearnSets = (): Promise<LearnSet[]> => {
+export const updateLearnSetRequest = (inputValue: LearnSet): Promise<LearnSet> => {
     const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/get-all-learnsets`, requestOptions)
+    return fetch(`${url}/data/learnset/${inputValue._id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
+
+export const deleteLearnSetRequest = (id: string): Promise<LearnSet> => {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    return fetch(`${url}/data/learnset/${id}`, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.warn(error));
+}
+
+
+
+
+
+
+
+
 
 
 export const getLearnSetById = (id: string): Promise<LearnSet> => {

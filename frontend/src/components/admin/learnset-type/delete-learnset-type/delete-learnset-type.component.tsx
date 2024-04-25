@@ -25,7 +25,7 @@ export const DeleteLearnSetTypeDialogComponent: React.FC<Props> = ({ onClose, op
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Create new learnset type</DialogTitle>
+            <DialogTitle>Delete learnset type</DialogTitle>
             <DialogContent>
                 <br />
                 <p>Are you sure you want to delete this learnset type?</p>

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { FileCropTextComponent } from './file-crop-text.component';
-import { TextAnalysisComponent } from './text-analysis-review.component';
 import { useParams } from 'react-router-dom';
-import { TextFileUploadComponent } from './text-file-upload.component';
-import { getLearnSetById } from '../../../../services/learnset.service';
-import { LearnSet } from '../../../model/learnset.model';
+import { getLearnSetById, getWordsByLearnSetId } from '../../../../../services/learnset.service';
+import { LearnSet } from '../../../../model/learnset.model';
+import { PicturesFileUploadComponent } from './picture-file-upload.component';
+import { PictureCropImagesComponent } from './picture-crop-images.component';
+import { Word } from '../../../../model/word.model';
 
-export const TextHomeComponent: React.FC = (): React.ReactElement => {
+export const PictureHomeComponent: React.FC = (): React.ReactElement => {
     const [progressAndData, setProgressAndData] = useState<ProgressAndDataModel>({
         progress: 0,
         previewString: null,
         croppedImg: null,
         blob: null
     });
+    const [words, setWords] = useState<Word[]>([]);
 
     const [learnSet, setLearnSet] = useState<LearnSet>();
 
@@ -21,9 +22,11 @@ export const TextHomeComponent: React.FC = (): React.ReactElement => {
     useEffect(() => {
         if (id) {
             getLearnSetById(id).then(value => {
-                console.log(value);
                 setLearnSet(value);
-            })
+            });
+            getWordsByLearnSetId(id).then(value => {
+                setWords(value);
+            });
         }
     }, []);
 
@@ -33,13 +36,10 @@ export const TextHomeComponent: React.FC = (): React.ReactElement => {
                 <div>{learnSet?.name}</div>
                 <React.Fragment>
                     {progressAndData.progress === 0 && (
-                        <TextFileUploadComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} fileType='text' />
+                        <PicturesFileUploadComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
                     )}
                     {progressAndData.progress === 1 && (
-                        <FileCropTextComponent progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
-                    )}
-                    {progressAndData.progress === 2 && (
-                        <TextAnalysisComponent learnSetId={String(id)} progressAndData={progressAndData} setProgressAndData={setProgressAndData} />
+                        <PictureCropImagesComponent learnSetId={String(id)}  progressAndData={progressAndData} setProgressAndData={setProgressAndData} words={words} />
                     )}
                 </React.Fragment>
             </div>

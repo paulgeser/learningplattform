@@ -8,7 +8,7 @@ import { Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButto
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CreateLearnSetDialogComponent } from './create-learnset/create-learnset.component';
+import { CreateLearnSetDialogComponent } from './learnset/create-learnset/create-learnset.component';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { LearnSetStatus } from '../model/status.enum';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
