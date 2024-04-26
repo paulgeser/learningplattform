@@ -14,7 +14,7 @@ export class Argon2IdService {
 
         const hashPassword = await hash(new Buffer(password), {
             salt: new Buffer(privateSalt),
-            secret: new Buffer(process.env.JWT_SECRET),
+            secret: new Buffer(process.env.SALT_SECRET),
             outputLen: 64
         });
 
@@ -25,7 +25,7 @@ export class Argon2IdService {
 
         const result = await verify(hashedPassword, password, {
             salt: new Buffer(privateSalt),
-            secret: new Buffer(process.env.JWT_SECRET),
+            secret: new Buffer(process.env.SALT_SECRET),
             outputLen: 64
         });
 

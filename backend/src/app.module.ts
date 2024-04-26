@@ -34,7 +34,7 @@ import { AppUser, AppUserSchema } from './schemas/app-user.schema';
     MongooseModule.forRoot('mongodb://localhost/learningplattform'),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '2h' },
     }),
   ],
   controllers: [

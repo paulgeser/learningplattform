@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, SetMetadata, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { AppRole } from 'src/models/app-role.enum';
 import { CreateUser } from 'src/models/create-user.model';
 import { UserCredentials } from 'src/models/user-credentials.model';
 import { AppUser } from 'src/schemas/app-user.schema';
-import { LearnSetWord } from 'src/schemas/learnset-word.schema';
 import { AppUserService } from 'src/services/app-user.service';
-import { LearnsetWordService } from 'src/services/learnset-word.service';
 
 
 @Controller('/data/app-user')
@@ -16,6 +17,8 @@ export class AppUserDataController {
     constructor(private readonly appUserService: AppUserService) { }
 
     @Get("/")
+    @UseGuards(AuthGuard)
+    @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER, AppRole.STUDENT])
     getAllUsers(): Promise<AppUser[]> {
         return this.appUserService.getAllUsers();
     }
@@ -31,8 +34,19 @@ export class AppUserDataController {
     }
 
     @Post("/login")
-    loginUser(@Body() userCredentials: UserCredentials): Promise<boolean> {
-        return this.appUserService.checkLogin(userCredentials);
+    async loginUser(@Body() userCredentials: UserCredentials, @Res({ passthrough: true }) response: Response): Promise<boolean> {
+        const jwtToken = await this.appUserService.checkLogin(userCredentials);
+        response.cookie(process.env.JWT_COOKIE_NAME, jwtToken, {
+            secure: true,
+            httpOnly: true
+        });
+        return true;
+    }
+
+    @Post("/logout")
+    async logoutUser(@Res({ passthrough: true }) response: Response): Promise<boolean> {
+        response.clearCookie(process.env.JWT_COOKIE_NAME)
+        return true;
     }
 
     @Put("/:username")
