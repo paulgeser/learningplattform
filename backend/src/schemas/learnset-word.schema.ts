@@ -3,10 +3,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
-export type WordDocument = HydratedDocument<Word>;
+export type LearnSetWordDocument = HydratedDocument<LearnSetWord>;
 
 @Schema()
-export class Word {
+export class LearnSetWord {
 
     @ApiProperty()
     @Prop()
@@ -33,4 +33,4 @@ export class Word {
     audio: string;
 }
 
-export const WordSchema = SchemaFactory.createForClass(Word);
+export const LearnSetWordSchema = SchemaFactory.createForClass(LearnSetWord);

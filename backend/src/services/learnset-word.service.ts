@@ -2,35 +2,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Word } from 'src/schemas/word.schema';
+import { LearnSetWord } from 'src/schemas/learnset-word.schema';
 
 @Injectable()
 export class LearnsetWordService {
 
     constructor(
-        @InjectModel(Word.name) private wordModel: Model<Word>) { }
+        @InjectModel(LearnSetWord.name) private learnSetWordModel: Model<LearnSetWord>) { }
 
-    public getAllByLearnSetId(learnSetId: string): Promise<Word[]> {
-        return this.wordModel.find({ learnSetId: learnSetId });
+    public getAllByLearnSetId(learnSetId: string): Promise<LearnSetWord[]> {
+        return this.learnSetWordModel.find({ learnSetId: learnSetId });
     }
 
-    public create(word: Word): Promise<Word> {
-        const createdWord = new this.wordModel(word);
+    public create(learnSetWord: LearnSetWord): Promise<LearnSetWord> {
+        const createdWord = new this.learnSetWordModel(learnSetWord);
         return createdWord.save();
     }
 
-    public update(id: string, word: Word): Promise<any> {
-        return this.wordModel.updateOne({ _id: new mongoose.Types.ObjectId(id), }, {
-            learnSetId: word.learnSetId,
-            english: word.english,
-            french: word.french,
-            malagasy: word.malagasy,
-            picture: word.picture,
-            audio: word.audio
+    public update(id: string, learnSetWord: LearnSetWord): Promise<any> {
+        return this.learnSetWordModel.updateOne({ _id: new mongoose.Types.ObjectId(id), }, {
+            learnSetId: learnSetWord.learnSetId,
+            english: learnSetWord.english,
+            french: learnSetWord.french,
+            malagasy: learnSetWord.malagasy,
+            picture: learnSetWord.picture,
+            audio: learnSetWord.audio
         });
     }
 
     public delete(id: string): Promise<any> {
-        return this.wordModel.deleteOne({ _id: new mongoose.Types.ObjectId(id), });
+        return this.learnSetWordModel.deleteOne({ _id: new mongoose.Types.ObjectId(id), });
     }
 }

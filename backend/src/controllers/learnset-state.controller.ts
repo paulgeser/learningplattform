@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {  Body, Controller, Get, } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LearnSetStatus } from 'src/schemas/status.enum';
+import { LearnSetStatus } from 'src/models/status.enum';
 
 
 @Controller('/data/learnset-state')
