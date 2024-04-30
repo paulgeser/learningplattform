@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { deleteWordRequest } from "../../../../../services/learnset-word.service";
+import { deleteWordRequest } from "../../../../../core/services/learnset-word.service";
 
 
 interface Props {

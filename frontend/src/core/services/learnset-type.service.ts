@@ -1,11 +1,6 @@
-import { CreateLearnSetType } from "../components/model/create-learnset-type.model";
-import { LearnSetType } from "../components/model/learnset-type.model";
-
-
-var url = '';
-if (process.env.NODE_ENV !== 'production') {
-    url = String(process.env.REACT_APP_SERVICE_URL);
-}
+import { Constants } from "../constants";
+import { CreateLearnSetType } from "../model/create-learnset-type.model";
+import { LearnSetType } from "../model/learnset-type.model";
 
 
 export const getAllLearnSetTypes = (): Promise<LearnSetType[]> => {
@@ -13,7 +8,7 @@ export const getAllLearnSetTypes = (): Promise<LearnSetType[]> => {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset-type`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-type`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -25,7 +20,7 @@ export const createLearnSetTypeRequest = (inputValue: CreateLearnSetType): Promi
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/learnset-type`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-type`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -36,7 +31,7 @@ export const updateLearnSetTypeRequest = (inputValue: LearnSetType): Promise<Lea
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/learnset-type/${inputValue._id}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-type/${inputValue._id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -46,7 +41,7 @@ export const deleteLearnSetTypeRequest = (id: string): Promise<LearnSetType> => 
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset-type/${id}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-type/${id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }

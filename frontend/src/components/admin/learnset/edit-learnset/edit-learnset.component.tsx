@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { createLearnSetRequest, updateLearnSetRequest } from "../../../../services/learnset.service";
-import { LearnSetStatus } from "../../../model/status.enum";
-import { LearnSetType } from "../../../model/learnset-type.model";
-import { getAllLearnSetTypes } from "../../../../services/learnset-type.service";
-import { getAllLearnSetStates } from "../../../../services/learnset-state.service";
+import { createLearnSetRequest, updateLearnSetRequest } from "../../../../core/services/learnset.service";
+import { LearnSetStatus } from "../../../../core/model/status.enum";
+import { LearnSetType } from "../../../../core/model/learnset-type.model";
+import { getAllLearnSetTypes } from "../../../../core/services/learnset-type.service";
+import { getAllLearnSetStates } from "../../../../core/services/learnset-state.service";
 
 
 interface Props {

@@ -1,17 +1,14 @@
-import { CreateLearnSet } from "../components/model/create-learnset.model";
-import { LearnSet } from "../components/model/learnset.model";
+import { Constants } from "../constants";
+import { CreateLearnSet } from "../model/create-learnset.model";
+import { LearnSet } from "../model/learnset.model";
 
-var url = '';
-if (process.env.NODE_ENV !== 'production') {
-    url = String(process.env.REACT_APP_SERVICE_URL);
-}
 
 export const getAllLearnSets = (): Promise<LearnSet[]> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -22,7 +19,7 @@ export const createLearnSetRequest = (inputValue: CreateLearnSet): Promise<Learn
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/learnset`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -33,7 +30,7 @@ export const updateLearnSetRequest = (inputValue: LearnSet): Promise<LearnSet> =
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/learnset/${inputValue._id}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset/${inputValue._id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -43,7 +40,7 @@ export const deleteLearnSetRequest = (id: string): Promise<LearnSet> => {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset/${id}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset/${id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }

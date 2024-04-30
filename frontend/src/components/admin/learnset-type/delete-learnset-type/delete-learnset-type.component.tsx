@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { deleteLearnSetTypeRequest } from "../../../../services/learnset-type.service";
+import { deleteLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
 
 
 

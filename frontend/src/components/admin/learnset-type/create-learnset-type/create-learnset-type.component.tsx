@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { createLearnSetTypeRequest } from "../../../../services/learnset-type.service";
+import { createLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
 
 
 

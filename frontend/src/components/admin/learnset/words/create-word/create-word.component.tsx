@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { CreateLearnSetWord } from "../../../../model/create-learnset-word.model";
-import { createLearnSetWordRequest } from "../../../../../services/learnset-word.service";
+import { CreateLearnSetWord } from "../../../../../core/model/create-learnset-word.model";
+import { createLearnSetWordRequest } from "../../../../../core/services/learnset-word.service";
 
 
 interface Props {

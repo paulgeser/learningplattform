@@ -1,17 +1,14 @@
-import { CreateLearnSetWord } from "../components/model/create-learnset-word.model";
-import { LearnSetWord } from "../components/model/learnset-word.model";
+import { Constants } from "../constants";
+import { CreateLearnSetWord } from "../model/create-learnset-word.model";
+import { LearnSetWord } from "../model/learnset-word.model";
 
-var url = '';
-if (process.env.NODE_ENV !== 'production') {
-    url = String(process.env.REACT_APP_SERVICE_URL);
-}
 
 export const getAllWordsByLearnsetId = (learnsetId: string): Promise<LearnSetWord[]> => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset-word/${learnsetId}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-word/${learnsetId}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -22,7 +19,7 @@ export const createLearnSetWordRequest = (inputValue: CreateLearnSetWord): Promi
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/learnset-word`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-word`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -33,7 +30,7 @@ export const updateLearnSetWordRequest = (inputValue: LearnSetWord): Promise<Lea
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputValue)
     };
-    return fetch(`${url}/data/learnset-word/${inputValue._id}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-word/${inputValue._id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }
@@ -43,7 +40,7 @@ export const deleteWordRequest = (id: string): Promise<LearnSetWord> => {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(`${url}/data/learnset-word/${id}`, requestOptions)
+    return fetch(`${Constants.url}/data/learnset-word/${id}`, requestOptions)
         .then(response => response.json())
         .catch(error => console.warn(error));
 }

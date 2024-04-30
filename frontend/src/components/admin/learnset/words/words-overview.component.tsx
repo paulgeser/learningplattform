@@ -6,8 +6,8 @@ import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCe
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useParams } from "react-router-dom";
-import { getAllWordsByLearnsetId } from "../../../../services/learnset-word.service";
-import { LearnSetWord } from "../../../model/learnset-word.model";
+import { getAllWordsByLearnsetId } from "../../../../core/services/learnset-word.service";
+import { LearnSetWord } from "../../../../core/model/learnset-word.model";
 import { CreateLearnSetWordDialogComponent } from "./create-word/create-word.component";
 import { DeleteLearnSetWordDialogComponent } from "./delete-word/delete-word.component";
 import { EditLearnSetWordDialogComponent } from "./edit-word/edit-word.component";

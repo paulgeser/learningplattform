@@ -21,6 +21,8 @@ import { AppUserDataController } from './controllers/app-user.controller';
 import { AppUserService } from './services/app-user.service';
 import { Argon2IdService } from './services/argon2-id.service';
 import { AppUser, AppUserSchema } from './schemas/app-user.schema';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from './services/auth.service';
 
 @Module({
   imports: [
@@ -44,7 +46,8 @@ import { AppUser, AppUserSchema } from './schemas/app-user.schema';
     LearnsetStateDataController,
     LearnsetDataController,
     LearnsetWordDataController,
-    AppUserDataController
+    AppUserDataController,
+    AuthController
   ],
   providers: [
     AppService,
@@ -53,7 +56,8 @@ import { AppUser, AppUserSchema } from './schemas/app-user.schema';
     LearnsetService,
     LearnsetWordService,
     AppUserService,
-    Argon2IdService
+    Argon2IdService,
+    AuthService
   ],
 })
 export class AppModule { }

@@ -4,9 +4,9 @@ import './learnsettype-overview.component.css';
 import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { LearnSetType } from "../../../model/learnset-type.model";
+import { LearnSetType } from "../../../../core/model/learnset-type.model";
 import { CreateLearnSetTypeDialogComponent } from "../create-learnset-type/create-learnset-type.component";
-import { getAllLearnSetTypes } from "../../../../services/learnset-type.service";
+import { getAllLearnSetTypes } from "../../../../core/services/learnset-type.service";
 import { EditLearnSetTypeDialogComponent } from "../edit-learnset-type/edit-learnset-type.component";
 import { DeleteLearnSetTypeDialogComponent } from "../delete-learnset-type/delete-learnset-type.component";
 
