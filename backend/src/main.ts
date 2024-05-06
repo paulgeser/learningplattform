@@ -11,7 +11,11 @@ declare const module: any;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  });
 
   const config = new DocumentBuilder()
     .setTitle('API')
@@ -27,8 +31,8 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
-  app.use(bodyParser.json({limit: '50mb'}));
-  app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   app.use(cookieParser());
   await app.listen(3001);
 }

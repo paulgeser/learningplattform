@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Post, Res, UseGuards, SetMetadata } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { serialize } from 'cookie';
 import { Response } from 'express';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AppRole } from 'src/models/app-role.enum';
@@ -22,13 +23,15 @@ export class AuthController {
     }
 
     @Post("/login")
-    async loginUser(@Body() userCredentials: UserCredentials, @Res({ passthrough: true }) response: Response): Promise<boolean> {
-        const jwtToken = await this.authService.checkLogin(userCredentials);
-        response.cookie(process.env.JWT_COOKIE_NAME, jwtToken, {
-            secure: true,
-            httpOnly: true
-        });
-        return true;
+    async loginUser(@Body() userCredentials: UserCredentials, @Res() response: Response): Promise<any> {
+        const checkLoginResponse = await this.authService.checkLogin(userCredentials);
+
+        const tempdate = new Date();
+        tempdate.setTime(tempdate.getTime() + (119 * 60 * 1000));
+        const cookie = `${process.env.JWT_COOKIE_NAME}=${checkLoginResponse.token}; lock=done; expires=${tempdate.toUTCString()}; HttpOnly; Path=/`;
+        response.setHeader('Set-Cookie', [cookie]);
+
+        return response.send(checkLoginResponse);
     }
 
     @Post("/logout")

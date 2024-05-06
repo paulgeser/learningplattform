@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
 export const Constants = {
     url: url,
     localStorageItemNames: {
-        username: 'APP_USERNAME'
+        username: 'APP_USERNAME',
+        role: 'APP_USER_ROLE'
     }
 }

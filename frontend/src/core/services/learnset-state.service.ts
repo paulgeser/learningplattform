@@ -1,5 +1,5 @@
 import { Constants } from "../constants";
-import { LearnSetStatus } from "../model/status.enum";
+import { LearnSetStatus } from "../enum/status.enum";
 
 
 export const getAllLearnSetStates = (): Promise<LearnSetStatus[]> => {

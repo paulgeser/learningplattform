@@ -1,10 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AnalysisController } from './analysis/analysis.controller';
-import { AnalysisService } from './analysis/analysis.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LearnSet, LearnSetSchema } from './schemas/learnset.schema';
 import { LearnSetWord, LearnSetWordSchema } from './schemas/learnset-word.schema';
@@ -40,8 +36,6 @@ import { AuthService } from './services/auth.service';
     }),
   ],
   controllers: [
-    AppController,
-    AnalysisController,
     LearnsetTypeDataController,
     LearnsetStateDataController,
     LearnsetDataController,
@@ -50,8 +44,6 @@ import { AuthService } from './services/auth.service';
     AuthController
   ],
   providers: [
-    AppService,
-    AnalysisService,
     LearnsetTypeService,
     LearnsetService,
     LearnsetWordService,

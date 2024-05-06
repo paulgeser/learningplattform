@@ -1,5 +1,6 @@
 import { BehaviorSubject, Observable } from "rxjs";
-import { AuthStatus } from "../model/auth-status.enum";
+import { AuthStatus } from "../enum/auth-status.enum";
+import { AppRole } from "../enum/app-role.enum";
 
 /**
  * This interface defines which methods need to be
@@ -8,6 +9,8 @@ import { AuthStatus } from "../model/auth-status.enum";
 export interface AuthService {
     setUserLoggedIn: (loggedIn: AuthStatus) => void;
     userLoggedIn$: Observable<AuthStatus>;
+    setUserRole: (userAppRole: AppRole) => void;
+    userRole$: Observable<AppRole | null>;
     checkLogin: () => void;
     login: (username: string, password: string) => Promise<void | Response>;
 }

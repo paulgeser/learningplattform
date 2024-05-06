@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 
 
-import './learnset-overview.component.css';
+import './user-overview.component.css';
 import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from "@mui/material";
-import { CreateLearnSetDialogComponent } from "../create-learnset/create-learnset.component";
 import { getAllLearnSets } from "../../../../core/services/learnset.service";
 import { LearnSet } from "../../../../core/model/learnset.model";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { LearnSetStatus } from "../../../../core/enum/status.enum";
-import { EditLearnSetDialogComponent } from "../edit-learnset/edit-learnset.component";
-import { DeleteLearnSetDialogComponent } from "../delete-learnset/delete-learnset.component";
 import { useNavigate } from "react-router-dom";
 
 
-export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
+export const UserOverviewComponent: React.FC = (): React.ReactElement => {
 
-    const [learnSets, setLearnSets] = useState<LearnSet[]>([]);
-    const [createLearnsetDialog, setCreateLearnsetDialog] = useState<boolean>(false);
-    const [editLearnsetDialog, setEditLearnsetDialog] = useState<boolean>(false);
-    const [deleteLearnsetDialog, setDeleteLearnsetDialog] = useState<boolean>(false);
+    const [users, setUsers] = useState<LearnSet[]>([]);
+    const [createUserDialog, setCreateUserDialog] = useState<boolean>(false);
+    const [editUserDialog, setEditUserDialog] = useState<boolean>(false);
+    const [deleteUserDialog, setDeleteUserDialog] = useState<boolean>(false);
 
     const [editId, setEditId] = useState<string>("");
     const [editName, setEditName] = useState<string>("");
@@ -32,20 +29,20 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        });
+        /*  getAllLearnSets().then(values => {
+             setLearnSets(values);
+         }); */
     }, []);
 
     const onCloseCreateDialog = () => {
-        setCreateLearnsetDialog(false);
+        /* setCreateLearnsetDialog(false);
         getAllLearnSets().then(values => {
             setLearnSets(values);
-        });
+        }); */
     }
 
     const onCloseEditDialog = () => {
-        setEditId("");
+        /* setEditId("");
         setEditName("");
         setEditStatus(LearnSetStatus.DRAFT);
         setEditLearnsetType("");
@@ -53,24 +50,24 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
         setEditLearnsetDialog(false);
         getAllLearnSets().then(values => {
             setLearnSets(values);
-        });
+        }); */
     }
 
     const onCloseDeleteDialog = () => {
-        setDeleteId("");
-        setDeleteLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        });
+        /*  setDeleteId("");
+         setDeleteLearnsetDialog(false);
+         getAllLearnSets().then(values => {
+             setLearnSets(values);
+         }); */
     }
 
     const handleEditClick = (learnset: LearnSet): void => {
-        setEditId(learnset._id);
+        /* setEditId(learnset._id);
         setEditName(learnset.name);
         setEditStatus(learnset.status);
         setEditLearnsetType(learnset.type._id);
         setEditWeek(learnset.week);
-        setEditLearnsetDialog(true);
+        setEditLearnsetDialog(true); */
     }
 
     const handleViewWordsClick = (learnset: LearnSet): void => {
@@ -82,10 +79,10 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
             <div id="learnset-overview-outside-box">
                 <div id="learnset-overview-content-box">
                     <div id="learnset-overview-title">
-                        Learnset overview
+                        Users overview
 
                         <div className="ml-3">
-                            <Button variant='outlined' onClick={() => setCreateLearnsetDialog(true)}>Create new learnset</Button>
+                            <Button variant='outlined' onClick={() => setCreateUserDialog(true)}>Create new user</Button>
                         </div>
                     </div>
 
@@ -104,42 +101,42 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {learnSets.map((learnsetItem, i) => (
+                                        {users.map((userItem, i) => (
                                             <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
                                                 <TableCell component="th" scope="row">
-                                                    {learnsetItem._id}
+                                                    {userItem._id}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {learnsetItem.name}
+                                                    {userItem.name}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {learnsetItem.week}
+                                                    {userItem.week}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {learnsetItem.type.name}
+                                                    {userItem.type.name}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {learnsetItem.status}
+                                                    {userItem.status}
                                                 </TableCell>
                                                 <TableCell align="right">
-                                                    <Tooltip title="View words of learnset">
+                                                    <Tooltip title="View details of user">
                                                         <IconButton aria-label="words" size="large"
                                                             id="words-button"
-                                                            onClick={() => handleViewWordsClick(learnsetItem)}>
+                                                            onClick={() => handleViewWordsClick(userItem)}>
                                                             <ViewListIcon />
                                                         </IconButton>
                                                     </Tooltip>
-                                                    <Tooltip title="Edit learnset">
+                                                    <Tooltip title="Edit user">
                                                         <IconButton aria-label="edit" size="large"
                                                             id="edit-button"
-                                                            onClick={() => handleEditClick(learnsetItem)}>
+                                                            onClick={() => handleEditClick(userItem)}>
                                                             <EditIcon />
                                                         </IconButton>
                                                     </Tooltip>
-                                                    <Tooltip title="Delete learnset">
+                                                    <Tooltip title="Delete user">
                                                         <IconButton aria-label="delete" size="large"
                                                             id="delete-button"
-                                                            onClick={() => { setDeleteId(learnsetItem._id); setDeleteLearnsetDialog(true) }}>
+                                                            onClick={() => { setDeleteId(userItem._id); setDeleteUserDialog(true) }}>
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </Tooltip>
@@ -152,12 +149,12 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                         </Box>
                     </div>
                 </div>
-                <CreateLearnSetDialogComponent onClose={onCloseCreateDialog} open={createLearnsetDialog} />
+                {/* <CreateLearnSetDialogComponent onClose={onCloseCreateDialog} open={createLearnsetDialog} />
                 <EditLearnSetDialogComponent onClose={onCloseEditDialog} open={editLearnsetDialog}
                     id={editId} name={editName} setName={setEditName} status={editStatus} setStatus={setEditStatus}
                     learnsetType={editLearnsetType} setLearnsetType={setEditLearnsetType}
                     week={editWeek} setWeek={setEditWeek} />
-                <DeleteLearnSetDialogComponent id={deleteId} onClose={onCloseDeleteDialog} open={deleteLearnsetDialog} />
+                <DeleteLearnSetDialogComponent id={deleteId} onClose={onCloseDeleteDialog} open={deleteLearnsetDialog} /> */}
             </div>
         </div>
     );

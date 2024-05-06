@@ -39,7 +39,8 @@ export class AppUserService {
             studyLanguage: createUser.studyLanguage,
             appRole: createUser.appRole,
             hashedPassword: passwordHash,
-            privateSalt: privateSalt
+            privateSalt: privateSalt,
+            active: true
         }
         const createdUser = new this.appUserModel(appUser);
         return createdUser.save();

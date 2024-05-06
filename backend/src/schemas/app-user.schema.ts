@@ -46,6 +46,10 @@ export class AppUser {
   @Prop()
   privateSalt: string;
 
+  @ApiProperty()
+  @Prop()
+  active: boolean;
+
 }
 
 export const AppUserSchema = SchemaFactory.createForClass(AppUser);

@@ -6,6 +6,8 @@ import { AppUser } from 'src/schemas/app-user.schema';
 import { Argon2IdService } from './argon2-id.service';
 import { UserCredentials } from 'src/models/user-credentials.model';
 import { JwtService } from '@nestjs/jwt';
+import { removeAllRestrictedDataFromUser } from 'src/helper/user-helper';
+import { CheckLoginResponse } from 'src/models/check-login-response.model';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +18,7 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    public async checkLogin(userCredentials: UserCredentials): Promise<string> {
+    public async checkLogin(userCredentials: UserCredentials): Promise<CheckLoginResponse> {
         const user: AppUser = await this.appUserModel.findOne({ username: userCredentials.username });
 
         if (!user) {
@@ -36,9 +38,14 @@ export class AuthService {
             lastName: user.lastName,
             role: user.appRole
         };
-        return await this.jwtService.signAsync(payload, {
+
+        const token = await this.jwtService.signAsync(payload, {
             secret: process.env.JWT_SECRET,
         });
+        return {
+            token: token,
+            user: removeAllRestrictedDataFromUser((user))
+        }
     }
 
 }

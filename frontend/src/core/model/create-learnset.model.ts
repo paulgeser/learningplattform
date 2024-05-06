@@ -1,5 +1,5 @@
 import { LearnSetType } from "./learnset-type.model";
-import { LearnSetStatus } from "./status.enum";
+import { LearnSetStatus } from "../enum/status.enum";
 
 
 export interface CreateLearnSet {

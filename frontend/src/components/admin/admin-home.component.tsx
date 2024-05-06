@@ -31,6 +31,12 @@ export const AdminHomeComponent: React.FC = (): React.ReactElement => {
                                 <ListItemText primary="Learnset Types" />
                             </ListItemButton>
                         </ListItem>
+                        <Divider />
+                        <ListItem disablePadding>
+                            <ListItemButton component={Link} to='/admin/users'>
+                                <ListItemText primary="Users" />
+                            </ListItemButton>
+                        </ListItem>
                     </List>
                 </Drawer>
                 <Box

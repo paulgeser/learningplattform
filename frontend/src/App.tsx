@@ -10,9 +10,10 @@ import { LearnsetTypeOverviewComponent } from './components/admin/learnset-type/
 import { WordsOverviewComponent } from './components/admin/learnset/words/words-overview.component';
 import { ConfigLoadingComponent } from './components/config/config.component';
 import { StateContext } from './core/state';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthStatus } from './core/model/auth-status.enum';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { AuthStatus } from './core/enum/auth-status.enum';
 import { LoginComponent } from './components/login/login.component';
+import { UserOverviewComponent } from './components/admin/user/user-overview/user-overview.component';
 
 function App() {
   const [loggedin, setLoggedin] = useState<AuthStatus>(AuthStatus.CONFIG_LOADING);
@@ -23,7 +24,11 @@ function App() {
     // Listen to user logged in observable
     authServiceInstance.userLoggedIn$
       .pipe(
-        takeUntil(destroySubject))
+        takeUntil(destroySubject),
+        tap(x => {
+          console.log(x, 'here')
+        })
+      )
       // Set logged in
       .subscribe(setLoggedin);
 
@@ -50,6 +55,7 @@ function App() {
               <Route path='learnset-overview' element={<LearnsetOverviewComponent />} />
               <Route path='learnsettype-overview' element={<LearnsetTypeOverviewComponent />} />
               <Route path='learnset-words/:id' element={<WordsOverviewComponent />} />
+              <Route path='users' element={<UserOverviewComponent />} />
             </Route>
             <Route path="/learning" element={<LearningHomeComponent />} />
             <Route path="*" element={<div></div>} />

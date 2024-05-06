@@ -16,27 +16,31 @@ export class AppUserDataController {
 
     @Get("/")
     @UseGuards(AuthGuard)
-    @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER, AppRole.STUDENT])
+    @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER])
     getAllUsers(): Promise<AppUser[]> {
         return this.appUserService.getAllUsers();
     }
 
     @Get("/:username")
+    @SetMetadata('roles', [AppRole.ADMIN])
     getUserByUsername(@Param('username') username: string): Promise<AppUser> {
         return this.appUserService.getUserByUsername(username);
     }
 
     @Post("/")
+    @SetMetadata('roles', [AppRole.ADMIN])
     createUser(@Body() createUser: CreateUser): Promise<AppUser> {
         return this.appUserService.create(createUser);
     }
 
     @Put("/:username")
+    @SetMetadata('roles', [AppRole.ADMIN])
     updateUser(@Param('username') username: string, @Body() appUser: AppUser): Promise<AppUser> {
         return this.appUserService.update(username, appUser);
     }
 
     @Delete("/:username")
+    @SetMetadata('roles', [AppRole.ADMIN])
     deleteUser(@Param('username') username: string): Promise<AppUser> {
         return this.appUserService.delete(username);
     }
