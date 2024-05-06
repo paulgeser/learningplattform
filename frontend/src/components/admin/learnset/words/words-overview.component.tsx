@@ -31,20 +31,22 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
     const [deleteId, setDeleteId] = useState<string>("");
 
     useEffect(() => {
+        getWords();
+    }, []);
+
+    const getWords = () => {
         if (id) {
-            getAllWordsByLearnsetId(id).then(values => {
-                setLearnSetWords(values);
+            getAllWordsByLearnsetId(id).then(response => {
+                if (response) {
+                    setLearnSetWords(response.data);
+                }
             });
         }
-    }, []);
+    }
 
     const onCloseCreateDialog = () => {
         setCreateLearnsetWordDialog(false);
-        if (id) {
-            getAllWordsByLearnsetId(id).then(values => {
-                setLearnSetWords(values);
-            });
-        }
+        getWords();
     }
 
     const onCloseEditDialog = () => {
@@ -55,21 +57,13 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
         setEditPicture("")
         setEditAudio("");
         setEditLearnsetWordDialog(false);
-        if (id) {
-            getAllWordsByLearnsetId(id).then(values => {
-                setLearnSetWords(values);
-            });
-        }
+        getWords();
     }
 
     const onCloseDeleteDialog = () => {
         setDeleteId("");
         setDeleteLearnsetWordDialog(false);
-        if (id) {
-            getAllWordsByLearnsetId(id).then(values => {
-                setLearnSetWords(values);
-            });
-        }
+        getWords();
     }
 
     const handleEditClick = (word: LearnSetWord): void => {
@@ -149,10 +143,10 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
                 {id && (
                     <>
                         <CreateLearnSetWordDialogComponent onClose={onCloseCreateDialog} open={createLearnsetWordDialog} learnsetId={id} />
-                        <EditLearnSetWordDialogComponent  onClose={onCloseEditDialog} open={editLearnsetWordDialog}
-                        id={editId} learnSetId={id} malagasy={editMalagasy} setMalagasy={setEditMalagasy} french={editFrench} setFrench={setEditFrench}
-                        english={editEnglish} setEnglish={setEditEnglish} previewImage={editPicture} setPreviewImage={setEditPicture}
-                        previewAudio={editAudio} setPreviewAudio={setEditAudio} />
+                        <EditLearnSetWordDialogComponent onClose={onCloseEditDialog} open={editLearnsetWordDialog}
+                            id={editId} learnSetId={id} malagasy={editMalagasy} setMalagasy={setEditMalagasy} french={editFrench} setFrench={setEditFrench}
+                            english={editEnglish} setEnglish={setEditEnglish} previewImage={editPicture} setPreviewImage={setEditPicture}
+                            previewAudio={editAudio} setPreviewAudio={setEditAudio} />
                         <DeleteLearnSetWordDialogComponent id={deleteId} onClose={onCloseDeleteDialog} open={deleteLearnsetWordDialog} />
                     </>
                 )}

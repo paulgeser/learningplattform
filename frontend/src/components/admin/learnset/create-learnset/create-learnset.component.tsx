@@ -19,8 +19,10 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     const [week, setWeek] = useState<number>(0);
 
     useEffect(() => {
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
+        getAllLearnSetTypes().then(response => {
+            if (response) {
+                setLearnSetTypes(response.data);
+            }
         });
     }, []);
 

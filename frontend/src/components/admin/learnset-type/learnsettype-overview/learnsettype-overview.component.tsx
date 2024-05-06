@@ -23,16 +23,20 @@ export const LearnsetTypeOverviewComponent: React.FC = (): React.ReactElement =>
     const [deleteId, setDeleteId] = useState<string>("");
 
     useEffect(() => {
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
-        });
+        loadLearnSetTypes();
     }, []);
+
+    const loadLearnSetTypes = () => {
+        getAllLearnSetTypes().then(response => {
+            if (response) {
+                setLearnSetTypes(response.data);
+            }
+        });
+    }
 
     const onCloseCreateDialog = (): void => {
         setCreateLearnsetTypeDialog(false);
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
-        });
+        loadLearnSetTypes();
     };
 
     const handleEditClick = (learnsetType: LearnSetType): void => {
@@ -47,17 +51,13 @@ export const LearnsetTypeOverviewComponent: React.FC = (): React.ReactElement =>
         setEditName("");
         setEditDescription("");
         setEditLearnsetTypeDialog(false);
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
-        });
+        loadLearnSetTypes();
     }
 
     const onCloseDeleteDialog = (): void => {
         setDeleteId("");
         setDeleteLearnsetTypeDialog(false);
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
-        });
+        loadLearnSetTypes();
     }
 
     return (

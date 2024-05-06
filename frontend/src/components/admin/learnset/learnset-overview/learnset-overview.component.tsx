@@ -32,16 +32,20 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        });
+        getLearnSets();
     }, []);
+
+    const getLearnSets = () => {
+        getAllLearnSets().then(response => {
+            if (response) {
+                setLearnSets(response.data);
+            }
+        });
+    }
 
     const onCloseCreateDialog = () => {
         setCreateLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        });
+        getLearnSets();
     }
 
     const onCloseEditDialog = () => {
@@ -51,17 +55,13 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
         setEditLearnsetType("");
         setEditWeek(0);
         setEditLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        });
+        getLearnSets();
     }
 
     const onCloseDeleteDialog = () => {
         setDeleteId("");
         setDeleteLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        });
+        getLearnSets();
     }
 
     const handleEditClick = (learnset: LearnSet): void => {

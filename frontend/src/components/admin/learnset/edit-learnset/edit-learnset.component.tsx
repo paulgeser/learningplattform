@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { createLearnSetRequest, updateLearnSetRequest } from "../../../../core/services/learnset.service";
+import { updateLearnSetRequest } from "../../../../core/services/learnset.service";
 import { LearnSetStatus } from "../../../../core/enum/status.enum";
 import { LearnSetType } from "../../../../core/model/learnset-type.model";
 import { getAllLearnSetTypes } from "../../../../core/services/learnset-type.service";
@@ -27,12 +27,16 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
     const [learnSetStates, setLearnSetStates] = useState<LearnSetStatus[]>([]);
 
     useEffect(() => {
-        getAllLearnSetTypes().then(values => {
-            setLearnSetTypes(values);
+        getAllLearnSetTypes().then(response => {
+            if (response) {
+                setLearnSetTypes(response.data);
+            }
         });
 
-        getAllLearnSetStates().then(values => {
-            setLearnSetStates(values);
+        getAllLearnSetStates().then(response => {
+            if (response) {
+                setLearnSetStates(response.data);
+            }
         });
     }, []);
 

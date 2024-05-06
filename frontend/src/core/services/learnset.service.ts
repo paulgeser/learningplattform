@@ -1,48 +1,37 @@
-import { Constants } from "../constants";
+import { AxiosResponse } from "axios";
 import { CreateLearnSet } from "../model/create-learnset.model";
 import { LearnSet } from "../model/learnset.model";
+import { axiosCall } from "./helper";
 
 
-export const getAllLearnSets = (): Promise<LearnSet[]> => {
-    const requestOptions = {
+export const getAllLearnSets = (): Promise<AxiosResponse<LearnSet[]> | undefined | void> => {
+    return axiosCall({
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    };
-    return fetch(`${Constants.url}/data/learnset`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
+        url: `data/learnset`
+    }).catch(error => console.error(error));
 }
 
-export const createLearnSetRequest = (inputValue: CreateLearnSet): Promise<LearnSet> => {
-    const requestOptions = {
+export const createLearnSetRequest = (inputValue: CreateLearnSet): Promise<AxiosResponse<LearnSet> | undefined | void> => {
+    return axiosCall({
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(inputValue)
-    };
-    return fetch(`${Constants.url}/data/learnset`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
+        url: `data/learnset`,
+        data: inputValue
+    }).catch(error => console.error(error));
 }
 
-export const updateLearnSetRequest = (inputValue: LearnSet): Promise<LearnSet> => {
-    const requestOptions = {
+export const updateLearnSetRequest = (inputValue: LearnSet): Promise<AxiosResponse<LearnSet> | undefined | void> => {
+    return axiosCall({
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(inputValue)
-    };
-    return fetch(`${Constants.url}/data/learnset/${inputValue._id}`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
+        url: `data/learnset/${inputValue._id}`,
+        data: inputValue
+    }).catch(error => console.error(error));
 }
 
-export const deleteLearnSetRequest = (id: string): Promise<LearnSet> => {
-    const requestOptions = {
+export const deleteLearnSetRequest = (id: string): Promise<AxiosResponse<LearnSet> | undefined | void> => {
+    return axiosCall({
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-    };
-    return fetch(`${Constants.url}/data/learnset/${id}`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
+        url: `data/learnset/${id}`
+    }).catch(error => console.error(error));
 }
 
 

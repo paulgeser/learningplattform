@@ -1,13 +1,10 @@
-import { Constants } from "../constants";
+import { AxiosResponse } from "axios";
 import { LearnSetStatus } from "../enum/status.enum";
+import { axiosCall } from "./helper";
 
-
-export const getAllLearnSetStates = (): Promise<LearnSetStatus[]> => {
-    const requestOptions = {
+export const getAllLearnSetStates = (): Promise<void | AxiosResponse<LearnSetStatus[]> | undefined> => {
+    return axiosCall({
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    };
-    return fetch(`${Constants.url}/data/learnset-state`, requestOptions)
-        .then(response => response.json())
-        .catch(error => console.warn(error));
+        url: 'data/learnset-state', 
+    }).catch(error => console.error(error));
 }
