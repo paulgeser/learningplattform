@@ -5,6 +5,7 @@ import './user-overview.component.css';
 import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PasswordIcon from '@mui/icons-material/Password';
 import { getAllAppUsers } from "../../../../core/services/user.service";
 import { BasicUser } from "../../../../core/model/basic-user.model";
 import { CreateUserDialogComponent } from "../create-user/create-user.component";
@@ -12,6 +13,7 @@ import { DeleteUserDialogComponent } from "../delete-user/delete-user.component"
 import { StudyLanguage } from "../../../../core/enum/study-language.enum";
 import { AppRole } from "../../../../core/enum/app-role.enum";
 import { EditUserDialogComponent } from "../edit-user/edit-user.component";
+import { ChangeUserPasswordDialogComponent } from "../change-password/change-password.component";
 
 
 export const UserOverviewComponent: React.FC = (): React.ReactElement => {
@@ -19,6 +21,7 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
     const [users, setUsers] = useState<BasicUser[]>([]);
     const [createUserDialog, setCreateUserDialog] = useState<boolean>(false);
     const [editUserDialog, setEditUserDialog] = useState<boolean>(false);
+    const [changePasswordDialog, setChangePasswordDialog] = useState<boolean>(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState<boolean>(false);
 
     const [editUsername, setEditUsername] = useState<string>("");
@@ -29,26 +32,27 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
     const [editStudyLanguage, setEditStudyLanguage] = useState<StudyLanguage>(StudyLanguage.ENGLISH);
     const [editAppRole, setEditAppRole] = useState<AppRole>(AppRole.STUDENT);
 
+    const [chnagePasswordUsername, setChangePasswordUsername] = useState<string>("");
     const [deleteUsername, setDeleteUsername] = useState<string>("");
 
     useEffect(() => {
         getAllUsers();
     }, []);
 
-    const getAllUsers = () => {
+    const getAllUsers = (): void => {
         getAllAppUsers().then(response => {
             if (response) {
                 setUsers(response.data);
             }
-        })
+        });
     }
 
-    const onCloseCreateDialog = () => {
+    const onCloseCreateDialog = (): void => {
         setCreateUserDialog(false);
         getAllUsers();
     }
 
-    const onCloseEditDialog = () => {
+    const onCloseEditDialog = (): void => {
         setEditUsername("");
         setEditFirstName("");
         setEditLastName("");
@@ -60,10 +64,14 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
         getAllUsers();
     }
 
-    const onCloseDeleteDialog = () => {
+    const onCloseDeleteDialog = (): void => {
         setDeleteUsername("");
         setDeleteUserDialog(false);
         getAllUsers();
+    }
+
+    const onCloseChangePasswordDialog = (): void => {
+        setChangePasswordDialog(false);
     }
 
     const handleEditClick = (appUser: BasicUser): void => {
@@ -75,6 +83,11 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
         setEditStudyLanguage(appUser.studyLanguage);
         setEditAppRole(appUser.appRole);
         setEditUserDialog(true);
+    }
+
+    const handlePasswordChangeClick = (appUser: BasicUser): void => {
+        setChangePasswordUsername(appUser.username);
+        setChangePasswordDialog(true);
     }
 
     return (
@@ -129,6 +142,13 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
                                                             <EditIcon />
                                                         </IconButton>
                                                     </Tooltip>
+                                                    <Tooltip title="Change password of user">
+                                                        <IconButton aria-label="change-password" size="large"
+                                                            id="change-password-button"
+                                                            onClick={() => handlePasswordChangeClick(userItem)}>
+                                                            <PasswordIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
                                                     <Tooltip title="Delete user">
                                                         <IconButton aria-label="delete" size="large"
                                                             id="delete-button"
@@ -150,6 +170,7 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
                 <EditUserDialogComponent username={editUsername} firstName={editFirstName} setFirstName={setEditFirstName} lastName={editLastName} setLastName={setEditLastName}
                     email={editEmail} setEmail={setEditEmail} phone={editPhone} setPhone={setEditPhone} studyLanguage={editStudyLanguage} setStudyLanguage={setEditStudyLanguage}
                     appRole={editAppRole} setAppRole={setEditAppRole} open={editUserDialog} onClose={onCloseEditDialog} />
+                <ChangeUserPasswordDialogComponent open={changePasswordDialog} onClose={onCloseChangePasswordDialog} username={chnagePasswordUsername} />
             </div>
         </div>
     );

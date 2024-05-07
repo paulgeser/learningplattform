@@ -49,10 +49,10 @@ export const EditLearnSetTypeDialogComponent: React.FC<Props> = ({ open, onClose
         <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Edit learnset type</DialogTitle>
             <DialogContent>
-                <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField id="description-field" label="Description" variant="outlined" type="text" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} />
+                <TextField id="description-field" label="Description" variant="outlined" type="text" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
                 <div>

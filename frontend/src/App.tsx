@@ -19,18 +19,13 @@ import { OptionsObject, SnackbarProvider, useSnackbar } from 'notistack';
 function App() {
   const [loggedin, setLoggedin] = useState<AuthStatus>(AuthStatus.CONFIG_LOADING);
   const { authServiceInstance } = useContext(StateContext);
-  const { enqueueSnackbar } = useSnackbar();
   const destroySubject: Subject<void> = new Subject();
 
   useEffect(() => {
     // Listen to user logged in observable
     authServiceInstance.userLoggedIn$
       .pipe(
-        takeUntil(destroySubject),
-        tap(x => {
-          console.log(x, 'here')
-          test();
-        })
+        takeUntil(destroySubject)
       )
       // Set logged in
       .subscribe(setLoggedin);
@@ -41,11 +36,6 @@ function App() {
     // Destory all subscriptions before component is being destroyed
     return () => destroySubject.next();
   }, [authServiceInstance]);
-
-  const test = () => {
-    enqueueSnackbar('I love snacks.', "success" as OptionsObject);
-    console.log('in here')
-  }
 
   return (
     <div className="App">

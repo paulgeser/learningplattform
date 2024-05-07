@@ -12,11 +12,11 @@ export const LoginComponent: React.FC = (): React.ReactElement => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [rememberMe, setRememberMe] = useState<boolean>(false);
+    const [invalidLogin, setInvalidLogin] = useState<boolean>(false);
 
     const { authServiceInstance } = useContext(StateContext);
 
     const handleSubmit = () => {
-        console.log(username, password)
         if (rememberMe) {
             localStorage.setItem(Constants.localStorageItemNames.username, username);
         } else {
@@ -24,10 +24,11 @@ export const LoginComponent: React.FC = (): React.ReactElement => {
         }
         authServiceInstance.login(username, password).then((response) => {
             if (response) {
-                console.log(response.status)
+                setInvalidLogin(false);
+            } else {
+                setInvalidLogin(true);
             }
-        })
-        /* authServiceInstance */
+        });
     };
 
     useEffect(() => {
@@ -63,7 +64,7 @@ export const LoginComponent: React.FC = (): React.ReactElement => {
                             id="username"
                             label="Username"
                             name="username"
-                            autoComplete="username"
+                            autoComplete='off'
                             autoFocus
                             value={username} onChange={(e) => setUsername(e.target.value)}
                         />
@@ -75,13 +76,18 @@ export const LoginComponent: React.FC = (): React.ReactElement => {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
+                            autoComplete='off'
                             value={password} onChange={(e) => setPassword(e.target.value)}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />}
                             label="Remember me"
                         />
+                        {invalidLogin && (
+                            <Typography component="h1" variant="h6" className='text-red-600'>
+                                Invalid credentials!
+                            </Typography>
+                        )}
                         <Button
                             type="submit"
                             fullWidth

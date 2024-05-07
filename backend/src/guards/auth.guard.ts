@@ -37,7 +37,6 @@ export class AuthGuard implements CanActivate {
         }
         const roles = this.reflector.get<AppRole[]>('roles', context.getHandler());
         if (!roles.find(x => x === (payload.role as AppRole))) {
-            console.log('here')
             throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
         }
         return true;

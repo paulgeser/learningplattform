@@ -82,19 +82,19 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
         <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Create new user</DialogTitle>
             <DialogContent>
-                <TextField style={{ marginTop: '15px' }} id="username-field" label="Username" variant="outlined" type="text" fullWidth value={username} onChange={(e) => setUsername(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="username-field" label="Username" variant="outlined" type="text" fullWidth value={username} onChange={(e) => setUsername(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="firstname-field" label="First name" variant="outlined" type="text" fullWidth value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="firstname-field" label="First name" variant="outlined" type="text" fullWidth value={firstName} onChange={(e) => setFirstName(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="lastname-field" label="Last name" variant="outlined" type="text" fullWidth value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="lastname-field" label="Last name" variant="outlined" type="text" fullWidth value={lastName} onChange={(e) => setLastName(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="email-field" label="Email" variant="outlined" type="text" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="email-field" label="Email" variant="outlined" type="text" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="phone-field" label="Phone" variant="outlined" type="text" fullWidth value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="phone-field" label="Phone" variant="outlined" type="text" fullWidth value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
                 <FormControl fullWidth>
@@ -125,10 +125,10 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
                 </FormControl>
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="first-password-field" label="Password" variant="outlined" type="password" fullWidth value={firstPassword} onChange={(e) => setFirstPassword(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="first-password-field" label="Password" variant="outlined" type="password" fullWidth value={firstPassword} onChange={(e) => setFirstPassword(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="second-password-field" label="Confirm password" variant="outlined" type="password" fullWidth value={secondPassword} onChange={(e) => setSecondPassword(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="second-password-field" label="Confirm password" variant="outlined" type="password" fullWidth value={secondPassword} onChange={(e) => setSecondPassword(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
                 <div>

@@ -77,7 +77,7 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
         <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Edit learnset</DialogTitle>
             <DialogContent>
-                <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
                 <FormControl fullWidth>
@@ -108,7 +108,7 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
                 </FormControl>
                 <br />
                 <br />
-                <TextField id="week-field" label="Week" variant="outlined" type="number" fullWidth value={week} onChange={(e) => setWeek(Number(e.target.value))} />
+                <TextField id="week-field" label="Week" variant="outlined" type="number" fullWidth value={week} onChange={(e) => setWeek(Number(e.target.value))} autoComplete='off' />
                 <br />
                 <br />
                 <div>

@@ -5,6 +5,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { removeAllRestrictedDataFromUser } from 'src/helper/user-helper';
 import { AppRole } from 'src/models/app-role.enum';
 import { BasicUser } from 'src/models/basic-user.model';
+import { ChangePasswordModel } from 'src/models/change-password.model';
 import { CreateUser } from 'src/models/create-user.model';
 import { AppUser } from 'src/schemas/app-user.schema';
 import { AppUserService } from 'src/services/app-user.service';
@@ -42,6 +43,13 @@ export class AppUserDataController {
     @SetMetadata('roles', [AppRole.ADMIN])
     updateUser(@Param('username') username: string, @Body() basicUser: BasicUser): Promise<BasicUser> {
         return this.appUserService.update(username, basicUser);
+    }
+
+    @Put("/:username/password")
+    @UseGuards(AuthGuard)
+    @SetMetadata('roles', [AppRole.ADMIN])
+    changePassword(@Param('username') username: string, @Body() newPasswordValue: ChangePasswordModel): Promise<BasicUser> {
+        return this.appUserService.changePassword(username, newPasswordValue.password);
     }
 
     @Delete("/:username")

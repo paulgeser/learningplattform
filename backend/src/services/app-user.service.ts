@@ -31,8 +31,7 @@ export class AppUserService {
 
     public async create(createUser: CreateUser): Promise<AppUser> {
         const privateSalt = this.argon2IdService.generateSalt();
-        console.log(createUser.password, privateSalt)
-        const passwordHash = await this.argon2IdService.getHashedPassword(createUser.password, privateSalt)
+        const passwordHash = await this.argon2IdService.getHashedPassword(createUser.password, privateSalt);
         const appUser: AppUser = {
             firstName: createUser.firstName,
             lastName: createUser.lastName,
@@ -57,7 +56,6 @@ export class AppUserService {
         }
 
         const result = await this.argon2IdService.comparePasswords(userCredentials.password, user.hashedPassword, user.privateSalt);
-        console.log(result);
         if (result === false) {
             throw new UnauthorizedException();
         }
@@ -87,5 +85,14 @@ export class AppUserService {
 
     public delete(username: string): Promise<any> {
         return this.appUserModel.deleteOne({ username: username });
+    }
+
+    public async changePassword(username: string, password: string): Promise<any> {
+        const privateSalt = this.argon2IdService.generateSalt();
+        const passwordHash = await this.argon2IdService.getHashedPassword(password, privateSalt);
+        return this.appUserModel.updateOne({ username: username }, {
+            hashedPassword: passwordHash,
+            privateSalt: privateSalt
+        });
     }
 }

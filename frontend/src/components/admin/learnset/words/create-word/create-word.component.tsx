@@ -79,13 +79,13 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>Create a new word</DialogTitle>
             <DialogContent>
-                <TextField style={{ marginTop: '15px' }} id="malagasy-field" label="Malagasy" variant="outlined" type="text" fullWidth value={malagasy} onChange={(e) => setMalagasy(e.target.value)} />
+                <TextField style={{ marginTop: '15px' }} id="malagasy-field" label="Malagasy" variant="outlined" type="text" fullWidth value={malagasy} onChange={(e) => setMalagasy(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField id="french-field" label="French" variant="outlined" type="text" fullWidth value={french} onChange={(e) => setFrench(e.target.value)} />
+                <TextField id="french-field" label="French" variant="outlined" type="text" fullWidth value={french} onChange={(e) => setFrench(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
-                <TextField id="english-field" label="English" variant="outlined" type="text" fullWidth value={english} onChange={(e) => setEnglish(e.target.value)} />
+                <TextField id="english-field" label="English" variant="outlined" type="text" fullWidth value={english} onChange={(e) => setEnglish(e.target.value)} autoComplete='off' />
                 <br />
                 <br />
                 <Button

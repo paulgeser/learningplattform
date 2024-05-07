@@ -34,3 +34,14 @@ export const deleteUserRequest = (username: string): Promise<AxiosResponse<Basic
         url: `data/app-user/${username}`
     }).catch(error => console.error(error));
 }
+
+export const changePasswordRequest = (username: string, password: string): Promise<AxiosResponse<BasicUser> | undefined | void> => {
+    return axiosCall({
+        method: 'PUT',
+        url: `data/app-user/${username}/password`,
+        data: {
+            password: password
+        }
+    }).catch(error => console.error(error));
+}
+
