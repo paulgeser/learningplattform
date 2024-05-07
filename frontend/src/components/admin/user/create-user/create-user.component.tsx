@@ -22,6 +22,7 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
     const [appRole, setAppRole] = useState<AppRole>(AppRole.STUDENT);
     const [firstPassword, setFirstPassword] = useState<string>("");
     const [secondPassword, setSecondPassword] = useState<string>("");
+    const [invalidPassword, setInvalidPassword] = useState<boolean>(false);
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -34,40 +35,45 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
     };
 
     const createLearnSet = () => {
-        const newUser: CreateUserModel = {
-            username: username,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-            studyLanguage: studyLanguage,
-            appRole: appRole,
-            password: firstPassword,
-            active: true
-        }
-        createUserRequest(newUser).then(response => {
-            if (response) {
-                enqueueSnackbar('Successfully created new user!', {
-                    autoHideDuration: 6000,
-                    variant: "success"
-                });
-            } else {
-                enqueueSnackbar('Failure during user creation...', {
-                    autoHideDuration: 6000,
-                    variant: "error"
-                });
+        if (firstPassword.trim() === '' || secondPassword.trim() === '' || firstPassword !== secondPassword) {
+            setInvalidPassword(true);
+        } else {
+            setInvalidPassword(false);
+            const newUser: CreateUserModel = {
+                username: username,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone,
+                studyLanguage: studyLanguage,
+                appRole: appRole,
+                password: firstPassword,
+                active: true
             }
-            onClose();
-            setUsername("");
-            setFirstName("");
-            setLastName("");
-            setEmail("");
-            setPhone("");
-            setStudyLanguage(StudyLanguage.ENGLISH);
-            setAppRole(AppRole.STUDENT);
-            setFirstPassword("");
-            setSecondPassword("");
-        });
+            createUserRequest(newUser).then(response => {
+                if (response) {
+                    enqueueSnackbar('Successfully created new user!', {
+                        autoHideDuration: 6000,
+                        variant: "success"
+                    });
+                } else {
+                    enqueueSnackbar('Failure during user creation...', {
+                        autoHideDuration: 6000,
+                        variant: "error"
+                    });
+                }
+                onClose();
+                setUsername("");
+                setFirstName("");
+                setLastName("");
+                setEmail("");
+                setPhone("");
+                setStudyLanguage(StudyLanguage.ENGLISH);
+                setAppRole(AppRole.STUDENT);
+                setFirstPassword("");
+                setSecondPassword("");
+            });
+        }
     }
 
     const handleStudyLanguageChange = (studyLanguageInput: string): void => {
@@ -130,6 +136,12 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
                 <br />
                 <TextField style={{ marginTop: '15px' }} id="second-password-field" label="Confirm password" variant="outlined" type="password" fullWidth value={secondPassword} onChange={(e) => setSecondPassword(e.target.value)} autoComplete='off' />
                 <br />
+                <br />
+                {invalidPassword && (
+                    <div className="text-red-600 font-semibold">
+                        Password either empty or both passwords don't match !!!
+                    </div>
+                )}
                 <br />
                 <div>
                     <Button variant="outlined" onClick={() => onClose()}>Cancel</Button>

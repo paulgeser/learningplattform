@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, Divider, TextField } from "@mui/material";
 
 import { updateLearnSetWordRequest } from "../../../../../core/services/learnset-word.service";
 import { LearnSetWord } from "../../../../../core/model/learnset-word.model";
@@ -32,7 +32,7 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
     };
 
     const updateWord = () => {
-        if (previewAudio && previewImage && malagasy && french && english) {
+        if (malagasy && french && english) {
             const data: LearnSetWord = {
                 _id: id,
                 malagasy: malagasy,
@@ -59,12 +59,13 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
                 }
             }
         }
+        event.target.value = "";
     };
 
     const changeAudioFileHandler = (event: any) => {
         setSelectedAudioFile(event.target.files[0]);
         if (event.target.files || event.target.files.length !== 0) {
-            let reader = new FileReader()
+            let reader = new FileReader();
             reader.readAsDataURL(event.target.files[0])
             reader.onload = () => {
                 if (typeof reader.result === 'string') {
@@ -72,10 +73,11 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
                 }
             }
         }
+        event.target.value = "";
     };
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Update word</DialogTitle>
             <DialogContent>
                 <TextField style={{ marginTop: '15px' }} id="malagasy-field" label="Malagasy" variant="outlined" type="text" fullWidth value={malagasy} onChange={(e) => setMalagasy(e.target.value)} autoComplete='off' />
@@ -99,8 +101,16 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
                         accept=".jpg,.jpeg,.png"
                     />
                 </Button>
-                {previewImage && (
+                {previewImage && (<>
                     <img src={previewImage} style={{ maxHeight: "80%", maxWidth: "80%" }} className="my-5 border border-gray-400 rounded-lg" alt="preview of uploaded file" />
+                    <Button
+                        component="label"
+                        variant="outlined"
+                        onClick={() => setPreviewImage("")}
+                    >
+                        Remove picture
+                    </Button>
+                </>
                 )}
                 <br />
                 <br />
@@ -116,10 +126,18 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
                         accept=".mp3,.m4a,.flac"
                     />
                 </Button>
-                {previewAudio && (
+                {previewAudio && (<>
                     <audio controls src={previewAudio} />
+                    <Button
+                        component="label"
+                        variant="outlined"
+                        onClick={() => setPreviewAudio("")}
+                    >
+                        Remove audio
+                    </Button>
+                </>
                 )}
-                <div>
+                <div className="mt-3">
                     <Button variant="outlined" onClick={() => onClose()}>Cancel</Button>
                     <Button variant="contained" onClick={updateWord}>Save</Button>
                 </div>

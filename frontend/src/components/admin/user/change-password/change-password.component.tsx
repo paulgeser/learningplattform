@@ -22,7 +22,7 @@ export const ChangeUserPasswordDialogComponent: React.FC<Props> = ({ open, onClo
     };
 
     const createUser = () => {
-        if (firstPassword !== secondPassword) {
+        if (firstPassword.trim() === '' || secondPassword.trim() === '' || firstPassword !== secondPassword) {
             setInvalidPassword(true);
         } else {
             setInvalidPassword(false);

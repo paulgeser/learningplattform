@@ -11,6 +11,13 @@ export const getAllLearnSets = (): Promise<AxiosResponse<LearnSet[]> | undefined
     }).catch(error => console.error(error));
 }
 
+export const getAllLearnSetById = (id: string): Promise<AxiosResponse<LearnSet> | undefined | void> => {
+    return axiosCall({
+        method: 'GET',
+        url: `data/learnset/${id}`
+    }).catch(error => console.error(error));
+}
+
 export const createLearnSetRequest = (inputValue: CreateLearnSet): Promise<AxiosResponse<LearnSet> | undefined | void> => {
     return axiosCall({
         method: 'POST',

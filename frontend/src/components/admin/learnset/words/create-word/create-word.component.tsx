@@ -17,10 +17,10 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
     const [english, setEnglish] = useState<string>("");
 
     const [selectedImageFile, setSelectedImageFile] = useState<File>();
-    const [previewImage, setPreviewImage] = useState<string>();
+    const [previewImage, setPreviewImage] = useState<string>("");
 
     const [selectedAudioFile, setSelectedAudioFile] = useState<File>();
-    const [previewAudio, setPreviewAudio] = useState<string>();
+    const [previewAudio, setPreviewAudio] = useState<string>("");
 
     useEffect(() => {
 
@@ -32,7 +32,9 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
     };
 
     const createWord = () => {
-        if (previewAudio && previewImage && malagasy && french && english && learnsetId) {
+        console.log('in func')
+        if (malagasy && french && english && learnsetId) {
+            console.log('in if')
             const data: CreateLearnSetWord = {
                 malagasy: malagasy,
                 french: french,
@@ -43,6 +45,13 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
             }
             createLearnSetWordRequest(data).then(_ => {
                 onClose();
+                setMalagasy("");
+                setFrench("");
+                setEnglish("");
+                setSelectedAudioFile(undefined);
+                setSelectedImageFile(undefined);
+                setPreviewAudio("");
+                setPreviewImage("");
             });
         }
     }
@@ -57,8 +66,8 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
                     setPreviewImage(reader.result);
                 }
             }
-
         }
+        event.target.value = "";
     };
     const changeAudioFileHandler = (event: any) => {
         setSelectedAudioFile(event.target.files[0]);
@@ -70,13 +79,13 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
                     setPreviewAudio(reader.result);
                 }
             }
-
         }
+        event.target.value = "";
     };
 
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Create a new word</DialogTitle>
             <DialogContent>
                 <TextField style={{ marginTop: '15px' }} id="malagasy-field" label="Malagasy" variant="outlined" type="text" fullWidth value={malagasy} onChange={(e) => setMalagasy(e.target.value)} autoComplete='off' />
@@ -100,8 +109,16 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
                         accept=".jpg,.jpeg,.png"
                     />
                 </Button>
-                {previewImage && (
+                {previewImage && (<>
                     <img src={previewImage} style={{ maxHeight: "80%", maxWidth: "80%" }} className="my-5 border border-gray-400 rounded-lg" alt="preview of uploaded file" />
+                    <Button
+                        component="label"
+                        variant="outlined"
+                        onClick={() => setPreviewImage("")}
+                    >
+                        Remove picture
+                    </Button>
+                </>
                 )}
                 <br />
                 <br />
@@ -117,10 +134,18 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
                         accept=".mp3,.m4a,.flac"
                     />
                 </Button>
-                {previewAudio && (
+                {previewAudio && (<>
                     <audio controls src={previewAudio} />
+                    <Button
+                        component="label"
+                        variant="outlined"
+                        onClick={() => setPreviewAudio("")}
+                    >
+                        Remove audio
+                    </Button>
+                </>
                 )}
-                <div>
+                <div className="mt-3">
                     <Button variant="outlined" onClick={() => onClose()}>Cancel</Button>
                     <Button variant="contained" onClick={createWord}>Create</Button>
                 </div>

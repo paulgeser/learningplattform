@@ -20,6 +20,13 @@ export class LearnsetDataController {
     return this.learnsetService.getAll();
   }
 
+  @Get("/:id")
+  @UseGuards(AuthGuard)
+  @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER, AppRole.STUDENT])
+  getLearnSetsById(@Param('id') id: string): Promise<LearnSet> {
+    return this.learnsetService.getLearnSetById(id);
+  }
+
   @Post("/")
   @UseGuards(AuthGuard)
   @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER])

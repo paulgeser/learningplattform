@@ -5,19 +5,25 @@ import './words-overview.component.css';
 import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useParams } from "react-router-dom";
+import ImageIcon from '@mui/icons-material/Image';
+import SpatialAudioIcon from '@mui/icons-material/SpatialAudio';
+import { useNavigate, useParams } from "react-router-dom";
 import { getAllWordsByLearnsetId } from "../../../../core/services/learnset-word.service";
 import { LearnSetWord } from "../../../../core/model/learnset-word.model";
 import { CreateLearnSetWordDialogComponent } from "./create-word/create-word.component";
 import { DeleteLearnSetWordDialogComponent } from "./delete-word/delete-word.component";
 import { EditLearnSetWordDialogComponent } from "./edit-word/edit-word.component";
+import { getAllLearnSetById } from "../../../../core/services/learnset.service";
+import { LearnSet } from "../../../../core/model/learnset.model";
 
 
 export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
 
     let { id } = useParams();
+    const navigate = useNavigate();
 
     const [learnSetWords, setLearnSetWords] = useState<LearnSetWord[]>([]);
+    const [learnSet, setLearnSet] = useState<LearnSet>();
     const [createLearnsetWordDialog, setCreateLearnsetWordDialog] = useState<boolean>(false);
     const [editLearnsetWordDialog, setEditLearnsetWordDialog] = useState<boolean>(false);
     const [deleteLearnsetWordDialog, setDeleteLearnsetWordDialog] = useState<boolean>(false);
@@ -32,6 +38,13 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
 
     useEffect(() => {
         getWords();
+        if (id) {
+            getAllLearnSetById(id).then(response => {
+                if (response && response.status === 200) {
+                    setLearnSet(response.data);
+                }
+            })
+        }
     }, []);
 
     const getWords = () => {
@@ -81,10 +94,11 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
             <div id="learnset-overview-outside-box">
                 <div id="learnset-overview-content-box">
                     <div id="learnset-overview-title">
-                        Words of learnset overview
+                        Words of: {learnSet?.name}
 
                         <div className="ml-3">
                             <Button variant='outlined' onClick={() => setCreateLearnsetWordDialog(true)}>Create a new word</Button>
+                            <Button variant='outlined' onClick={() => navigate('/admin/learnset-overview')}>Back to overview</Button>
                         </div>
                     </div>
 
@@ -117,6 +131,27 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
                                                     {learnsetWordItem.english}
                                                 </TableCell>
                                                 <TableCell align="right">
+                                                    {learnsetWordItem.picture && (
+                                                        <Tooltip title="Image for word stored">
+                                                            <ImageIcon color="success" />
+                                                        </Tooltip>
+                                                    )}
+                                                    {!learnsetWordItem.picture && (
+                                                        <Tooltip title="No image for word stored">
+                                                            <ImageIcon color="error" />
+                                                        </Tooltip>
+                                                    )}
+                                                    {learnsetWordItem.audio && (
+                                                        <Tooltip title="Audio for word stored">
+                                                            <SpatialAudioIcon color="success" />
+                                                        </Tooltip>
+                                                    )}
+                                                    {!learnsetWordItem.audio && (
+                                                        <Tooltip title="No audio for word stored">
+                                                            <SpatialAudioIcon color="error" />
+                                                        </Tooltip>
+                                                    )}
+
                                                     <Tooltip title="Edit learnset">
                                                         <IconButton aria-label="edit" size="large"
                                                             id="edit-button"

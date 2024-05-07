@@ -32,4 +32,8 @@ export class LearnsetService {
     public delete(id: string): Promise<any> {
         return this.learnSetModel.deleteOne({ _id: new mongoose.Types.ObjectId(id), });
     }
+
+    public getLearnSetById(id: string): Promise<LearnSet> {
+        return this.learnSetModel.findById(new mongoose.Types.ObjectId(id));
+    }
 }

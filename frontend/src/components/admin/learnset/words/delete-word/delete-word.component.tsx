@@ -22,7 +22,7 @@ export const DeleteLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
     }
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Delete word</DialogTitle>
             <DialogContent>
                 <br />
