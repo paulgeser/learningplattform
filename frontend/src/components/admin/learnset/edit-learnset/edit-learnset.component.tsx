@@ -5,6 +5,7 @@ import { LearnSetStatus } from "../../../../core/enum/status.enum";
 import { LearnSetType } from "../../../../core/model/learnset-type.model";
 import { getAllLearnSetTypes } from "../../../../core/services/learnset-type.service";
 import { getAllLearnSetStates } from "../../../../core/services/learnset-state.service";
+import { useSnackbar } from "notistack";
 
 
 interface Props {
@@ -25,6 +26,8 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
 
     const [learnSetTypes, setLearnSetTypes] = useState<LearnSetType[]>([]);
     const [learnSetStates, setLearnSetStates] = useState<LearnSetStatus[]>([]);
+    const { enqueueSnackbar } = useSnackbar();
+
 
     useEffect(() => {
         getAllLearnSetTypes().then(response => {
@@ -49,7 +52,18 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
         const foundLearnsetType = learnSetTypes.find(x => x._id === learnsetType);
         if (foundLearnsetType) {
             const data = { _id: id, name: name, week: week, status: status, type: foundLearnsetType }
-            updateLearnSetRequest(data).then(_ => {
+            updateLearnSetRequest(data).then(response => {
+                if (response) {
+                    enqueueSnackbar('Successfully updated learnset!', {
+                        autoHideDuration: 6000,
+                        variant: "success"
+                    });
+                } else {
+                    enqueueSnackbar('Failure during learnset update...', {
+                        autoHideDuration: 6000,
+                        variant: "error"
+                    });
+                }
                 onClose();
             });
         }
@@ -57,7 +71,6 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
 
     const handleLearnsetTypeChange = (id: string): void => {
         setLearnsetType(id);
-
     }
 
     return (

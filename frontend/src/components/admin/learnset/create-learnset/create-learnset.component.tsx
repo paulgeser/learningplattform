@@ -4,6 +4,7 @@ import { createLearnSetRequest } from "../../../../core/services/learnset.servic
 import { LearnSetStatus } from "../../../../core/enum/status.enum";
 import { LearnSetType } from "../../../../core/model/learnset-type.model";
 import { getAllLearnSetTypes } from "../../../../core/services/learnset-type.service";
+import { useSnackbar } from "notistack";
 
 interface Props {
     open: boolean
@@ -17,6 +18,8 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     const [selectedLearnSetType, setSelectedLearnSetType] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [week, setWeek] = useState<number>(0);
+
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         getAllLearnSetTypes().then(response => {
@@ -35,7 +38,18 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
         const foundLearnsetType = learnSetTypes.find(x => x._id === selectedLearnSetType);
         if (foundLearnsetType) {
             const data = { name: name, week: week, status: LearnSetStatus.DRAFT, type: foundLearnsetType }
-            createLearnSetRequest(data).then(_ => {
+            createLearnSetRequest(data).then(response => {
+                if (response) {
+                    enqueueSnackbar('Successfully created learnset!', {
+                        autoHideDuration: 6000,
+                        variant: "success"
+                    });
+                } else {
+                    enqueueSnackbar('Failure during learnset creation...', {
+                        autoHideDuration: 6000,
+                        variant: "error"
+                    });
+                }
                 onClose();
             });
         }

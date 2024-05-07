@@ -14,10 +14,12 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { AuthStatus } from './core/enum/auth-status.enum';
 import { LoginComponent } from './components/login/login.component';
 import { UserOverviewComponent } from './components/admin/user/user-overview/user-overview.component';
+import { OptionsObject, SnackbarProvider, useSnackbar } from 'notistack';
 
 function App() {
   const [loggedin, setLoggedin] = useState<AuthStatus>(AuthStatus.CONFIG_LOADING);
   const { authServiceInstance } = useContext(StateContext);
+  const { enqueueSnackbar } = useSnackbar();
   const destroySubject: Subject<void> = new Subject();
 
   useEffect(() => {
@@ -27,6 +29,7 @@ function App() {
         takeUntil(destroySubject),
         tap(x => {
           console.log(x, 'here')
+          test();
         })
       )
       // Set logged in
@@ -34,34 +37,45 @@ function App() {
 
     // Execute a login check
     authServiceInstance.checkLogin();
+
     // Destory all subscriptions before component is being destroyed
     return () => destroySubject.next();
   }, [authServiceInstance]);
 
+  const test = () => {
+    enqueueSnackbar('I love snacks.', "success" as OptionsObject);
+    console.log('in here')
+  }
+
   return (
     <div className="App">
-      {loggedin === AuthStatus.CONFIG_LOADING && (
-        <ConfigLoadingComponent />
-      )}
-      {loggedin === AuthStatus.NOT_LOGGED_IN && (
-        <LoginComponent />
-      )}
-      {loggedin === AuthStatus.LOGGED_IN && (<>
-        <HeaderLayout />
-        <Routes>
-          <Route path="/">
-            <Route index element={<HomeComponent />} />
-            <Route path="/admin" element={<AdminHomeComponent />} >
-              <Route path='learnset-overview' element={<LearnsetOverviewComponent />} />
-              <Route path='learnsettype-overview' element={<LearnsetTypeOverviewComponent />} />
-              <Route path='learnset-words/:id' element={<WordsOverviewComponent />} />
-              <Route path='users' element={<UserOverviewComponent />} />
+      <SnackbarProvider maxSnack={5} anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}>
+        {loggedin === AuthStatus.CONFIG_LOADING && (
+          <ConfigLoadingComponent />
+        )}
+        {loggedin === AuthStatus.NOT_LOGGED_IN && (
+          <LoginComponent />
+        )}
+        {loggedin === AuthStatus.LOGGED_IN && (<>
+          <HeaderLayout />
+          <Routes>
+            <Route path="/">
+              <Route index element={<HomeComponent />} />
+              <Route path="/admin" element={<AdminHomeComponent />} >
+                <Route path='learnset-overview' element={<LearnsetOverviewComponent />} />
+                <Route path='learnsettype-overview' element={<LearnsetTypeOverviewComponent />} />
+                <Route path='learnset-words/:id' element={<WordsOverviewComponent />} />
+                <Route path='users' element={<UserOverviewComponent />} />
+              </Route>
+              <Route path="/learning" element={<LearningHomeComponent />} />
+              <Route path="*" element={<div></div>} />
             </Route>
-            <Route path="/learning" element={<LearningHomeComponent />} />
-            <Route path="*" element={<div></div>} />
-          </Route>
-        </Routes>
-      </>)}
+          </Routes>
+        </>)}
+      </SnackbarProvider>
     </div>
   );
 }

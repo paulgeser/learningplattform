@@ -78,25 +78,25 @@ export const LearnsetTypeOverviewComponent: React.FC = (): React.ReactElement =>
                                 <Table sx={{ width: '100%' }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Unique ID</TableCell>
                                             <TableCell>Name</TableCell>
                                             <TableCell>Description</TableCell>
+                                            <TableCell>Unique ID</TableCell>
                                             <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {learnSetTypes.map((learnSetTypeItem, i) => (
                                             <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
-                                                <TableCell component="th" scope="row">
-                                                    {learnSetTypeItem._id}
-                                                </TableCell>
                                                 <TableCell align="left">
                                                     {learnSetTypeItem.name}
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     {learnSetTypeItem.description}
                                                 </TableCell>
-                                                <TableCell align="left">
+                                                <TableCell align="left" width="200px">
+                                                    {learnSetTypeItem._id}
+                                                </TableCell>
+                                                <TableCell align="left" width="200px">
                                                     <Tooltip title="Edit learnset type">
                                                         <IconButton aria-label="edit" size="large"
                                                             id="edit-button"

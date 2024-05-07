@@ -10,11 +10,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { LearnSetStatus } from "../../../../core/enum/status.enum";
 import { useNavigate } from "react-router-dom";
+import { getAllAppUsers } from "../../../../core/services/user.service";
+import { BasicUser } from "../../../../core/model/basic-user.model";
 
 
 export const UserOverviewComponent: React.FC = (): React.ReactElement => {
 
-    const [users, setUsers] = useState<LearnSet[]>([]);
+    const [users, setUsers] = useState<BasicUser[]>([]);
     const [createUserDialog, setCreateUserDialog] = useState<boolean>(false);
     const [editUserDialog, setEditUserDialog] = useState<boolean>(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState<boolean>(false);
@@ -24,15 +26,21 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
     const [editStatus, setEditStatus] = useState<LearnSetStatus>(LearnSetStatus.DRAFT);
     const [editLearnsetType, setEditLearnsetType] = useState<string>("");
     const [editWeek, setEditWeek] = useState<number>(0);
-    const [deleteId, setDeleteId] = useState<string>("");
+    const [deleteUsername, setDeleteUsername] = useState<string>("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        /*  getAllLearnSets().then(values => {
-             setLearnSets(values);
-         }); */
+        getAllUsers();
     }, []);
+
+    const getAllUsers = () => {
+        getAllAppUsers().then(response => {
+            if (response) {
+                setUsers(response.data);
+            }
+        })
+    }
 
     const onCloseCreateDialog = () => {
         /* setCreateLearnsetDialog(false);
@@ -61,7 +69,7 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
          }); */
     }
 
-    const handleEditClick = (learnset: LearnSet): void => {
+    const handleEditClick = (appUser: BasicUser): void => {
         /* setEditId(learnset._id);
         setEditName(learnset.name);
         setEditStatus(learnset.status);
@@ -92,11 +100,11 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
                                 <Table sx={{ width: '100%' }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>ID</TableCell>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Week</TableCell>
-                                            <TableCell>Type</TableCell>
-                                            <TableCell>Status</TableCell>
+                                            <TableCell>Username</TableCell>
+                                            <TableCell>First name</TableCell>
+                                            <TableCell>Last name</TableCell>
+                                            <TableCell>Role</TableCell>
+                                            <TableCell>Language</TableCell>
                                             <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -104,28 +112,21 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
                                         {users.map((userItem, i) => (
                                             <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
                                                 <TableCell component="th" scope="row">
-                                                    {userItem._id}
+                                                    {userItem.username}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {userItem.name}
+                                                    {userItem.firstName}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {userItem.week}
+                                                    {userItem.lastName}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {userItem.type.name}
+                                                    {userItem.appRole}
                                                 </TableCell>
                                                 <TableCell align="left">
-                                                    {userItem.status}
+                                                    {userItem.studyLanguage}
                                                 </TableCell>
                                                 <TableCell align="right">
-                                                    <Tooltip title="View details of user">
-                                                        <IconButton aria-label="words" size="large"
-                                                            id="words-button"
-                                                            onClick={() => handleViewWordsClick(userItem)}>
-                                                            <ViewListIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
                                                     <Tooltip title="Edit user">
                                                         <IconButton aria-label="edit" size="large"
                                                             id="edit-button"
@@ -136,7 +137,7 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
                                                     <Tooltip title="Delete user">
                                                         <IconButton aria-label="delete" size="large"
                                                             id="delete-button"
-                                                            onClick={() => { setDeleteId(userItem._id); setDeleteUserDialog(true) }}>
+                                                            onClick={() => { setDeleteUsername(userItem.username); setDeleteUserDialog(true) }}>
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </Tooltip>

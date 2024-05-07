@@ -7,6 +7,8 @@ import { Argon2IdService } from './argon2-id.service';
 import { CreateUser } from 'src/models/create-user.model';
 import { UserCredentials } from 'src/models/user-credentials.model';
 import { JwtService } from '@nestjs/jwt';
+import { removeAllRestrictedDataFromUser } from 'src/helper/user-helper';
+import { BasicUser } from 'src/models/basic-user.model';
 
 @Injectable()
 export class AppUserService {
@@ -17,8 +19,9 @@ export class AppUserService {
         private jwtService: JwtService
     ) { }
 
-    public async getAllUsers(): Promise<AppUser[]> {
-        return this.appUserModel.find();
+    public async getAllUsers(): Promise<BasicUser[]> {
+        const users = await this.appUserModel.find();
+        return users.map(user => removeAllRestrictedDataFromUser(user));
     }
 
 

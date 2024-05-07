@@ -14,7 +14,6 @@ import { EditLearnSetDialogComponent } from "../edit-learnset/edit-learnset.comp
 import { DeleteLearnSetDialogComponent } from "../delete-learnset/delete-learnset.component";
 import { useNavigate } from "react-router-dom";
 
-
 export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
 
     const [learnSets, setLearnSets] = useState<LearnSet[]>([]);
@@ -95,20 +94,17 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                                 <Table sx={{ width: '100%' }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>ID</TableCell>
                                             <TableCell>Name</TableCell>
                                             <TableCell>Week</TableCell>
                                             <TableCell>Type</TableCell>
                                             <TableCell>Status</TableCell>
+                                            <TableCell>Unique ID</TableCell>
                                             <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {learnSets.map((learnsetItem, i) => (
                                             <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
-                                                <TableCell component="th" scope="row">
-                                                    {learnsetItem._id}
-                                                </TableCell>
                                                 <TableCell align="left">
                                                     {learnsetItem.name}
                                                 </TableCell>
@@ -121,7 +117,10 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                                                 <TableCell align="left">
                                                     {learnsetItem.status}
                                                 </TableCell>
-                                                <TableCell align="right">
+                                                <TableCell align="left" width="200px">
+                                                    {learnsetItem._id}
+                                                </TableCell>
+                                                <TableCell align="right" width="200px">
                                                     <Tooltip title="View words of learnset">
                                                         <IconButton aria-label="words" size="large"
                                                             id="words-button"

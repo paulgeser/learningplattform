@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { deleteLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
+import { useSnackbar } from "notistack";
 
 
 
@@ -12,13 +13,25 @@ interface Props {
 
 export const DeleteLearnSetTypeDialogComponent: React.FC<Props> = ({ onClose, open, id }): React.ReactElement => {
 
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleClose = () => {
         onClose();
     };
 
     const deleteLearnSetType = () => {
-        deleteLearnSetTypeRequest(id).then(_ => {
+        deleteLearnSetTypeRequest(id).then(response => {
+            if (response) {
+                enqueueSnackbar('Successfully deleted learnset type!', {
+                    autoHideDuration: 6000,
+                    variant: "success"
+                });
+            } else {
+                enqueueSnackbar('Failure during learnset type deletion...', {
+                    autoHideDuration: 6000,
+                    variant: "error"
+                });
+            }
             onClose();
         });
     }

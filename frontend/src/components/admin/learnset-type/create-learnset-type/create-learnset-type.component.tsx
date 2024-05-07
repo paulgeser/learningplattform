@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { createLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
+import { useSnackbar } from "notistack";
 
 
 
@@ -13,13 +14,26 @@ export const CreateLearnSetTypeDialogComponent: React.FC<Props> = ({ onClose, op
 
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
+    const { enqueueSnackbar } = useSnackbar();
+
 
     const handleClose = () => {
         onClose();
     };
 
     const createLearnSetType = () => {
-        createLearnSetTypeRequest({ name: name, description: description }).then(_ => {
+        createLearnSetTypeRequest({ name: name, description: description }).then(response => {
+            if (response) {
+                enqueueSnackbar('Successfully created learnset type!', {
+                    autoHideDuration: 6000,
+                    variant: "success"
+                });
+            } else {
+                enqueueSnackbar('Failure during learnset type creation...', {
+                    autoHideDuration: 6000,
+                    variant: "error"
+                });
+            }
             onClose();
         });
     }

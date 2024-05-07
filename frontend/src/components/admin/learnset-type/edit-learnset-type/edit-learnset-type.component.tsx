@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { updateLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
+import { useSnackbar } from "notistack";
 
 
 
@@ -17,6 +18,7 @@ interface Props {
 
 export const EditLearnSetTypeDialogComponent: React.FC<Props> = ({ open, onClose, id, name, setName, description, setDescription }): React.ReactElement => {
 
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleClose = () => {
         onClose();
@@ -27,7 +29,18 @@ export const EditLearnSetTypeDialogComponent: React.FC<Props> = ({ open, onClose
             _id: id,
             name: name,
             description: description
-        }).then(_ => {
+        }).then(response => {
+            if (response) {
+                enqueueSnackbar('Successfully updated learnset type!', {
+                    autoHideDuration: 6000,
+                    variant: "success"
+                });
+            } else {
+                enqueueSnackbar('Failure during learnset type update...', {
+                    autoHideDuration: 6000,
+                    variant: "error"
+                });
+            }
             onClose();
         });
     }

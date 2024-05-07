@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { deleteLearnSetRequest } from "../../../../core/services/learnset.service";
+import { useSnackbar } from "notistack";
 
 
 
@@ -12,12 +13,25 @@ interface Props {
 
 export const DeleteLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id }): React.ReactElement => {
 
+    const { enqueueSnackbar } = useSnackbar();
+
     const handleClose = () => {
         onClose();
     };
 
     const deleteLearnSet = () => {
-        deleteLearnSetRequest(id).then(_ => {
+        deleteLearnSetRequest(id).then(response => {
+            if (response) {
+                enqueueSnackbar('Successfully deleted learnset!', {
+                    autoHideDuration: 6000,
+                    variant: "success"
+                });
+            } else {
+                enqueueSnackbar('Failure during learnset deletion...', {
+                    autoHideDuration: 6000,
+                    variant: "error"
+                });
+            }
             onClose();
         });
     }

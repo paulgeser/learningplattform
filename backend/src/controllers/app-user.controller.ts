@@ -3,6 +3,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, SetMetadata, UseGuards
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AppRole } from 'src/models/app-role.enum';
+import { BasicUser } from 'src/models/basic-user.model';
 import { CreateUser } from 'src/models/create-user.model';
 import { AppUser } from 'src/schemas/app-user.schema';
 import { AppUserService } from 'src/services/app-user.service';
@@ -17,7 +18,7 @@ export class AppUserDataController {
     @Get("/")
     @UseGuards(AuthGuard)
     @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER])
-    getAllUsers(): Promise<AppUser[]> {
+    getAllUsers(): Promise<BasicUser[]> {
         return this.appUserService.getAllUsers();
     }
 
