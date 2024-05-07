@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 
 export enum StudyLanguage {
     ENGLISH = "ENGLISH",

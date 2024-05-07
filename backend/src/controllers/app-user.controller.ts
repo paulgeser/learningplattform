@@ -2,6 +2,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, SetMetadata, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { removeAllRestrictedDataFromUser } from 'src/helper/user-helper';
 import { AppRole } from 'src/models/app-role.enum';
 import { BasicUser } from 'src/models/basic-user.model';
 import { CreateUser } from 'src/models/create-user.model';
@@ -32,15 +33,15 @@ export class AppUserDataController {
     @Post("/")
     @UseGuards(AuthGuard)
     @SetMetadata('roles', [AppRole.ADMIN])
-    createUser(@Body() createUser: CreateUser): Promise<AppUser> {
-        return this.appUserService.create(createUser);
+    async createUser(@Body() createUser: CreateUser): Promise<BasicUser> {
+        return removeAllRestrictedDataFromUser(await this.appUserService.create(createUser));
     }
 
     @Put("/:username")
     @UseGuards(AuthGuard)
     @SetMetadata('roles', [AppRole.ADMIN])
-    updateUser(@Param('username') username: string, @Body() appUser: AppUser): Promise<AppUser> {
-        return this.appUserService.update(username, appUser);
+    updateUser(@Param('username') username: string, @Body() basicUser: BasicUser): Promise<BasicUser> {
+        return this.appUserService.update(username, basicUser);
     }
 
     @Delete("/:username")

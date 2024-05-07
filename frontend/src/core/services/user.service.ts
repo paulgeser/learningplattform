@@ -1,8 +1,7 @@
 import { AxiosResponse } from "axios";
-import { CreateLearnSetType } from "../model/create-learnset-type.model";
-import { LearnSetType } from "../model/learnset-type.model";
 import { axiosCall } from "./helper";
 import { BasicUser } from "../model/basic-user.model";
+import { CreateUserModel } from "../model/create-user.model";
 
 
 export const getAllAppUsers = (): Promise<AxiosResponse<BasicUser[]> | undefined | void> => {
@@ -12,26 +11,26 @@ export const getAllAppUsers = (): Promise<AxiosResponse<BasicUser[]> | undefined
     }).catch(error => console.error(error));
 }
 
-/* 
-export const createLearnSetTypeRequest = (inputValue: CreateLearnSetType): Promise<AxiosResponse<LearnSetType> | undefined | void> => {
+
+export const createUserRequest = (inputValue: CreateUserModel): Promise<AxiosResponse<BasicUser> | undefined | void> => {
     return axiosCall({
         method: 'POST',
-        url: 'data/learnset-type',
+        url: 'data/app-user',
         data: inputValue
     }).catch(error => console.error(error));
 }
 
-export const updateLearnSetTypeRequest = (inputValue: LearnSetType): Promise<AxiosResponse<LearnSetType> | undefined | void> => {
+export const updateUserRequest = (inputValue: BasicUser): Promise<AxiosResponse<BasicUser> | undefined | void> => {
     return axiosCall({
         method: 'PUT',
-        url: `data/learnset-type/${inputValue._id}`,
+        url: `data/app-user/${inputValue.username}`,
         data: inputValue
     }).catch(error => console.error(error));
 }
 
-export const deleteLearnSetTypeRequest = (id: string): Promise<AxiosResponse<LearnSetType> | undefined | void> => {
+export const deleteUserRequest = (username: string): Promise<AxiosResponse<BasicUser> | undefined | void> => {
     return axiosCall({
         method: 'DELETE',
-        url: `data/learnset-type/${id}`
+        url: `data/app-user/${username}`
     }).catch(error => console.error(error));
-} */
+}

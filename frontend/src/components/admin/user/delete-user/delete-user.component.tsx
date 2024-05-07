@@ -2,16 +2,17 @@ import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { deleteLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
 import { useSnackbar } from "notistack";
+import { deleteUserRequest } from "../../../../core/services/user.service";
 
 
 
 interface Props {
     open: boolean;
     onClose: () => void;
-    id: string;
+    username: string;
 }
 
-export const DeleteLearnSetTypeDialogComponent: React.FC<Props> = ({ onClose, open, id }): React.ReactElement => {
+export const DeleteUserDialogComponent: React.FC<Props> = ({ onClose, open, username }): React.ReactElement => {
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -20,14 +21,14 @@ export const DeleteLearnSetTypeDialogComponent: React.FC<Props> = ({ onClose, op
     };
 
     const deleteLearnSetType = () => {
-        deleteLearnSetTypeRequest(id).then(response => {
+        deleteUserRequest(username).then(response => {
             if (response) {
-                enqueueSnackbar('Successfully deleted learnset type!', {
+                enqueueSnackbar('Successfully deleted user!', {
                     autoHideDuration: 6000,
                     variant: "success"
                 });
             } else {
-                enqueueSnackbar('Failure during learnset type deletion...', {
+                enqueueSnackbar('Failure during user deletion...', {
                     autoHideDuration: 6000,
                     variant: "error"
                 });
@@ -38,10 +39,10 @@ export const DeleteLearnSetTypeDialogComponent: React.FC<Props> = ({ onClose, op
 
     return (
         <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
-            <DialogTitle>Delete learnset type</DialogTitle>
+            <DialogTitle>Delete app user</DialogTitle>
             <DialogContent>
                 <br />
-                <p>Are you sure you want to delete this learnset type?</p>
+                <p>Are you sure you want to delete this user?</p>
                 <br />
                 <div>
                     <Button variant="outlined" onClick={() => onClose()}>Cancel</Button>

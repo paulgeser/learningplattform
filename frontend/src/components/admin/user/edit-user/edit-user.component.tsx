@@ -1,40 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { StudyLanguage } from "../../../../core/enum/study-language.enum";
-import { AppRole } from "../../../../core/enum/app-role.enum";
-import { CreateUserModel } from "../../../../core/model/create-user.model";
-import { createUserRequest } from "../../../../core/services/user.service";
 import { useSnackbar } from "notistack";
+import { AppRole } from "../../../../core/enum/app-role.enum";
+import { StudyLanguage } from "../../../../core/enum/study-language.enum";
+import { BasicUser } from "../../../../core/model/basic-user.model";
+import { updateUserRequest } from "../../../../core/services/user.service";
 
 interface Props {
-    open: boolean
+    open: boolean;
     onClose: () => void;
+    username: string;
+    firstName: string;
+    setFirstName: (value: React.SetStateAction<string>) => void;
+    lastName: string;
+    setLastName: (value: React.SetStateAction<string>) => void;
+    phone: string;
+    setPhone: (value: React.SetStateAction<string>) => void;
+    email: string;
+    setEmail: (value: React.SetStateAction<string>) => void;
+    studyLanguage: StudyLanguage;
+    setStudyLanguage: (value: React.SetStateAction<StudyLanguage>) => void;
+    appRole: AppRole;
+    setAppRole: (value: React.SetStateAction<AppRole>) => void;
 }
 
-export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): React.ReactElement => {
-
-    const [username, setUsername] = useState<string>("");
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [phone, setPhone] = useState<string>("");
-    const [studyLanguage, setStudyLanguage] = useState<StudyLanguage>(StudyLanguage.ENGLISH);
-    const [appRole, setAppRole] = useState<AppRole>(AppRole.STUDENT);
-    const [firstPassword, setFirstPassword] = useState<string>("");
-    const [secondPassword, setSecondPassword] = useState<string>("");
+export const EditUserDialogComponent: React.FC<Props> = ({ open, onClose, username, firstName, setFirstName, lastName, setLastName, phone, setPhone, email, setEmail, studyLanguage, setStudyLanguage, appRole, setAppRole }): React.ReactElement => {
 
     const { enqueueSnackbar } = useSnackbar();
-
-    useEffect(() => {
-    }, []);
-
 
     const handleClose = () => {
         onClose();
     };
 
-    const createLearnSet = () => {
-        const newUser: CreateUserModel = {
+    const createUser = () => {
+        const updatedUser: BasicUser = {
             username: username,
             firstName: firstName,
             lastName: lastName,
@@ -42,31 +41,21 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
             phone: phone,
             studyLanguage: studyLanguage,
             appRole: appRole,
-            password: firstPassword,
             active: true
-        }
-        createUserRequest(newUser).then(response => {
+        };
+        updateUserRequest(updatedUser).then(response => {
             if (response) {
-                enqueueSnackbar('Successfully created new user!', {
+                enqueueSnackbar('Successfully updated user!', {
                     autoHideDuration: 6000,
                     variant: "success"
                 });
             } else {
-                enqueueSnackbar('Failure during user creation...', {
+                enqueueSnackbar('Failure during user update...', {
                     autoHideDuration: 6000,
                     variant: "error"
                 });
             }
             onClose();
-            setUsername("");
-            setFirstName("");
-            setLastName("");
-            setEmail("");
-            setPhone("");
-            setStudyLanguage(StudyLanguage.ENGLISH);
-            setAppRole(AppRole.STUDENT);
-            setFirstPassword("");
-            setSecondPassword("");
         });
     }
 
@@ -80,11 +69,8 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
 
     return (
         <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
-            <DialogTitle>Create new user</DialogTitle>
+            <DialogTitle>Edit user details</DialogTitle>
             <DialogContent>
-                <TextField style={{ marginTop: '15px' }} id="username-field" label="Username" variant="outlined" type="text" fullWidth value={username} onChange={(e) => setUsername(e.target.value)} />
-                <br />
-                <br />
                 <TextField style={{ marginTop: '15px' }} id="firstname-field" label="First name" variant="outlined" type="text" fullWidth value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                 <br />
                 <br />
@@ -125,15 +111,9 @@ export const CreateUserDialogComponent: React.FC<Props> = ({ onClose, open }): R
                 </FormControl>
                 <br />
                 <br />
-                <TextField style={{ marginTop: '15px' }} id="first-password-field" label="Password" variant="outlined" type="password" fullWidth value={firstPassword} onChange={(e) => setFirstPassword(e.target.value)} />
-                <br />
-                <br />
-                <TextField style={{ marginTop: '15px' }} id="second-password-field" label="Confirm password" variant="outlined" type="password" fullWidth value={secondPassword} onChange={(e) => setSecondPassword(e.target.value)} />
-                <br />
-                <br />
                 <div>
                     <Button variant="outlined" onClick={() => onClose()}>Cancel</Button>
-                    <Button variant="contained" onClick={createLearnSet}>Create</Button>
+                    <Button variant="contained" onClick={createUser}>Save edit</Button>
                 </div>
             </DialogContent>
         </Dialog>

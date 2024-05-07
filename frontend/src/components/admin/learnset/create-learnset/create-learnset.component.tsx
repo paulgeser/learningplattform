@@ -51,6 +51,9 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
                     });
                 }
                 onClose();
+                setSelectedLearnSetType("");
+                setName("");
+                setWeek(0);
             });
         }
     }
@@ -60,7 +63,7 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     }
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Create new learnset</DialogTitle>
             <DialogContent>
                 <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />

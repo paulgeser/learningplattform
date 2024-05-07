@@ -37,7 +37,7 @@ export const DeleteLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, 
     }
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Delete learnset</DialogTitle>
             <DialogContent>
                 <br />

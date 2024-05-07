@@ -74,7 +74,7 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
     }
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
             <DialogTitle>Edit learnset</DialogTitle>
             <DialogContent>
                 <TextField style={{ marginTop: '15px' }} id="name-field" label="Name" variant="outlined" type="text" fullWidth value={name} onChange={(e) => setName(e.target.value)} />

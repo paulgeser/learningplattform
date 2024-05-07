@@ -74,14 +74,14 @@ export class AppUserService {
         });
     }
 
-    public update(username: string, appUser: AppUser): Promise<any> {
+    public update(username: string, basicUser: BasicUser): Promise<any> {
         return this.appUserModel.updateOne({ username: username, }, {
-            firstName: appUser.firstName,
-            lastName: appUser.lastName,
-            email: appUser.email,
-            phone: appUser.phone,
-            studyLanguage: appUser.studyLanguage,
-            appRole: appUser.appRole
+            firstName: basicUser.firstName,
+            lastName: basicUser.lastName,
+            email: basicUser.email,
+            phone: basicUser.phone,
+            studyLanguage: basicUser.studyLanguage,
+            appRole: basicUser.appRole
         });
     }
 

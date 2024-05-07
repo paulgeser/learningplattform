@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 
 import './user-overview.component.css';
 import { Button, Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from "@mui/material";
-import { getAllLearnSets } from "../../../../core/services/learnset.service";
-import { LearnSet } from "../../../../core/model/learnset.model";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import { LearnSetStatus } from "../../../../core/enum/status.enum";
-import { useNavigate } from "react-router-dom";
 import { getAllAppUsers } from "../../../../core/services/user.service";
 import { BasicUser } from "../../../../core/model/basic-user.model";
+import { CreateUserDialogComponent } from "../create-user/create-user.component";
+import { DeleteUserDialogComponent } from "../delete-user/delete-user.component";
+import { StudyLanguage } from "../../../../core/enum/study-language.enum";
+import { AppRole } from "../../../../core/enum/app-role.enum";
+import { EditUserDialogComponent } from "../edit-user/edit-user.component";
 
 
 export const UserOverviewComponent: React.FC = (): React.ReactElement => {
@@ -21,14 +21,15 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
     const [editUserDialog, setEditUserDialog] = useState<boolean>(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState<boolean>(false);
 
-    const [editId, setEditId] = useState<string>("");
-    const [editName, setEditName] = useState<string>("");
-    const [editStatus, setEditStatus] = useState<LearnSetStatus>(LearnSetStatus.DRAFT);
-    const [editLearnsetType, setEditLearnsetType] = useState<string>("");
-    const [editWeek, setEditWeek] = useState<number>(0);
-    const [deleteUsername, setDeleteUsername] = useState<string>("");
+    const [editUsername, setEditUsername] = useState<string>("");
+    const [editFirstName, setEditFirstName] = useState<string>("");
+    const [editLastName, setEditLastName] = useState<string>("");
+    const [editEmail, setEditEmail] = useState<string>("");
+    const [editPhone, setEditPhone] = useState<string>("");
+    const [editStudyLanguage, setEditStudyLanguage] = useState<StudyLanguage>(StudyLanguage.ENGLISH);
+    const [editAppRole, setEditAppRole] = useState<AppRole>(AppRole.STUDENT);
 
-    const navigate = useNavigate();
+    const [deleteUsername, setDeleteUsername] = useState<string>("");
 
     useEffect(() => {
         getAllUsers();
@@ -43,43 +44,37 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
     }
 
     const onCloseCreateDialog = () => {
-        /* setCreateLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        }); */
+        setCreateUserDialog(false);
+        getAllUsers();
     }
 
     const onCloseEditDialog = () => {
-        /* setEditId("");
-        setEditName("");
-        setEditStatus(LearnSetStatus.DRAFT);
-        setEditLearnsetType("");
-        setEditWeek(0);
-        setEditLearnsetDialog(false);
-        getAllLearnSets().then(values => {
-            setLearnSets(values);
-        }); */
+        setEditUsername("");
+        setEditFirstName("");
+        setEditLastName("");
+        setEditEmail("");
+        setEditPhone("");
+        setEditStudyLanguage(StudyLanguage.ENGLISH);
+        setEditAppRole(AppRole.STUDENT);
+        setEditUserDialog(false);
+        getAllUsers();
     }
 
     const onCloseDeleteDialog = () => {
-        /*  setDeleteId("");
-         setDeleteLearnsetDialog(false);
-         getAllLearnSets().then(values => {
-             setLearnSets(values);
-         }); */
+        setDeleteUsername("");
+        setDeleteUserDialog(false);
+        getAllUsers();
     }
 
     const handleEditClick = (appUser: BasicUser): void => {
-        /* setEditId(learnset._id);
-        setEditName(learnset.name);
-        setEditStatus(learnset.status);
-        setEditLearnsetType(learnset.type._id);
-        setEditWeek(learnset.week);
-        setEditLearnsetDialog(true); */
-    }
-
-    const handleViewWordsClick = (learnset: LearnSet): void => {
-        navigate(`/admin/learnset-words/${learnset._id}`);
+        setEditUsername(appUser.username);
+        setEditFirstName(appUser.firstName);
+        setEditLastName(appUser.lastName);
+        setEditEmail(appUser.email);
+        setEditPhone(appUser.phone);
+        setEditStudyLanguage(appUser.studyLanguage);
+        setEditAppRole(appUser.appRole);
+        setEditUserDialog(true);
     }
 
     return (
@@ -150,12 +145,11 @@ export const UserOverviewComponent: React.FC = (): React.ReactElement => {
                         </Box>
                     </div>
                 </div>
-                {/* <CreateLearnSetDialogComponent onClose={onCloseCreateDialog} open={createLearnsetDialog} />
-                <EditLearnSetDialogComponent onClose={onCloseEditDialog} open={editLearnsetDialog}
-                    id={editId} name={editName} setName={setEditName} status={editStatus} setStatus={setEditStatus}
-                    learnsetType={editLearnsetType} setLearnsetType={setEditLearnsetType}
-                    week={editWeek} setWeek={setEditWeek} />
-                <DeleteLearnSetDialogComponent id={deleteId} onClose={onCloseDeleteDialog} open={deleteLearnsetDialog} /> */}
+                <CreateUserDialogComponent onClose={onCloseCreateDialog} open={createUserDialog} />
+                <DeleteUserDialogComponent username={deleteUsername} onClose={onCloseDeleteDialog} open={deleteUserDialog} />
+                <EditUserDialogComponent username={editUsername} firstName={editFirstName} setFirstName={setEditFirstName} lastName={editLastName} setLastName={setEditLastName}
+                    email={editEmail} setEmail={setEditEmail} phone={editPhone} setPhone={setEditPhone} studyLanguage={editStudyLanguage} setStudyLanguage={setEditStudyLanguage}
+                    appRole={editAppRole} setAppRole={setEditAppRole} open={editUserDialog} onClose={onCloseEditDialog} />
             </div>
         </div>
     );
