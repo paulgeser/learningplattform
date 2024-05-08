@@ -14,3 +14,7 @@
     font-size: 30px;
     text-align: left;
 }
+
+.MuiDrawer-paper {
+    background-color: #d6d6d6 !important;
+}

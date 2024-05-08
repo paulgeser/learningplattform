@@ -36,7 +36,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                 <LocalLibraryIcon style={{ fontSize: 50 }} />
                                 <div className='ml-3 text-2xl home-link-box-text'>Learning Home</div>
                             </div>
-                            <div className='mt-3 mb-3'>
+                            <div className='mt-3 mb-3 ml-16 text-left'>
                                 For students to master the malagasy language!
                             </div>
                         </div>
@@ -45,7 +45,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                 <SettingsIcon style={{ fontSize: 50 }} />
                                 <div className='ml-3 text-2xl home-link-box-text'>Admin Home</div>
                             </div>
-                            <div className='mt-3 mb-3'>
+                            <div className='mt-3 mb-3 ml-16 text-left'>
                                 For teachers and administrators to create, modify and delete learnsets.
                             </div>
                         </div>
