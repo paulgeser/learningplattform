@@ -16,11 +16,11 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
     const [french, setFrench] = useState<string>("");
     const [english, setEnglish] = useState<string>("");
 
-    const [selectedImageFile, setSelectedImageFile] = useState<File>();
-    const [previewImage, setPreviewImage] = useState<string>("");
+/*     const [selectedImageFile, setSelectedImageFile] = useState<File>();
+ */    const [previewImage, setPreviewImage] = useState<string>("");
 
-    const [selectedAudioFile, setSelectedAudioFile] = useState<File>();
-    const [previewAudio, setPreviewAudio] = useState<string>("");
+/*     const [selectedAudioFile, setSelectedAudioFile] = useState<File>();
+ */    const [previewAudio, setPreviewAudio] = useState<string>("");
 
     useEffect(() => {
 
@@ -32,9 +32,7 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
     };
 
     const createWord = () => {
-        console.log('in func')
         if (malagasy && french && english && learnsetId) {
-            console.log('in if')
             const data: CreateLearnSetWord = {
                 malagasy: malagasy,
                 french: french,
@@ -48,8 +46,8 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
                 setMalagasy("");
                 setFrench("");
                 setEnglish("");
-                setSelectedAudioFile(undefined);
-                setSelectedImageFile(undefined);
+/*                 setSelectedAudioFile(undefined);
+                setSelectedImageFile(undefined); */
                 setPreviewAudio("");
                 setPreviewImage("");
             });
@@ -57,8 +55,8 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
     }
 
     const changeImageFileHandler = (event: any) => {
-        setSelectedImageFile(event.target.files[0]);
-        if (event.target.files || event.target.files.length !== 0) {
+/*         setSelectedImageFile(event.target.files[0]);
+ */        if (event.target.files || event.target.files.length !== 0) {
             let reader = new FileReader()
             reader.readAsDataURL(event.target.files[0])
             reader.onload = () => {
@@ -70,8 +68,8 @@ export const CreateLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, op
         event.target.value = "";
     };
     const changeAudioFileHandler = (event: any) => {
-        setSelectedAudioFile(event.target.files[0]);
-        if (event.target.files || event.target.files.length !== 0) {
+/*         setSelectedAudioFile(event.target.files[0]);
+ */        if (event.target.files || event.target.files.length !== 0) {
             let reader = new FileReader()
             reader.readAsDataURL(event.target.files[0])
             reader.onload = () => {

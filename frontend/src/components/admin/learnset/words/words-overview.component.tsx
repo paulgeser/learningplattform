@@ -102,7 +102,7 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="mt-5">
                         <Box sx={{ width: '100%' }}>
                             <TableContainer component={Paper} className="overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                 <Table sx={{ width: '100%' }} aria-label="simple table">

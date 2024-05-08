@@ -82,13 +82,12 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                 <div id="learnset-overview-content-box">
                     <div id="learnset-overview-title">
                         Learnset overview
-
                         <div className="ml-3">
                             <Button variant='outlined' onClick={() => setCreateLearnsetDialog(true)}>Create new learnset</Button>
                         </div>
                     </div>
 
-                    <div>
+                    <div className="mt-5">
                         <Box sx={{ width: '100%' }}>
                             <TableContainer component={Paper} className="overflow-y-auto" style={{ maxHeight: '80vh' }}>
                                 <Table sx={{ width: '100%' }} aria-label="simple table">

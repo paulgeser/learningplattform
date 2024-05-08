@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { updateLearnSetTypeRequest } from "../../../../core/services/learnset-type.service";
 import { useSnackbar } from "notistack";

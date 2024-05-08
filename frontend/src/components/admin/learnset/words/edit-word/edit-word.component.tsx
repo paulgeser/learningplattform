@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Dialog, DialogContent, DialogTitle, Divider, TextField } from "@mui/material";
+import React from "react";
+import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 
 import { updateLearnSetWordRequest } from "../../../../../core/services/learnset-word.service";
 import { LearnSetWord } from "../../../../../core/model/learnset-word.model";
@@ -24,8 +24,8 @@ interface Props {
 
 export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open, id, learnSetId, malagasy, setMalagasy, french, setFrench, english, setEnglish, previewImage, setPreviewImage, previewAudio, setPreviewAudio }): React.ReactElement => {
 
-    const [selectedImageFile, setSelectedImageFile] = useState<File>();
-    const [selectedAudioFile, setSelectedAudioFile] = useState<File>();
+    /*     const [selectedImageFile, setSelectedImageFile] = useState<File>();
+        const [selectedAudioFile, setSelectedAudioFile] = useState<File>(); */
 
     const handleClose = () => {
         onClose();
@@ -49,8 +49,8 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
     }
 
     const changeImageFileHandler = (event: any) => {
-        setSelectedImageFile(event.target.files[0]);
-        if (event.target.files || event.target.files.length !== 0) {
+/*         setSelectedImageFile(event.target.files[0]);
+ */        if (event.target.files || event.target.files.length !== 0) {
             let reader = new FileReader()
             reader.readAsDataURL(event.target.files[0])
             reader.onload = () => {
@@ -63,8 +63,8 @@ export const EditLearnSetWordDialogComponent: React.FC<Props> = ({ onClose, open
     };
 
     const changeAudioFileHandler = (event: any) => {
-        setSelectedAudioFile(event.target.files[0]);
-        if (event.target.files || event.target.files.length !== 0) {
+/*         setSelectedAudioFile(event.target.files[0]);
+ */        if (event.target.files || event.target.files.length !== 0) {
             let reader = new FileReader();
             reader.readAsDataURL(event.target.files[0])
             reader.onload = () => {

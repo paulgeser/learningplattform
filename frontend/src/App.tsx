@@ -10,11 +10,12 @@ import { LearnsetTypeOverviewComponent } from './components/admin/learnset-type/
 import { WordsOverviewComponent } from './components/admin/learnset/words/words-overview.component';
 import { ConfigLoadingComponent } from './components/config/config.component';
 import { StateContext } from './core/state';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthStatus } from './core/enum/auth-status.enum';
 import { LoginComponent } from './components/login/login.component';
 import { UserOverviewComponent } from './components/admin/user/user-overview/user-overview.component';
-import { OptionsObject, SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
+import { AdminHomeEmptyComponent } from './components/admin/admin-home-empty.component';
 
 function App() {
   const [loggedin, setLoggedin] = useState<AuthStatus>(AuthStatus.CONFIG_LOADING);
@@ -59,6 +60,7 @@ function App() {
                 <Route path='learnsettype-overview' element={<LearnsetTypeOverviewComponent />} />
                 <Route path='learnset-words/:id' element={<WordsOverviewComponent />} />
                 <Route path='users' element={<UserOverviewComponent />} />
+                <Route path='' element={<AdminHomeEmptyComponent />} />
               </Route>
               <Route path="/learning" element={<LearningHomeComponent />} />
               <Route path="*" element={<div></div>} />

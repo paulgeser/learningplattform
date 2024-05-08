@@ -1,16 +1,16 @@
 .home-link-box-round {
     width: 40%;
     margin: 20px 5%;
-    border: solid 2px black;
-    height: 350px;
+    border: solid 2px #1976D2;
     border-radius: 20px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    padding: 10px;
+    color: #1976D2;
 }
 
 
-.home-link-box-round:hover {
+.home-link-box-round .home-link-box-text:hover {
     cursor: pointer;
     text-decoration: underline;
 }

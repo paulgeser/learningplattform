@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { StateContext } from '../../core/state';
 import { Constants } from '../../core/constants';
+import { CheckLoginResponse } from '../../core/model/check-login-response.model';
+import { AxiosResponse } from 'axios';
 
 const defaultTheme = createTheme();
 
@@ -22,8 +24,9 @@ export const LoginComponent: React.FC = (): React.ReactElement => {
         } else {
             localStorage.removeItem(Constants.localStorageItemNames.username);
         }
-        authServiceInstance.login(username, password).then((response) => {
+        authServiceInstance.login(username, password).then((response: AxiosResponse<CheckLoginResponse> | void | any) => {
             if (response) {
+                localStorage.setItem(Constants.localStorageItemNames.user, JSON.stringify(response.data.user))
                 setInvalidLogin(false);
             } else {
                 setInvalidLogin(true);

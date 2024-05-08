@@ -9,6 +9,7 @@ export const Constants = {
     url: url,
     localStorageItemNames: {
         username: 'APP_USERNAME',
-        role: 'APP_USER_ROLE'
+        role: 'APP_USER_ROLE',
+        user: 'APP_USER'
     }
 }
