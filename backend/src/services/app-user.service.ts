@@ -4,11 +4,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AppUser } from 'src/schemas/app-user.schema';
 import { Argon2IdService } from './argon2-id.service';
-import { CreateUser } from 'src/models/create-user.model';
-import { UserCredentials } from 'src/models/user-credentials.model';
+import { CreateUser } from 'src/models/user/create-user.model';
+import { UserCredentials } from 'src/models/auth/user-credentials.model';
 import { JwtService } from '@nestjs/jwt';
 import { removeAllRestrictedDataFromUser } from 'src/helper/user-helper';
-import { BasicUser } from 'src/models/basic-user.model';
+import { BasicUser } from 'src/models/user/basic-user.model';
 
 @Injectable()
 export class AppUserService {

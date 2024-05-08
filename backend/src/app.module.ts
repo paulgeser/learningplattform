@@ -19,6 +19,9 @@ import { Argon2IdService } from './services/argon2-id.service';
 import { AppUser, AppUserSchema } from './schemas/app-user.schema';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
+import { StudyCycleService } from './services/study-cycle.service';
+import { StudyCycleDataController } from './controllers/study-cycle.controller';
+import { StudyCycle, StudyCycleSchema } from './schemas/study-cycle.schema';
 
 @Module({
   imports: [
@@ -27,7 +30,8 @@ import { AuthService } from './services/auth.service';
       { name: LearnSet.name, schema: LearnSetSchema },
       { name: LearnSetType.name, schema: LearnSetTypeSchema },
       { name: LearnSetWord.name, schema: LearnSetWordSchema },
-      { name: AppUser.name, schema: AppUserSchema }
+      { name: AppUser.name, schema: AppUserSchema },
+      { name: StudyCycle.name, schema: StudyCycleSchema }
     ]),
     MongooseModule.forRoot('mongodb://localhost/learningplattform'),
     JwtModule.register({
@@ -41,7 +45,8 @@ import { AuthService } from './services/auth.service';
     LearnsetDataController,
     LearnsetWordDataController,
     AppUserDataController,
-    AuthController
+    AuthController,
+    StudyCycleDataController
   ],
   providers: [
     LearnsetTypeService,
@@ -49,7 +54,8 @@ import { AuthService } from './services/auth.service';
     LearnsetWordService,
     AppUserService,
     Argon2IdService,
-    AuthService
+    AuthService,
+    StudyCycleService
   ],
 })
 export class AppModule { }

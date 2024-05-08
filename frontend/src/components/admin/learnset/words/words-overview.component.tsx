@@ -108,19 +108,16 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
                                 <Table sx={{ width: '100%' }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Unique ID</TableCell>
                                             <TableCell>Malagasy</TableCell>
                                             <TableCell>French</TableCell>
                                             <TableCell>English</TableCell>
+                                            <TableCell>Unique ID</TableCell>
                                             <TableCell></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {learnSetWords.map((learnsetWordItem, i) => (
                                             <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 }, }} >
-                                                <TableCell component="th" scope="row">
-                                                    {learnsetWordItem._id}
-                                                </TableCell>
                                                 <TableCell align="left">
                                                     {learnsetWordItem.malagasy}
                                                 </TableCell>
@@ -130,7 +127,10 @@ export const WordsOverviewComponent: React.FC = (): React.ReactElement => {
                                                 <TableCell align="left">
                                                     {learnsetWordItem.english}
                                                 </TableCell>
-                                                <TableCell align="right">
+                                                <TableCell align="left" width="200px">
+                                                    {learnsetWordItem._id}
+                                                </TableCell>
+                                                <TableCell align="right" width="200px">
                                                     {learnsetWordItem.picture && (
                                                         <Tooltip title="Image for word stored">
                                                             <ImageIcon color="success" />

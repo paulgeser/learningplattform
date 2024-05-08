@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { LearnSetStatus } from '../models/status.enum';
+import { LearnSetStatus } from '../models/learnset/learnset-status.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { LearnSetType } from './learnset-type.schema';
 

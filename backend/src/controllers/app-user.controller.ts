@@ -3,10 +3,10 @@ import { Body, Controller, Delete, Get, Param, Post, Put, SetMetadata, UseGuards
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { removeAllRestrictedDataFromUser } from 'src/helper/user-helper';
-import { AppRole } from 'src/models/app-role.enum';
-import { BasicUser } from 'src/models/basic-user.model';
-import { ChangePasswordModel } from 'src/models/change-password.model';
-import { CreateUser } from 'src/models/create-user.model';
+import { AppRole } from 'src/models/user/app-role.enum';
+import { BasicUser } from 'src/models/user/basic-user.model';
+import { ChangePasswordModel } from 'src/models/user/change-password.model';
+import { CreateUser } from 'src/models/user/create-user.model';
 import { AppUser } from 'src/schemas/app-user.schema';
 import { AppUserService } from 'src/services/app-user.service';
 

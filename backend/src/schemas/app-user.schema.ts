@@ -2,8 +2,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { AppRole } from 'src/models/app-role.enum';
-import { StudyLanguage } from 'src/models/study-language.enum';
+import { AppRole } from 'src/models/user/app-role.enum';
+import { LearnSetStudyLanguage } from 'src/models/learnset/learnset-study-language.enum';
 
 export type AppUserDocument = HydratedDocument<AppUser>;
 
@@ -31,8 +31,8 @@ export class AppUser {
   phone: string;
 
   @ApiProperty()
-  @Prop({ type: String, enum: StudyLanguage })
-  studyLanguage: StudyLanguage;
+  @Prop({ type: String, enum: LearnSetStudyLanguage })
+  studyLanguage: LearnSetStudyLanguage;
 
   @ApiProperty()
   @Prop({ type: String, enum: AppRole })

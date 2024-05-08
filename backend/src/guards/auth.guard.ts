@@ -9,7 +9,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { AppRole } from 'src/models/app-role.enum';
+import { AppRole } from 'src/models/user/app-role.enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

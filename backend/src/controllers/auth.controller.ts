@@ -4,8 +4,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { serialize } from 'cookie';
 import { Response } from 'express';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { AppRole } from 'src/models/app-role.enum';
-import { UserCredentials } from 'src/models/user-credentials.model';
+import { AppRole } from 'src/models/user/app-role.enum';
+import { UserCredentials } from 'src/models/auth/user-credentials.model';
 import { AuthService } from 'src/services/auth.service';
 
 

@@ -2,7 +2,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, SetMetadata, UseGuards, } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { AppRole } from 'src/models/app-role.enum';
+import { AppRole } from 'src/models/user/app-role.enum';
 import { LearnSetType } from 'src/schemas/learnset-type.schema';
 import { LearnsetTypeService } from 'src/services/learnset-type.service';
 

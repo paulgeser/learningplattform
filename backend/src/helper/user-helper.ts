@@ -1,4 +1,4 @@
-import { BasicUser } from "src/models/basic-user.model";
+import { BasicUser } from "src/models/user/basic-user.model";
 import { AppUser } from "src/schemas/app-user.schema";
 
 
