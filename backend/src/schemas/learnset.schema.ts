@@ -23,6 +23,10 @@ export class LearnSet {
   week: number;
 
   @ApiProperty()
+  @Prop()
+  chapter: number;
+
+  @ApiProperty()
   @Prop({ type: String, enum: LearnSetStatus })
   status: LearnSetStatus;
 }

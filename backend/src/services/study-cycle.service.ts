@@ -4,7 +4,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { CreateStudyCycle } from 'src/models/studycycle/create-study-cycle.model';
 import { StudyCycleStatus } from 'src/models/studycycle/study-cycle-status.enum';
-import { LearnSet } from 'src/schemas/learnset.schema';
 import { StudyCycle } from 'src/schemas/study-cycle.schema';
 import { LearnsetWordService } from './learnset-word.service';
 import { StudyCycleWord } from 'src/models/studycycle/study-cycle-word.model';
@@ -25,9 +24,7 @@ export class StudyCycleService {
             const wordIds = words.map((word: any) => word._id as string);
             const mappedWords = wordIds.map(wordId => ({
                 learnSetWordId: String(wordId),
-                learned: false,
-                tempTries: 0,
-                fullTries: 0
+                attempts: 0
             } as StudyCycleWord));
             fullListOfWords = fullListOfWords.concat(mappedWords);
         }
@@ -38,7 +35,8 @@ export class StudyCycleService {
             dateFinished: null,
             username: username,
             studyCycleType: createStudyCycle.studyCycleType,
-            learnSetWords: fullListOfWords
+            learnSetWords: fullListOfWords,
+            neededAttemps: createStudyCycle.neededAttemps
         }
         const createdStudyCycle = new this.studyCycleModel(newStudyCycle);
         return createdStudyCycle.save();

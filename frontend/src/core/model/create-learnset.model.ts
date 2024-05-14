@@ -6,5 +6,6 @@ export interface CreateLearnSet {
     name: string;
     type: LearnSetType;
     week: number;
+    chapter: number;
     status: LearnSetStatus;
 }

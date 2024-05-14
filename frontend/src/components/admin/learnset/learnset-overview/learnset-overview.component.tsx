@@ -26,6 +26,8 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
     const [editStatus, setEditStatus] = useState<LearnSetStatus>(LearnSetStatus.DRAFT);
     const [editLearnsetType, setEditLearnsetType] = useState<string>("");
     const [editWeek, setEditWeek] = useState<number>(0);
+    const [editChapter, setEditChapter] = useState<number>(0);
+
     const [deleteId, setDeleteId] = useState<string>("");
 
     const navigate = useNavigate();
@@ -69,6 +71,7 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
         setEditStatus(learnset.status);
         setEditLearnsetType(learnset.type._id);
         setEditWeek(learnset.week);
+        setEditChapter(learnset.chapter);
         setEditLearnsetDialog(true);
     }
 
@@ -95,6 +98,7 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                                         <TableRow>
                                             <TableCell>Name</TableCell>
                                             <TableCell>Week</TableCell>
+                                            <TableCell>Chapter</TableCell>
                                             <TableCell>Type</TableCell>
                                             <TableCell>Status</TableCell>
                                             <TableCell>Unique ID</TableCell>
@@ -109,6 +113,9 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     {learnsetItem.week}
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    {learnsetItem.chapter}
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     {learnsetItem.type.name}
@@ -154,7 +161,7 @@ export const LearnsetOverviewComponent: React.FC = (): React.ReactElement => {
                 <EditLearnSetDialogComponent onClose={onCloseEditDialog} open={editLearnsetDialog}
                     id={editId} name={editName} setName={setEditName} status={editStatus} setStatus={setEditStatus}
                     learnsetType={editLearnsetType} setLearnsetType={setEditLearnsetType}
-                    week={editWeek} setWeek={setEditWeek} />
+                    week={editWeek} setWeek={setEditWeek} chapter={editChapter} setChapter={setEditChapter} />
                 <DeleteLearnSetDialogComponent id={deleteId} onClose={onCloseDeleteDialog} open={deleteLearnsetDialog} />
             </div>
         </div>

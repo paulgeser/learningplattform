@@ -35,6 +35,10 @@ export class StudyCycle {
 
   @ApiProperty()
   @Prop()
+  neededAttemps: number;
+
+  @ApiProperty()
+  @Prop()
   dateCreated: Date;
 
   @ApiProperty()

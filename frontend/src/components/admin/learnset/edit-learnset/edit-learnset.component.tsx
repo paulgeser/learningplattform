@@ -20,9 +20,11 @@ interface Props {
     setLearnsetType: React.Dispatch<React.SetStateAction<string>>;
     week: number;
     setWeek: React.Dispatch<React.SetStateAction<number>>;
+    chapter: number;
+    setChapter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id, name, setName, status, setStatus, learnsetType, setLearnsetType, week, setWeek }): React.ReactElement => {
+export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id, name, setName, status, setStatus, learnsetType, setLearnsetType, week, setWeek, chapter, setChapter }): React.ReactElement => {
 
     const [learnSetTypes, setLearnSetTypes] = useState<LearnSetType[]>([]);
     const [learnSetStates, setLearnSetStates] = useState<LearnSetStatus[]>([]);
@@ -51,7 +53,7 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
     const saveLearnSet = () => {
         const foundLearnsetType = learnSetTypes.find(x => x._id === learnsetType);
         if (foundLearnsetType) {
-            const data = { _id: id, name: name, week: week, status: status, type: foundLearnsetType }
+            const data = { _id: id, name: name, week: week, chapter: chapter, status: status, type: foundLearnsetType }
             updateLearnSetRequest(data).then(response => {
                 if (response) {
                     enqueueSnackbar('Successfully updated learnset!', {
@@ -109,6 +111,9 @@ export const EditLearnSetDialogComponent: React.FC<Props> = ({ onClose, open, id
                 <br />
                 <br />
                 <TextField id="week-field" label="Week" variant="outlined" type="number" fullWidth value={week} onChange={(e) => setWeek(Number(e.target.value))} autoComplete='off' />
+                <br />
+                <br />
+                <TextField id="chapter-field" label="Chapter" variant="outlined" type="number" fullWidth value={chapter} onChange={(e) => setChapter(Number(e.target.value))} autoComplete='off' />
                 <br />
                 <br />
                 <div>

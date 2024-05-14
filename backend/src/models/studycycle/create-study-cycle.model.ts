@@ -6,4 +6,6 @@ export class CreateStudyCycle {
     learnSetIds: string[];
     @ApiProperty()
     studyCycleType: StudyCycleType;
+    @ApiProperty()
+    neededAttemps: number;
 }

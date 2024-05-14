@@ -18,6 +18,7 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     const [selectedLearnSetType, setSelectedLearnSetType] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [week, setWeek] = useState<number>(0);
+    const [chapter, setChapter] = useState<number>(0);
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -37,7 +38,7 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
     const createLearnSet = () => {
         const foundLearnsetType = learnSetTypes.find(x => x._id === selectedLearnSetType);
         if (foundLearnsetType) {
-            const data = { name: name, week: week, status: LearnSetStatus.DRAFT, type: foundLearnsetType }
+            const data = { name: name, week: week, chapter: chapter, status: LearnSetStatus.DRAFT, type: foundLearnsetType }
             createLearnSetRequest(data).then(response => {
                 if (response) {
                     enqueueSnackbar('Successfully created learnset!', {
@@ -84,6 +85,9 @@ export const CreateLearnSetDialogComponent: React.FC<Props> = ({ onClose, open }
                 <br />
                 <br />
                 <TextField id="week-field" label="Week" variant="outlined" type="number" fullWidth value={week} onChange={(e) => setWeek(Number(e.target.value))} autoComplete='off' />
+                <br />
+                <br />
+                <TextField id="chapter-field" label="Chapter" variant="outlined" type="number" fullWidth value={chapter} onChange={(e) => setChapter(Number(e.target.value))} autoComplete='off' />
                 <br />
                 <br />
                 <div>

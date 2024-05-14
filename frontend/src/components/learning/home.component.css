@@ -1,0 +1,15 @@
+.home-learning-box-round {
+    width: 100%;
+    margin: 20px 1%;
+    border: solid 2px #1976D2;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #1976D2;
+    min-height: 90px;
+}
+
+.home-learning-box-round:hover {
+    cursor: pointer;
+}

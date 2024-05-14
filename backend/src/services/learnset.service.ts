@@ -25,7 +25,8 @@ export class LearnsetService {
             name: learnSet.name,
             type: learnSet.type,
             week: learnSet.week,
-            status: learnSet.status
+            status: learnSet.status,
+            chapter: learnSet.chapter
         });
     }
 
