@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put, SetMetadata, UseGuards, } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, SetMetadata, UseGuards, } from '@nestjs/common';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AppRole } from 'src/models/user/app-role.enum';
 import { LearnSet } from 'src/schemas/learnset.schema';
@@ -16,8 +16,15 @@ export class LearnsetDataController {
   @Get("/")
   @UseGuards(AuthGuard)
   @SetMetadata('roles', [AppRole.ADMIN, AppRole.TEACHER, AppRole.STUDENT])
-  getLearnSets(): Promise<LearnSet[]> {
-    return this.learnsetService.getAll();
+  @ApiQuery({ name: "name", type: String, required: false })
+  @ApiQuery({ name: "learnset-type", type: Array<String>, required: false })
+  @ApiQuery({ name: "week", type: Array<String>, required: false })
+  getLearnSets(
+    @Query('name') nameQuery: string,
+    @Query('learnset-type') learnsetTypeIds: string[],
+    @Query('week') weeks: string[]
+  ): Promise<LearnSet[]> {
+    return this.learnsetService.getAll(nameQuery, learnsetTypeIds, weeks);
   }
 
   @Get("/:id")

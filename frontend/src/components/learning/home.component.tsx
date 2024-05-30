@@ -4,18 +4,31 @@ import './home.component.css';
 import { getAllStudySetsForUser } from '../../core/services/studyset.service';
 import { Box, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import { StudySet } from '../../core/model/studyset.model';
+import { CreateNewStudySetComponent } from './create-new-studyset.component';
+import { StudySetType } from '../../core/enum/studyset-type.enum';
 
 export const LearningHomeComponent: React.FC = (): React.ReactElement => {
 
     const [studySets, setStudySets] = useState<StudySet[]>([]);
+    const [createDialogOpen, setCreateDialogOpen] = useState<boolean>(false);
+    const [createStudySetType, setCreateStudySetType] = useState<StudySetType>(StudySetType.FLASH_CARDS);
 
     useEffect(() => {
         getAllStudySetsForUser().then(response => {
             if (response) {
-                setStudySets(response.data)
+                setStudySets(response.data);
             }
-        })
+        });
     }, []);
+
+    const openStudySetCreationDialog = (studySetType: StudySetType) => {
+        setCreateStudySetType(studySetType);
+        setCreateDialogOpen(true);
+    }
+
+    const onCloseCreateDialog = () => {
+        setCreateDialogOpen(false);
+    }
 
     return (
         <div style={{ marginTop: '65px' }}>
@@ -26,13 +39,13 @@ export const LearningHomeComponent: React.FC = (): React.ReactElement => {
                 Either create a new study set or continue learning an already create study set below:
             </div>
             <div className='flex flex-row px-10'>
-                <div className='home-learning-box-round'>
+                <div className='home-learning-box-round' onClick={() => openStudySetCreationDialog(StudySetType.FLASH_CARDS)}>
                     Flash cards
                 </div>
-                <div className='home-learning-box-round'>
+                <div className='home-learning-box-round' onClick={() => openStudySetCreationDialog(StudySetType.MULTIPLE_CHOICE)}>
                     Multiple choice
                 </div>
-                <div className='home-learning-box-round'>
+                <div className='home-learning-box-round' onClick={() => openStudySetCreationDialog(StudySetType.PICTURE_PUZZLE)}>
                     Picture puzzle
                 </div>
             </div>
@@ -73,6 +86,7 @@ export const LearningHomeComponent: React.FC = (): React.ReactElement => {
                     </TableContainer>
                 </Box>
             </div>
+            <CreateNewStudySetComponent open={createDialogOpen} onClose={onCloseCreateDialog} studySetType={createStudySetType} />
         </div>
     );
 }

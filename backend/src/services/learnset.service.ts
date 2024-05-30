@@ -10,9 +10,8 @@ export class LearnsetService {
     constructor(
         @InjectModel(LearnSet.name) private learnSetModel: Model<LearnSet>) { }
 
-    public getAll(): Promise<LearnSet[]> {
+    public getAll(nameQuery: string, learnsetTypeIds: string[], weeks: string[]): Promise<LearnSet[]> {
         return this.learnSetModel.find().populate('type').exec();
-
     }
 
     public createLearnSet(learnSet: LearnSet): Promise<LearnSet> {
